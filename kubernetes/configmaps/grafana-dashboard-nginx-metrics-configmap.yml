@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-nginx-metrics
+  namespace: default
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+    grafana_dashboard: '1'
+data:
+  NGINX-metrics.json: "{\n  \"annotations\": {\n    \"list\": [\n      {\n       \
+    \ \"builtIn\": 1,\n        \"datasource\": {\n          \"type\": \"grafana\"\
+    ,\n          \"uid\": \"-- Grafana --\"\n        },\n        \"enable\": true,\n\
+    \        \"hide\": true,\n        \"iconColor\": \"rgba(0, 211, 255, 1)\",\n \
+    \       \"name\": \"Annotations & Alerts\",\n        \"type\": \"dashboard\"\n\
+    \      }\n    ]\n  },\n  \"editable\": true,\n  \"fiscalYearStartMonth\": 0,\n\
+    \  \"graphTooltip\": 0,\n  \"id\": 6,\n  \"links\": [],\n  \"panels\": [\n   \
+    \ {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\"\
+    : \"webstore-metrics\"\n      },\n      \"description\": \"The total number of\
+    \ accepted client connections\",\n      \"fieldConfig\": {\n        \"defaults\"\
+    : {\n          \"color\": {\n            \"mode\": \"thresholds\"\n          },\n\
+    \          \"mappings\": [],\n          \"thresholds\": {\n            \"mode\"\
+    : \"absolute\",\n            \"steps\": [\n              {\n                \"\
+    color\": \"green\"\n              },\n              {\n                \"color\"\
+    : \"red\",\n                \"value\": 80\n              }\n            ]\n  \
+    \        }\n        },\n        \"overrides\": []\n      },\n      \"gridPos\"\
+    : {\n        \"h\": 8,\n        \"w\": 5,\n        \"x\": 0,\n        \"y\": 0\n\
+    \      },\n      \"id\": 1,\n      \"options\": {\n        \"colorMode\": \"value\"\
+    ,\n        \"graphMode\": \"area\",\n        \"justifyMode\": \"auto\",\n    \
+    \    \"orientation\": \"auto\",\n        \"percentChangeColorMode\": \"standard\"\
+    ,\n        \"reduceOptions\": {\n          \"calcs\": [\n            \"lastNotNull\"\
+    \n          ],\n          \"fields\": \"\",\n          \"values\": false\n   \
+    \     },\n        \"showPercentChange\": false,\n        \"textMode\": \"auto\"\
+    ,\n        \"wideLayout\": true\n      },\n      \"pluginVersion\": \"12.0.2\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"disableTextWrap\": false,\n          \"editorMode\": \"builder\"\
+    ,\n          \"expr\": \"nginx_connections_accepted_total\",\n          \"fullMetaSearch\"\
+    : false,\n          \"includeNullMetadata\": true,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": true,\n          \"refId\": \"A\",\n     \
+    \     \"useBackend\": false\n        }\n      ],\n      \"title\": \"Accepted\
+    \ connections\",\n      \"type\": \"stat\"\n    },\n    {\n      \"datasource\"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n\
+    \      },\n      \"description\": \"The total number of handled connections\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"mappings\": [],\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\"\n     \
+    \         },\n              {\n                \"color\": \"red\",\n         \
+    \       \"value\": 80\n              }\n            ]\n          }\n        },\n\
+    \        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 8,\n\
+    \        \"w\": 5,\n        \"x\": 5,\n        \"y\": 0\n      },\n      \"id\"\
+    : 3,\n      \"options\": {\n        \"colorMode\": \"value\",\n        \"graphMode\"\
+    : \"area\",\n        \"justifyMode\": \"auto\",\n        \"orientation\": \"auto\"\
+    ,\n        \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\"\
+    : {\n          \"calcs\": [\n            \"lastNotNull\"\n          ],\n     \
+    \     \"fields\": \"\",\n          \"values\": false\n        },\n        \"showPercentChange\"\
+    : false,\n        \"textMode\": \"auto\",\n        \"wideLayout\": true\n    \
+    \  },\n      \"pluginVersion\": \"12.0.2\",\n      \"targets\": [\n        {\n\
+    \          \"disableTextWrap\": false,\n          \"editorMode\": \"builder\"\
+    ,\n          \"expr\": \"nginx_connections_handled_total\",\n          \"fullMetaSearch\"\
+    : false,\n          \"includeNullMetadata\": true,\n          \"legendFormat\"\
+    : \"{{__name__}}\",\n          \"range\": true,\n          \"refId\": \"A\",\n\
+    \          \"useBackend\": false\n        }\n      ],\n      \"title\": \"Connections\
+    \ handled\",\n      \"type\": \"stat\"\n    },\n    {\n      \"datasource\": {\n\
+    \        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n  \
+    \    },\n      \"description\": \"The total number of client requests\",\n   \
+    \   \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n    \
+    \        \"mode\": \"thresholds\"\n          },\n          \"mappings\": [],\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\"\n     \
+    \         }\n            ]\n          }\n        },\n        \"overrides\": []\n\
+    \      },\n      \"gridPos\": {\n        \"h\": 8,\n        \"w\": 9,\n      \
+    \  \"x\": 10,\n        \"y\": 0\n      },\n      \"id\": 4,\n      \"options\"\
+    : {\n        \"colorMode\": \"value\",\n        \"graphMode\": \"area\",\n   \
+    \     \"justifyMode\": \"auto\",\n        \"orientation\": \"auto\",\n       \
+    \ \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\": {\n  \
+    \        \"calcs\": [\n            \"lastNotNull\"\n          ],\n          \"\
+    fields\": \"\",\n          \"values\": false\n        },\n        \"showPercentChange\"\
+    : false,\n        \"textMode\": \"auto\",\n        \"wideLayout\": true\n    \
+    \  },\n      \"pluginVersion\": \"12.0.2\",\n      \"targets\": [\n        {\n\
+    \          \"disableTextWrap\": false,\n          \"editorMode\": \"builder\"\
+    ,\n          \"expr\": \"nginx_requests_total\",\n          \"fullMetaSearch\"\
+    : false,\n          \"includeNullMetadata\": true,\n          \"legendFormat\"\
+    : \"{{__name__}}\",\n          \"range\": true,\n          \"refId\": \"A\",\n\
+    \          \"useBackend\": false\n        }\n      ],\n      \"title\": \"Total\
+    \ number of client requests\",\n      \"type\": \"stat\"\n    },\n    {\n    \
+    \  \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\
+    \n      },\n      \"description\": \"The current number of nginx connections by\
+    \ state\",\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\"\
+    : {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"linear\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"spanNulls\": false,\n   \
+    \         \"stacking\": {\n              \"group\": \"A\",\n              \"mode\"\
+    : \"none\"\n            },\n            \"thresholdsStyle\": {\n             \
+    \ \"mode\": \"off\"\n            }\n          },\n          \"mappings\": [],\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\"\n     \
+    \         },\n              {\n                \"color\": \"red\",\n         \
+    \       \"value\": 80\n              }\n            ]\n          }\n        },\n\
+    \        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 11,\n\
+    \        \"w\": 19,\n        \"x\": 0,\n        \"y\": 8\n      },\n      \"id\"\
+    : 2,\n      \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": true\n        },\n        \"tooltip\": {\n        \
+    \  \"hideZeros\": false,\n          \"mode\": \"single\",\n          \"sort\"\
+    : \"none\"\n        }\n      },\n      \"pluginVersion\": \"12.0.2\",\n      \"\
+    targets\": [\n        {\n          \"disableTextWrap\": false,\n          \"editorMode\"\
+    : \"builder\",\n          \"expr\": \"nginx_connections_current\",\n         \
+    \ \"fullMetaSearch\": false,\n          \"includeNullMetadata\": true,\n     \
+    \     \"legendFormat\": \"{{state}}\",\n          \"range\": true,\n         \
+    \ \"refId\": \"A\",\n          \"useBackend\": false\n        }\n      ],\n  \
+    \    \"title\": \"Number of connections by state\",\n      \"type\": \"timeseries\"\
+    \n    }\n  ],\n  \"preload\": false,\n  \"schemaVersion\": 41,\n  \"tags\": [],\n\
+    \  \"templating\": {\n    \"list\": []\n  },\n  \"time\": {\n    \"from\": \"\
+    now-15m\",\n    \"to\": \"now\"\n  },\n  \"timepicker\": {},\n  \"timezone\":\
+    \ \"browser\",\n  \"title\": \"[Image-Provider] NGINX Metrics\",\n  \"uid\": \"\
+    6fb665e0-cb81-40a5-bd21-a9485c5477b4\",\n  \"version\": 1\n}"

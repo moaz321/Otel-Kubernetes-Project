@@ -1,0 +1,1058 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-apm-dashboard
+  namespace: default
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+    grafana_dashboard: '1'
+data:
+  apm-dashboard.json: "{\n  \"annotations\": {\n    \"list\": [\n      {\n       \
+    \ \"builtIn\": 1,\n        \"datasource\": {\n          \"type\": \"grafana\"\
+    ,\n          \"uid\": \"-- Grafana --\"\n        },\n        \"enable\": true,\n\
+    \        \"hide\": true,\n        \"iconColor\": \"rgba(0, 211, 255, 1)\",\n \
+    \       \"name\": \"Annotations & Alerts\",\n        \"target\": {\n         \
+    \ \"limit\": 100,\n          \"matchAny\": false,\n          \"tags\": [],\n \
+    \         \"type\": \"dashboard\"\n        },\n        \"type\": \"dashboard\"\
+    \n      }\n    ]\n  },\n  \"description\": \"APM dashboard for monitoring OpenTelemetry-based\
+    \ services.  \\n\\nInstrument your applications using OpenTelemetry SDKs and send\
+    \ traces, metrics, and logs to Jaeger for traces, a Prometheus-compatible database\
+    \ for metrics, and OpenSearch for logs. This dashboard provides a centralized\
+    \ view of your application's health and performance. \",\n  \"editable\": true,\n\
+    \  \"fiscalYearStartMonth\": 0,\n  \"graphTooltip\": 1,\n  \"id\": 1,\n  \"links\"\
+    : [],\n  \"panels\": [\n    {\n      \"description\": \"service.namespace=${service_namespace},\
+    \ service.name=${service_name}, deployment.environment.name=${deployment_environment_name}\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {},\n        \"overrides\"\
+    : []\n      },\n      \"gridPos\": {\n        \"h\": 2,\n        \"w\": 10,\n\
+    \        \"x\": 0,\n        \"y\": 0\n      },\n      \"id\": 20,\n      \"options\"\
+    : {\n        \"code\": {\n          \"language\": \"plaintext\",\n          \"\
+    showLineNumbers\": false,\n          \"showMiniMap\": false\n        },\n    \
+    \    \"content\": \"<h1><img src=\\\"https://opentelemetry.io/img/logos/opentelemetry-logo-nav.png\\\
+    \" alt=\\\"OpenTelemetry Icon\\\" width=\\\"25\\\" height=\\\"\\\"> Service ${service_namespace}/${service_name}</h1>\\\
+    n\",\n        \"mode\": \"html\"\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"title\": \"\",\n      \"type\": \"text\"\n    },\n    {\n      \"datasource\"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"${prometheus_datasource}\"\
+    \n      },\n      \"description\": \"Shows the timestamp of the latest metrics\
+    \ received in the past 24h.\",\n      \"fieldConfig\": {\n        \"defaults\"\
+    : {\n          \"color\": {\n            \"fixedColor\": \"#24292e\",\n      \
+    \      \"mode\": \"fixed\"\n          },\n          \"mappings\": [],\n      \
+    \    \"thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\"\
+    : [\n              {\n                \"color\": \"green\",\n                \"\
+    value\": 0\n              },\n              {\n                \"color\": \"red\"\
+    ,\n                \"value\": 80\n              }\n            ]\n          }\n\
+    \        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n     \
+    \   \"h\": 2,\n        \"w\": 3,\n        \"x\": 10,\n        \"y\": 0\n     \
+    \ },\n      \"hideTimeOverride\": true,\n      \"id\": 39,\n      \"options\"\
+    : {\n        \"colorMode\": \"background\",\n        \"graphMode\": \"none\",\n\
+    \        \"justifyMode\": \"auto\",\n        \"orientation\": \"auto\",\n    \
+    \    \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\": {\n\
+    \          \"calcs\": [\n            \"lastNotNull\"\n          ],\n         \
+    \ \"fields\": \"/^Time$/\",\n          \"values\": false\n        },\n       \
+    \ \"showPercentChange\": false,\n        \"textMode\": \"auto\",\n        \"wideLayout\"\
+    : true\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"expr\": \"timestamp(sum by (deployment_environment_name,\
+    \ service_namespace, service_name) (target_info{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}) or absent{})\\n\",\n          \"interval\"\
+    : \"60s\",\n          \"legendFormat\": \"__auto\",\n          \"range\": true,\n\
+    \          \"refId\": \"A\"\n        }\n      ],\n      \"timeFrom\": \"now-24h\"\
+    ,\n      \"title\": \"Latest metrics received\",\n      \"type\": \"stat\"\n \
+    \   },\n    {\n      \"collapsed\": false,\n      \"gridPos\": {\n        \"h\"\
+    : 1,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\": 2\n      },\n    \
+    \  \"id\": 15,\n      \"panels\": [],\n      \"title\": \"Server RED Metrics\"\
+    ,\n      \"type\": \"row\"\n    },\n    {\n      \"datasource\": {\n        \"\
+    type\": \"prometheus\",\n        \"uid\": \"${prometheus_datasource}\"\n     \
+    \ },\n      \"description\": \"HTTP & RPC endpoints aggregation on the `http.server.request.duration`\
+    \ & `rpc.server.duration` metrics.\\n\\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration\
+    \ and https://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#metric-rpcserverduration\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"axisSoftMin\"\
+    : 0,\n            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n\
+    \            \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n     \
+    \       \"gradientMode\": \"none\",\n            \"hideFrom\": {\n           \
+    \   \"legend\": false,\n              \"tooltip\": false,\n              \"viz\"\
+    : false\n            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"smooth\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"log\": 10,\n          \
+    \    \"type\": \"log\"\n            },\n            \"showPoints\": \"auto\",\n\
+    \            \"showValues\": false,\n            \"spanNulls\": false,\n     \
+    \       \"stacking\": {\n              \"group\": \"A\",\n              \"mode\"\
+    : \"none\"\n            },\n            \"thresholdsStyle\": {\n             \
+    \ \"mode\": \"off\"\n            }\n          },\n          \"mappings\": [],\n\
+    \          \"min\": 0,\n          \"noValue\": \"No HTTP or RPC operation\",\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\",\n    \
+    \            \"value\": 0\n              },\n              {\n               \
+    \ \"color\": \"red\",\n                \"value\": 80\n              }\n      \
+    \      ]\n          },\n          \"unit\": \"s\"\n        },\n        \"overrides\"\
+    : []\n      },\n      \"gridPos\": {\n        \"h\": 6,\n        \"w\": 5,\n \
+    \       \"x\": 0,\n        \"y\": 3\n      },\n      \"id\": 17,\n      \"options\"\
+    : {\n        \"legend\": {\n          \"calcs\": [],\n          \"displayMode\"\
+    : \"list\",\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n\
+    \        },\n        \"tooltip\": {\n          \"hideZeros\": false,\n       \
+    \   \"mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n\
+    \      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n     \
+    \     \"datasource\": {\n            \"type\": \"prometheus\",\n            \"\
+    uid\": \"${prometheus_datasource}\"\n          },\n          \"disableTextWrap\"\
+    : false,\n          \"editorMode\": \"code\",\n          \"expr\": \"histogram_quantile(\\\
+    n  0.95,\\n  sum by (le, deployment_environment_name, service_namespace, service_name)\
+    \ (\\n    rate(\\n      http_server_request_duration_seconds_bucket{\\n      \
+    \  deployment_environment_name=~\\\"$deployment_environment_name\\\",\\n     \
+    \   service_namespace=~\\\"$service_namespace\\\",\\n        service_name=\\\"\
+    $service_name\\\"\\n      }[$__rate_interval]\\n    )\\n  )\\n)\",\n         \
+    \ \"fullMetaSearch\": false,\n          \"includeNullMetadata\": true,\n     \
+    \     \"interval\": \"60s\",\n          \"legendFormat\": \"HTTP p95\",\n    \
+    \      \"range\": true,\n          \"refId\": \"HTTP P95\",\n          \"useBackend\"\
+    : false\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n          },\n \
+    \         \"disableTextWrap\": false,\n          \"editorMode\": \"code\",\n \
+    \         \"expr\": \"avg by (deployment_environment_name, service_namespace,\
+    \ service_name) (\\n  rate(\\n    http_server_request_duration_seconds_sum{\\\
+    n      deployment_environment_name=~\\\"$deployment_environment_name\\\",\\n \
+    \     service_namespace=~\\\"$service_namespace\\\",\\n      service_name=\\\"\
+    $service_name\\\"\\n    }[$__rate_interval]\\n  )\\n)\\n/\\navg by (deployment_environment_name,\
+    \ service_namespace, service_name) (\\n  rate(\\n    http_server_request_duration_seconds_count{\\\
+    n      deployment_environment_name=~\\\"$deployment_environment_name\\\",\\n \
+    \     service_namespace=~\\\"$service_namespace\\\",\\n      service_name=\\\"\
+    $service_name\\\"\\n    }[$__rate_interval]\\n  )\\n)\",\n          \"fullMetaSearch\"\
+    : false,\n          \"hide\": false,\n          \"includeNullMetadata\": true,\n\
+    \          \"interval\": \"60s\",\n          \"legendFormat\": \"HTTP avg\",\n\
+    \          \"range\": true,\n          \"refId\": \"HTTP AVG\",\n          \"\
+    useBackend\": false\n        },\n        {\n          \"datasource\": {\n    \
+    \        \"type\": \"prometheus\",\n            \"uid\": \"${prometheus_datasource}\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"expr\": \"histogram_quantile(\\\
+    n  0.95,\\n  sum by (le, deployment_environment_name, service_namespace, service_name)\
+    \ (\\n    rate(\\n      rpc_server_duration_milliseconds_bucket{\\n        deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\",\\n        service_namespace=~\\\"$service_namespace\\\
+    \",\\n        service_name=\\\"$service_name\\\"\\n      }[$__rate_interval]\\\
+    n    ) / 1000\\n  )\\n)\",\n          \"hide\": false,\n          \"instant\"\
+    : false,\n          \"interval\": \"60\",\n          \"legendFormat\": \"RPC p95\"\
+    ,\n          \"range\": true,\n          \"refId\": \"RPC P95\"\n        },\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"${prometheus_datasource}\"\n          },\n         \
+    \ \"editorMode\": \"code\",\n          \"expr\": \"avg by (deployment_environment_name,\
+    \ service_namespace, service_name) (\\n  rate(\\n    rpc_server_duration_milliseconds_sum{\\\
+    n      deployment_environment_name=~\\\"$deployment_environment_name\\\",\\n \
+    \     service_namespace=~\\\"$service_namespace\\\",\\n      service_name=\\\"\
+    $service_name\\\"\\n    }[$__rate_interval]\\n  ) / 1000\\n)\\n/\\navg by (deployment_environment_name,\
+    \ service_namespace, service_name) (\\n  rate(\\n    rpc_server_duration_milliseconds_count{\\\
+    n      deployment_environment_name=~\\\"$deployment_environment_name\\\",\\n \
+    \     service_namespace=~\\\"$service_namespace\\\",\\n      service_name=\\\"\
+    $service_name\\\"\\n    }[$__rate_interval]\\n  )\\n)\",\n          \"hide\":\
+    \ false,\n          \"instant\": false,\n          \"interval\": \"60\",\n   \
+    \       \"legendFormat\": \"RPC avg\",\n          \"range\": true,\n         \
+    \ \"refId\": \"RPC AVG\"\n        }\n      ],\n      \"title\": \"Duration\",\n\
+    \      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\": {\n    \
+    \    \"type\": \"prometheus\",\n        \"uid\": \"${prometheus_datasource}\"\n\
+    \      },\n      \"description\": \"HTTP and RPC endpoints aggregation on the\
+    \ `http.server.request.duration` and `rpc.server.duration` metrics. \\n\\nErrors\
+    \ are identified by : \\n* `http.response.status_code=~\\\"5..\\\"`\\n* `rpc.grpc.status_code!=\\\
+    \"0\\\"`\\n\\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration\\\
+    n\",\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"axisSoftMax\"\
+    : 100,\n            \"axisSoftMin\": 0,\n            \"barAlignment\": 0,\n  \
+    \          \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\",\n  \
+    \          \"fillOpacity\": 0,\n            \"gradientMode\": \"none\",\n    \
+    \        \"hideFrom\": {\n              \"legend\": false,\n              \"tooltip\"\
+    : false,\n              \"viz\": false\n            },\n            \"insertNulls\"\
+    : false,\n            \"lineInterpolation\": \"smooth\",\n            \"lineWidth\"\
+    : 1,\n            \"pointSize\": 5,\n            \"scaleDistribution\": {\n  \
+    \            \"type\": \"linear\"\n            },\n            \"showPoints\"\
+    : \"auto\",\n            \"showValues\": false,\n            \"spanNulls\": false,\n\
+    \            \"stacking\": {\n              \"group\": \"A\",\n              \"\
+    mode\": \"none\"\n            },\n            \"thresholdsStyle\": {\n       \
+    \       \"mode\": \"off\"\n            }\n          },\n          \"mappings\"\
+    : [],\n          \"noValue\": \"No HTTP or RPC operation\",\n          \"thresholds\"\
+    : {\n            \"mode\": \"absolute\",\n            \"steps\": [\n         \
+    \     {\n                \"color\": \"green\",\n                \"value\": 0\n\
+    \              },\n              {\n                \"color\": \"red\",\n    \
+    \            \"value\": 80\n              }\n            ]\n          },\n   \
+    \       \"unit\": \"percent\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 6,\n        \"w\": 5,\n        \"x\": 5,\n\
+    \        \"y\": 3\n      },\n      \"id\": 18,\n      \"options\": {\n       \
+    \ \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"list\"\
+    ,\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n    \
+    \    },\n        \"tooltip\": {\n          \"hideZeros\": false,\n          \"\
+    mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n     \
+    \ \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    webstore-metrics\"\n          },\n          \"disableTextWrap\": false,\n    \
+    \      \"editorMode\": \"code\",\n          \"expr\": \"(\\n    (sum by(deployment_environment_name,\
+    \ service_namespace, service_name) (rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", http_response_status_code=~\\\"5..\\\"\
+    }[$__rate_interval])) * 100) \\n    / \\n    sum by(deployment_environment_name,\
+    \ service_namespace, service_name) (rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]))\\n)\\nor\\n(\\n  \
+    \  0\\n    * \\n    sum by(deployment_environment_name, service_namespace, service_name)\
+    \ (rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]))\\n)\",\n         \
+    \ \"fullMetaSearch\": false,\n          \"hide\": false,\n          \"includeNullMetadata\"\
+    : true,\n          \"instant\": false,\n          \"interval\": \"60s\",\n   \
+    \       \"legendFormat\": \"HTTP 5xx errors\",\n          \"range\": true,\n \
+    \         \"refId\": \"HTTP 5xx\",\n          \"useBackend\": false\n        },\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"${prometheus_datasource}\"\n          },\n         \
+    \ \"editorMode\": \"code\",\n          \"expr\": \"((sum without (rpc_grpc_status_code,\
+    \ instance) (rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", rpc_grpc_status_code!=\\\"0\\\"}[$__rate_interval]))\
+    \ * 100) / sum without (rpc_grpc_status_code, instance) (rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval])))\\nor\\n(0 * sum without\
+    \ (rpc_grpc_status_code, instance) (rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval])))\",\n          \"\
+    hide\": false,\n          \"instant\": false,\n          \"interval\": \"60\"\
+    ,\n          \"legendFormat\": \"RPC errors\",\n          \"range\": true,\n \
+    \         \"refId\": \"RPC Err\"\n        }\n      ],\n      \"title\": \"Error\"\
+    ,\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\": {\n  \
+    \      \"type\": \"prometheus\",\n        \"uid\": \"${prometheus_datasource}\"\
+    \n      },\n      \"description\": \"HTTP & RPC endpoints aggregation on the `http.server.request.duration`\
+    \ & `rpc.server.duration` metrics.\\n\\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"axisSoftMin\"\
+    : 0,\n            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n\
+    \            \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n     \
+    \       \"gradientMode\": \"none\",\n            \"hideFrom\": {\n           \
+    \   \"legend\": false,\n              \"tooltip\": false,\n              \"viz\"\
+    : false\n            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"smooth\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"log\": 10,\n          \
+    \    \"type\": \"log\"\n            },\n            \"showPoints\": \"auto\",\n\
+    \            \"showValues\": false,\n            \"spanNulls\": false,\n     \
+    \       \"stacking\": {\n              \"group\": \"A\",\n              \"mode\"\
+    : \"none\"\n            },\n            \"thresholdsStyle\": {\n             \
+    \ \"mode\": \"off\"\n            }\n          },\n          \"mappings\": [],\n\
+    \          \"min\": 0,\n          \"noValue\": \"No HTTP or RPC operation\",\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\",\n    \
+    \            \"value\": 0\n              },\n              {\n               \
+    \ \"color\": \"red\",\n                \"value\": 80\n              }\n      \
+    \      ]\n          },\n          \"unit\": \"reqps\"\n        },\n        \"\
+    overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 6,\n        \"\
+    w\": 5,\n        \"x\": 10,\n        \"y\": 3\n      },\n      \"id\": 19,\n \
+    \     \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n      \
+    \    \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n      \
+    \    \"showLegend\": true\n        },\n        \"tooltip\": {\n          \"hideZeros\"\
+    : false,\n          \"mode\": \"single\",\n          \"sort\": \"none\"\n    \
+    \    }\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"${prometheus_datasource}\"\n          },\n         \
+    \ \"editorMode\": \"code\",\n          \"exemplar\": false,\n          \"expr\"\
+    : \"(sum(rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval])) by (deployment_environment_name,\
+    \ service_namespace, service_name)) \",\n          \"hide\": false,\n        \
+    \  \"instant\": false,\n          \"interval\": \"60s\",\n          \"legendFormat\"\
+    : \"HTTP requests\",\n          \"range\": true,\n          \"refId\": \"HTTP\
+    \ RPS\"\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"${prometheus_datasource}\"\n       \
+    \   },\n          \"editorMode\": \"code\",\n          \"expr\": \"(sum(rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval])) by (deployment_environment_name,\
+    \ service_namespace, service_name)) * $__interval_ms / 1000\",\n          \"hide\"\
+    : false,\n          \"instant\": false,\n          \"interval\": \"60\",\n   \
+    \       \"legendFormat\": \"RPC requests\",\n          \"range\": true,\n    \
+    \      \"refId\": \"RPC RPS\"\n        }\n      ],\n      \"title\": \"Request\
+    \ Rate\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"fieldConfig\"\
+    : {\n        \"defaults\": {},\n        \"overrides\": []\n      },\n      \"\
+    gridPos\": {\n        \"h\": 6,\n        \"w\": 9,\n        \"x\": 15,\n     \
+    \   \"y\": 3\n      },\n      \"id\": 40,\n      \"options\": {\n        \"alertInstanceLabelFilter\"\
+    : \"{service_name=\\\"$service_name\\\", service_namespace=\\\"$service_namespace\\\
+    \"}\",\n        \"alertName\": \"\",\n        \"dashboardAlerts\": false,\n  \
+    \      \"groupBy\": [],\n        \"groupMode\": \"default\",\n        \"maxItems\"\
+    : 20,\n        \"showInactiveAlerts\": false,\n        \"sortOrder\": 1,\n   \
+    \     \"stateFilter\": {\n          \"error\": true,\n          \"firing\": true,\n\
+    \          \"noData\": false,\n          \"normal\": false,\n          \"pending\"\
+    : true,\n          \"recovering\": true\n        },\n        \"viewMode\": \"\
+    list\"\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"title\": \"Alerts\"\
+    ,\n      \"type\": \"alertlist\"\n    },\n    {\n      \"datasource\": {\n   \
+    \     \"type\": \"prometheus\",\n        \"uid\": \"${prometheus_datasource}\"\
+    \n      },\n      \"description\": \"Inbound HTTP operations of the service (aka\
+    \ HTTP endpoints) based on the `http.server.request.duration` metric.\\n\\nErrors\
+    \ are identified by `http.response.status_code=~\\\"5..\\\"`.\\n\\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpserverrequestduration\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"custom\": {\n\
+    \            \"align\": \"auto\",\n            \"cellOptions\": {\n          \
+    \    \"type\": \"auto\"\n            },\n            \"footer\": {\n         \
+    \     \"reducers\": []\n            },\n            \"inspect\": false\n     \
+    \     },\n          \"mappings\": [],\n          \"noValue\": \"No HTTP operation\"\
+    ,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n        \
+    \    \"steps\": [\n              {\n                \"color\": \"green\",\n  \
+    \              \"value\": 0\n              },\n              {\n             \
+    \   \"color\": \"red\",\n                \"value\": 80\n              }\n    \
+    \        ]\n          }\n        },\n        \"overrides\": [\n          {\n \
+    \           \"matcher\": {\n              \"id\": \"byName\",\n              \"\
+    options\": \"Duration (p99)\"\n            },\n            \"properties\": [\n\
+    \              {\n                \"id\": \"unit\",\n                \"value\"\
+    : \"s\"\n              }\n            ]\n          },\n          {\n         \
+    \   \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"Rate\"\n            },\n            \"properties\": [\n              {\n \
+    \               \"id\": \"unit\",\n                \"value\": \"reqps\"\n    \
+    \          },\n              {\n                \"id\": \"custom.width\",\n  \
+    \              \"value\": 219\n              }\n            ]\n          },\n\
+    \          {\n            \"matcher\": {\n              \"id\": \"byName\",\n\
+    \              \"options\": \"Error\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"unit\",\n                \"value\"\
+    : \"percentunit\"\n              }\n            ]\n          }\n        ]\n  \
+    \    },\n      \"gridPos\": {\n        \"h\": 6,\n        \"w\": 12,\n       \
+    \ \"x\": 0,\n        \"y\": 9\n      },\n      \"id\": 21,\n      \"options\"\
+    : {\n        \"cellHeight\": \"sm\",\n        \"showHeader\": true,\n        \"\
+    sortBy\": [\n          {\n            \"desc\": true,\n            \"displayName\"\
+    : \"Operation\"\n          }\n        ]\n      },\n      \"pluginVersion\": \"\
+    12.2.0\",\n      \"targets\": [\n        {\n          \"datasource\": {\n    \
+    \        \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n\
+    \          },\n          \"disableTextWrap\": false,\n          \"editorMode\"\
+    : \"code\",\n          \"expr\": \"\\n        sum by (operation) (\\n        \
+    \    label_join(\\n                rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"operation\\\",\\n                \\\" \\\",\\n                \\\"http_request_method\\\
+    \",\\n                \\\"http_route\\\"\\n            )\\n        )\\n    \"\
+    ,\n          \"fullMetaSearch\": false,\n          \"includeNullMetadata\": true,\n\
+    \          \"interval\": \"60s\",\n          \"legendFormat\": \"{{operation}}\"\
+    ,\n          \"range\": true,\n          \"refId\": \"RPS\",\n          \"useBackend\"\
+    : false\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"${prometheus_datasource}\"\n       \
+    \   },\n          \"editorMode\": \"code\",\n          \"expr\": \"(\\n      \
+    \  sum by (operation) (\\n            label_join(\\n                rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", http_response_status_code=~\\\"5..\\\"\
+    }[$__rate_interval]),\\n                \\\"operation\\\",\\n                \\\
+    \" \\\",\\n                \\\"http_request_method\\\",\\n                \\\"\
+    http_route\\\"\\n            )\\n        )\\n     / \\n        sum by (operation)\
+    \ (\\n            label_join(\\n                rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"operation\\\",\\n                \\\" \\\",\\n                \\\"http_request_method\\\
+    \",\\n                \\\"http_route\\\"\\n            )\\n        )\\n    ) or\
+    \ (0 * \\n        sum by (operation) (\\n            label_join(\\n          \
+    \      rate(http_server_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"operation\\\",\\n                \\\" \\\",\\n                \\\"http_request_method\\\
+    \",\\n                \\\"http_route\\\"\\n            )\\n        )\\n    )\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"interval\"\
+    : \"60s\",\n          \"legendFormat\": \"{{operation}}\",\n          \"range\"\
+    : true,\n          \"refId\": \"ERR_PCT\"\n        },\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    webstore-metrics\"\n          },\n          \"editorMode\": \"code\",\n      \
+    \    \"expr\": \"\\n        histogram_quantile(\\n            0.99,\\n       \
+    \     sum by (le, operation) (\\n                label_join(\\n              \
+    \  rate(http_server_request_duration_seconds_bucket{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[5m]),\\n                \\\"operation\\\
+    \",\\n                \\\" \\\",\\n                \\\"http_request_method\\\"\
+    ,\\n                \\\"http_route\\\"\\n                )\\n            )\\n\
+    \        )\\n    \",\n          \"hide\": false,\n          \"instant\": false,\n\
+    \          \"interval\": \"60s\",\n          \"legendFormat\": \"{{operation}}\"\
+    ,\n          \"range\": true,\n          \"refId\": \"Duration\"\n        }\n\
+    \      ],\n      \"title\": \"HTTP Operations\",\n      \"transformations\": [\n\
+    \        {\n          \"id\": \"timeSeriesTable\",\n          \"options\": {\n\
+    \            \"Duration\": {\n              \"timeField\": \"Time\"\n        \
+    \    },\n            \"ERR_PCT\": {\n              \"timeField\": \"Time\"\n \
+    \           },\n            \"RPS\": {\n              \"timeField\": \"Time\"\n\
+    \            }\n          }\n        },\n        {\n          \"id\": \"joinByField\"\
+    ,\n          \"options\": {\n            \"byField\": \"operation\",\n       \
+    \     \"mode\": \"outer\"\n          }\n        },\n        {\n          \"id\"\
+    : \"organize\",\n          \"options\": {\n            \"excludeByName\": {},\n\
+    \            \"includeByName\": {},\n            \"indexByName\": {\n        \
+    \      \"Trend #Duration\": 1,\n              \"Trend #ERR_PCT\": 2,\n       \
+    \       \"Trend #RPS\": 3,\n              \"operation\": 0\n            },\n \
+    \           \"renameByName\": {\n              \"Trend #Duration\": \"Duration\
+    \ (p99)\",\n              \"Trend #ERR_PCT\": \"Error\",\n              \"Trend\
+    \ #RPS\": \"Rate\",\n              \"operation\": \"Operation\"\n            }\n\
+    \          }\n        }\n      ],\n      \"type\": \"table\"\n    },\n    {\n\
+    \      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\":\
+    \ \"${prometheus_datasource}\"\n      },\n      \"description\": \"Inbound gRPC\
+    \ operations of the service (aka gRPC endpoints) based on the `rpc.server.request.duration`\
+    \ metric.\\n\\nErrors are identified by `rpc.grpc.status_code != 0` which make\
+    \ the panel specific to the gRPC protocol.\\n\\nhttps://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#metric-rpcserverduration\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"custom\": {\n\
+    \            \"align\": \"auto\",\n            \"cellOptions\": {\n          \
+    \    \"type\": \"auto\"\n            },\n            \"footer\": {\n         \
+    \     \"reducers\": []\n            },\n            \"inspect\": false\n     \
+    \     },\n          \"mappings\": [],\n          \"noValue\": \"No RPC operation\"\
+    ,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n        \
+    \    \"steps\": [\n              {\n                \"color\": \"green\",\n  \
+    \              \"value\": 0\n              },\n              {\n             \
+    \   \"color\": \"red\",\n                \"value\": 80\n              }\n    \
+    \        ]\n          }\n        },\n        \"overrides\": [\n          {\n \
+    \           \"matcher\": {\n              \"id\": \"byName\",\n              \"\
+    options\": \"Duration (p99)\"\n            },\n            \"properties\": [\n\
+    \              {\n                \"id\": \"unit\",\n                \"value\"\
+    : \"ms\"\n              }\n            ]\n          },\n          {\n        \
+    \    \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"Rate\"\n            },\n            \"properties\": [\n              {\n \
+    \               \"id\": \"unit\",\n                \"value\": \"reqps\"\n    \
+    \          }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Error\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"unit\",\n                \"value\": \"percentunit\"\n         \
+    \     }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n\
+    \        \"h\": 6,\n        \"w\": 12,\n        \"x\": 12,\n        \"y\": 9\n\
+    \      },\n      \"id\": 27,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"showHeader\": true,\n        \"sortBy\": [\n          {\n   \
+    \         \"desc\": true,\n            \"displayName\": \"Operation\"\n      \
+    \    }\n        ]\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\"\
+    : [\n        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"webstore-metrics\"\n          },\n          \"disableTextWrap\"\
+    : false,\n          \"editorMode\": \"code\",\n          \"expr\": \"\\nsum by\
+    \ (operation) (\\n    label_join(\\n        rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n        \\\"operation\\\
+    \",\\n        \\\"/\\\",\\n        \\\"rpc_service\\\",\\n        \\\"rpc_method\\\
+    \"\\n    )\\n)\\n    \",\n          \"fullMetaSearch\": false,\n          \"hide\"\
+    : false,\n          \"includeNullMetadata\": true,\n          \"interval\": \"\
+    60s\",\n          \"legendFormat\": \"__auto\",\n          \"range\": true,\n\
+    \          \"refId\": \"RPS\",\n          \"useBackend\": false\n        },\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"${prometheus_datasource}\"\n          },\n         \
+    \ \"editorMode\": \"code\",\n          \"expr\": \"(\\n        sum by (operation)\
+    \ (\\n            label_join(\\n                rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", rpc_grpc_status_code!=\\\"0\\\"}[$__rate_interval]),\\\
+    n                \\\"operation\\\",\\n                \\\"/\\\",\\n          \
+    \      \\\"rpc_service\\\",\\n                \\\"rpc_method\\\"\\n          \
+    \  )\\n        )\\n     / \\n        sum by (operation) (\\n            label_join(\\\
+    n                rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"operation\\\",\\n                \\\"/\\\",\\n                \\\"rpc_service\\\
+    \",\\n                \\\"rpc_method\\\"\\n            )\\n        )\\n    ) or\
+    \ (0 * \\n        sum by (operation) (\\n            label_join(\\n          \
+    \      rate(rpc_server_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"operation\\\",\\n                \\\"/\\\",\\n                \\\"rpc_service\\\
+    \",\\n                \\\"rpc_method\\\"\\n            )\\n        )\\n    )\\\
+    n    \",\n          \"hide\": false,\n          \"instant\": false,\n        \
+    \  \"interval\": \"60s\",\n          \"legendFormat\": \"__auto\",\n         \
+    \ \"range\": true,\n          \"refId\": \"ERR_PCT\"\n        },\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"expr\": \"\\n        histogram_quantile(\\n            0.99,\\\
+    n            sum by (le, operation) (\\n                label_join(\\n       \
+    \         rate(rpc_server_duration_milliseconds_bucket{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[5m]),\\n                \\\"operation\\\
+    \",\\n                \\\"/\\\",\\n                \\\"rpc_service\\\",\\n   \
+    \             \\\"rpc_method\\\"\\n                )\\n            )\\n      \
+    \  )\\n    \",\n          \"hide\": false,\n          \"instant\": false,\n  \
+    \        \"interval\": \"60s\",\n          \"legendFormat\": \"{{operation}}\"\
+    ,\n          \"range\": true,\n          \"refId\": \"Duration\"\n        }\n\
+    \      ],\n      \"title\": \"gRPC Operations\",\n      \"transformations\": [\n\
+    \        {\n          \"id\": \"timeSeriesTable\",\n          \"options\": {\n\
+    \            \"Duration\": {\n              \"timeField\": \"Time\"\n        \
+    \    },\n            \"ERR_PCT\": {\n              \"timeField\": \"Time\"\n \
+    \           },\n            \"RPS\": {\n              \"timeField\": \"Time\"\n\
+    \            }\n          }\n        },\n        {\n          \"id\": \"joinByField\"\
+    ,\n          \"options\": {\n            \"byField\": \"operation\",\n       \
+    \     \"mode\": \"outer\"\n          }\n        },\n        {\n          \"id\"\
+    : \"organize\",\n          \"options\": {\n            \"excludeByName\": {},\n\
+    \            \"includeByName\": {},\n            \"indexByName\": {\n        \
+    \      \"Trend #Duration\": 1,\n              \"Trend #ERR_PCT\": 2,\n       \
+    \       \"Trend #RPS\": 3,\n              \"operation\": 0\n            },\n \
+    \           \"renameByName\": {\n              \"Trend #Duration\": \"Duration\
+    \ (p99)\",\n              \"Trend #ERR_PCT\": \"Error\",\n              \"Trend\
+    \ #RPS\": \"Rate\",\n              \"operation\": \"Operation\"\n            }\n\
+    \          }\n        }\n      ],\n      \"type\": \"table\"\n    },\n    {\n\
+    \      \"collapsed\": false,\n      \"gridPos\": {\n        \"h\": 1,\n      \
+    \  \"w\": 24,\n        \"x\": 0,\n        \"y\": 15\n      },\n      \"id\": 28,\n\
+    \      \"panels\": [],\n      \"title\": \"Outbound Services and Databases\",\n\
+    \      \"type\": \"row\"\n    },\n    {\n      \"datasource\": {\n        \"type\"\
+    : \"prometheus\",\n        \"uid\": \"${prometheus_datasource}\"\n      },\n \
+    \     \"description\": \"HTTP calls made by the service based on the `http.client.request.duration`\
+    \ metric.\\n\\nCalls broken done by remote `server.address` and by `http.request.method`.\\\
+    n\\nSee https://opentelemetry.io/docs/specs/semconv/http/http-metrics/#metric-httpclientrequestduration\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"custom\": {\n\
+    \            \"align\": \"auto\",\n            \"cellOptions\": {\n          \
+    \    \"type\": \"auto\"\n            },\n            \"footer\": {\n         \
+    \     \"reducers\": []\n            },\n            \"inspect\": false\n     \
+    \     },\n          \"mappings\": [],\n          \"noValue\": \"No HTTP call\"\
+    ,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n        \
+    \    \"steps\": [\n              {\n                \"color\": \"green\",\n  \
+    \              \"value\": 0\n              },\n              {\n             \
+    \   \"color\": \"red\",\n                \"value\": 80\n              }\n    \
+    \        ]\n          }\n        },\n        \"overrides\": [\n          {\n \
+    \           \"matcher\": {\n              \"id\": \"byName\",\n              \"\
+    options\": \"Duration (P99)\"\n            },\n            \"properties\": [\n\
+    \              {\n                \"id\": \"unit\",\n                \"value\"\
+    : \"s\"\n              }\n            ]\n          },\n          {\n         \
+    \   \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"Rate\"\n            },\n            \"properties\": [\n              {\n \
+    \               \"id\": \"unit\",\n                \"value\": \"reqps\"\n    \
+    \          }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Error\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"unit\",\n                \"value\": \"percentunit\"\n         \
+    \     }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n\
+    \        \"h\": 5,\n        \"w\": 12,\n        \"x\": 0,\n        \"y\": 16\n\
+    \      },\n      \"id\": 23,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"showHeader\": true\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"disableTextWrap\": false,\n          \"editorMode\": \"code\"\
+    ,\n          \"expr\": \"\\n        sum by (outbound_service) (\\n           \
+    \ label_join(\\n                rate(http_client_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"outbound_service\\\",\\n                \\\" \\\",\\n                \\\"\
+    server_address\\\",\\n                \\\"http_request_method\\\",\\n        \
+    \        \\\"url_template\\\"\\n            )\\n        )\\n    \",\n        \
+    \  \"fullMetaSearch\": false,\n          \"includeNullMetadata\": true,\n    \
+    \      \"interval\": \"60s\",\n          \"legendFormat\": \"{{server_address}}\
+    \ {{http_request_method}} {{url_template}}\",\n          \"range\": true,\n  \
+    \        \"refId\": \"RPS\",\n          \"useBackend\": false\n        },\n  \
+    \      {\n          \"datasource\": {\n            \"type\": \"prometheus\",\n\
+    \            \"uid\": \"${prometheus_datasource}\"\n          },\n          \"\
+    editorMode\": \"code\",\n          \"expr\": \"(\\n        sum by (outbound_service)\
+    \ (\\n            label_join(\\n                rate(http_client_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", http_response_status_code=~\\\"5..\\\"\
+    }[$__rate_interval]),\\n                \\\"outbound_service\\\",\\n         \
+    \       \\\" \\\",\\n                \\\"server_address\\\",\\n              \
+    \  \\\"http_request_method\\\",\\n                \\\"url_template\\\"\\n    \
+    \        )\\n        )\\n     / \\n        sum by (outbound_service) (\\n    \
+    \        label_join(\\n                rate(http_client_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"outbound_service\\\",\\n                \\\" \\\",\\n                \\\"\
+    server_address\\\",\\n                \\\"http_request_method\\\",\\n        \
+    \        \\\"url_template\\\"\\n            )\\n        )\\n    ) or (0 * \\n\
+    \        sum by (outbound_service) (\\n            label_join(\\n            \
+    \    rate(http_client_request_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"outbound_service\\\",\\n                \\\" \\\",\\n                \\\"\
+    server_address\\\",\\n                \\\"http_request_method\\\",\\n        \
+    \        \\\"url_template\\\"\\n            )\\n        )\\n    )\",\n       \
+    \   \"hide\": false,\n          \"instant\": false,\n          \"interval\": \"\
+    60s\",\n          \"legendFormat\": \"{{server_address}} {{http_request_method}}\
+    \ {{url_template}}\",\n          \"range\": true,\n          \"refId\": \"ERR_PCT\"\
+    \n        },\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"webstore-metrics\"\n          },\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"\\nhistogram_quantile(\\\
+    n    0.99,\\n    sum by (le, outbound_service) (\\n        label_join(\\n    \
+    \    rate(http_client_request_duration_seconds_bucket{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[5m]),\\n        \\\"outbound_service\\\
+    \",\\n        \\\" \\\",\\n        \\\"server_address\\\",\\n        \\\"http_request_method\\\
+    \",\\n        \\\"url_template\\\"\\n        )\\n    )\\n)\",\n          \"hide\"\
+    : false,\n          \"instant\": false,\n          \"interval\": \"60s\",\n  \
+    \        \"legendFormat\": \"{{server_address}} {{http_request_method}} {{url_template}}\"\
+    ,\n          \"range\": true,\n          \"refId\": \"DURATION\"\n        }\n\
+    \      ],\n      \"title\": \"Outbound HTTP Services\",\n      \"transformations\"\
+    : [\n        {\n          \"id\": \"timeSeriesTable\",\n          \"options\"\
+    : {\n            \"Duration\": {\n              \"timeField\": \"Time\"\n    \
+    \        },\n            \"ERR_PCT\": {\n              \"timeField\": \"Time\"\
+    \n            },\n            \"RPS\": {\n              \"timeField\": \"Time\"\
+    \n            }\n          }\n        },\n        {\n          \"id\": \"joinByField\"\
+    ,\n          \"options\": {\n            \"byField\": \"outbound_service\",\n\
+    \            \"mode\": \"outer\"\n          }\n        },\n        {\n       \
+    \   \"id\": \"organize\",\n          \"options\": {\n            \"excludeByName\"\
+    : {},\n            \"includeByName\": {},\n            \"indexByName\": {\n  \
+    \            \"Trend #DURATION\": 1,\n              \"Trend #ERR_PCT\": 2,\n \
+    \             \"Trend #RPS\": 3,\n              \"outbound_service\": 0\n    \
+    \        },\n            \"renameByName\": {\n              \"Trend #DURATION\"\
+    : \"Duration (P99)\",\n              \"Trend #Duration\": \"Duration (p99)\",\n\
+    \              \"Trend #ERR_PCT\": \"Error\",\n              \"Trend #RPS\": \"\
+    Rate\",\n              \"operation\": \"Operation\",\n              \"outbound_service\"\
+    : \"Service\"\n            }\n          }\n        }\n      ],\n      \"type\"\
+    : \"table\"\n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\"\
+    ,\n        \"uid\": \"${prometheus_datasource}\"\n      },\n      \"description\"\
+    : \"DB calls made by the service based on the `db.client.operation.duration` metric.\\\
+    n\\nCalls broken down by `server.address` and `db.namespace`.\\n\\nSee https://opentelemetry.io/docs/specs/semconv/database/database-metrics/#metric-dbclientoperationduration\\\
+    n\",\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\":\
+    \ {\n            \"mode\": \"thresholds\"\n          },\n          \"custom\"\
+    : {\n            \"align\": \"auto\",\n            \"cellOptions\": {\n      \
+    \        \"type\": \"auto\"\n            },\n            \"footer\": {\n     \
+    \         \"reducers\": []\n            },\n            \"inspect\": false\n \
+    \         },\n          \"mappings\": [],\n          \"noValue\": \"No database\
+    \ call\",\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n\
+    \            \"steps\": [\n              {\n                \"color\": \"green\"\
+    ,\n                \"value\": 0\n              },\n              {\n         \
+    \       \"color\": \"red\",\n                \"value\": 80\n              }\n\
+    \            ]\n          }\n        },\n        \"overrides\": [\n          {\n\
+    \            \"matcher\": {\n              \"id\": \"byName\",\n             \
+    \ \"options\": \"Duration (P99)\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"unit\",\n                \"value\"\
+    : \"s\"\n              }\n            ]\n          },\n          {\n         \
+    \   \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"Rate\"\n            },\n            \"properties\": [\n              {\n \
+    \               \"id\": \"unit\",\n                \"value\": \"reqps\"\n    \
+    \          }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Error\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"unit\",\n                \"value\": \"percentunit\"\n         \
+    \     }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n\
+    \        \"h\": 5,\n        \"w\": 12,\n        \"x\": 12,\n        \"y\": 16\n\
+    \      },\n      \"id\": 24,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"showHeader\": true,\n        \"sortBy\": []\n      },\n     \
+    \ \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    webstore-metrics\"\n          },\n          \"disableTextWrap\": false,\n    \
+    \      \"editorMode\": \"code\",\n          \"expr\": \"sum by (database) (\\\
+    n    label_join(\\n        rate(db_client_operation_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n        \\\"database\\\
+    \",\\n        \\\"/\\\",\\n        \\\"server_address\\\",\\n        \\\"db_namespace\\\
+    \"\\n    )\\n)\\n    \",\n          \"fullMetaSearch\": false,\n          \"hide\"\
+    : false,\n          \"includeNullMetadata\": true,\n          \"interval\": \"\
+    60s\",\n          \"legendFormat\": \"{{server_address}} {{db_namespace}}\",\n\
+    \          \"range\": true,\n          \"refId\": \"RPS\",\n          \"useBackend\"\
+    : false\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"${prometheus_datasource}\"\n       \
+    \   },\n          \"editorMode\": \"code\",\n          \"expr\": \"(\\n      \
+    \  sum by (database) (\\n            label_join(\\n                rate(db_client_operation_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", http_response_status_code=~\\\"5..\\\"\
+    }[$__rate_interval]),\\n                \\\"database\\\",\\n                \\\
+    \"/\\\",\\n                \\\"server_address\\\",\\n                \\\"db_namespace\\\
+    \"\\n            )\\n        )\\n     / \\n        sum by (database) (\\n    \
+    \        label_join(\\n                rate(db_client_operation_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"database\\\",\\n                \\\"/\\\",\\n                \\\"server_address\\\
+    \",\\n                \\\"db_namespace\\\"\\n            )\\n        )\\n    )\
+    \ or (0 * \\n        sum by (database) (\\n            label_join(\\n        \
+    \        rate(db_client_operation_duration_seconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"database\\\",\\n                \\\"/\\\",\\n                \\\"server_address\\\
+    \",\\n                \\\"db_namespace\\\"\\n            )\\n        )\\n    )\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"interval\"\
+    : \"60s\",\n          \"legendFormat\": \"{{server_address}} {{db_namespace}}\"\
+    ,\n          \"range\": true,\n          \"refId\": \"ERR_PCT\"\n        },\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"expr\": \"\\nhistogram_quantile(\\n    0.99,\\n    sum\
+    \ by (le, database) (\\n        label_join(\\n        rate(db_client_operation_duration_seconds_bucket{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[5m]),\\n            \\\"database\\\",\\\
+    n            \\\"/\\\",\\n            \\\"server_address\\\",\\n            \\\
+    \"db_namespace\\\"\\n        )\\n    )\\n)\",\n          \"hide\": false,\n  \
+    \        \"instant\": false,\n          \"interval\": \"60s\",\n          \"legendFormat\"\
+    : \"{{server_address}} {{db_namespace}}\",\n          \"range\": true,\n     \
+    \     \"refId\": \"DURATION\"\n        }\n      ],\n      \"title\": \"Outbound\
+    \ Databases\",\n      \"transformations\": [\n        {\n          \"id\": \"\
+    timeSeriesTable\",\n          \"options\": {\n            \"DURATION\": {\n  \
+    \            \"timeField\": \"Time\"\n            },\n            \"Duration\"\
+    : {\n              \"timeField\": \"Time\"\n            },\n            \"ERR_PCT\"\
+    : {\n              \"timeField\": \"Time\"\n            },\n            \"RPS\"\
+    : {\n              \"timeField\": \"Time\"\n            }\n          }\n     \
+    \   },\n        {\n          \"id\": \"joinByField\",\n          \"options\":\
+    \ {\n            \"byField\": \"database\",\n            \"mode\": \"outer\"\n\
+    \          }\n        },\n        {\n          \"id\": \"organize\",\n       \
+    \   \"options\": {\n            \"excludeByName\": {},\n            \"includeByName\"\
+    : {},\n            \"indexByName\": {\n              \"Trend #DURATION\": 1,\n\
+    \              \"Trend #ERR_PCT\": 2,\n              \"Trend #RPS\": 3,\n    \
+    \          \"database\": 0\n            },\n            \"renameByName\": {\n\
+    \              \"Trend #DURATION\": \"Duration (P99)\",\n              \"Trend\
+    \ #Duration\": \"Duration (p99)\",\n              \"Trend #ERR_PCT\": \"Error\"\
+    ,\n              \"Trend #RPS\": \"Rate\",\n              \"database\": \"Database\"\
+    ,\n              \"database_operation\": \"Database Operation\",\n           \
+    \   \"operation\": \"Operation\",\n              \"outbound_service\": \"Service\"\
+    \n            }\n          }\n        }\n      ],\n      \"type\": \"table\"\n\
+    \    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n \
+    \       \"uid\": \"${prometheus_datasource}\"\n      },\n      \"description\"\
+    : \"gRPC calls made by the service based on the `rpc.client.request.duration`\
+    \ metric.\\n\\nSpecific to gRPC due to the usage of the `grpc.status.code` attribute\
+    \ to identify errors.\\n\\nCalls broken down by `server.address`, `rpc.service`,\
+    \ and `rpc.method`.\\n\\nSee https://opentelemetry.io/docs/specs/semconv/rpc/rpc-metrics/#rpc-client\\\
+    n\\n\",\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\"\
+    : {\n            \"mode\": \"thresholds\"\n          },\n          \"custom\"\
+    : {\n            \"align\": \"auto\",\n            \"cellOptions\": {\n      \
+    \        \"type\": \"auto\"\n            },\n            \"footer\": {\n     \
+    \         \"reducers\": []\n            },\n            \"inspect\": false\n \
+    \         },\n          \"mappings\": [],\n          \"noValue\": \"No RPC call\"\
+    ,\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n        \
+    \    \"steps\": [\n              {\n                \"color\": \"green\",\n  \
+    \              \"value\": 0\n              },\n              {\n             \
+    \   \"color\": \"red\",\n                \"value\": 80\n              }\n    \
+    \        ]\n          }\n        },\n        \"overrides\": [\n          {\n \
+    \           \"matcher\": {\n              \"id\": \"byName\",\n              \"\
+    options\": \"Duration (P99)\"\n            },\n            \"properties\": [\n\
+    \              {\n                \"id\": \"unit\",\n                \"value\"\
+    : \"ms\"\n              }\n            ]\n          },\n          {\n        \
+    \    \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"Rate\"\n            },\n            \"properties\": [\n              {\n \
+    \               \"id\": \"unit\",\n                \"value\": \"reqps\"\n    \
+    \          }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Error\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"unit\",\n                \"value\": \"percentunit\"\n         \
+    \     }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n\
+    \        \"h\": 5,\n        \"w\": 12,\n        \"x\": 0,\n        \"y\": 21\n\
+    \      },\n      \"id\": 32,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"showHeader\": true\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"disableTextWrap\": false,\n          \"editorMode\": \"code\"\
+    ,\n          \"expr\": \"\\n        sum by (outbound_service) (\\n           \
+    \ label_join(\\n                rate(rpc_client_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"outbound_service\\\",\\n                \\\"/\\\",\\n                \\\"\
+    server_address\\\",\\n                \\\"rpc_service\\\",\\n                \\\
+    \"rpc_method\\\"\\n            )\\n        )\\n    \",\n          \"fullMetaSearch\"\
+    : false,\n          \"hide\": false,\n          \"includeNullMetadata\": true,\n\
+    \          \"interval\": \"60s\",\n          \"legendFormat\": \"__auto\",\n \
+    \         \"range\": true,\n          \"refId\": \"RPS\",\n          \"useBackend\"\
+    : false\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"${prometheus_datasource}\"\n       \
+    \   },\n          \"editorMode\": \"code\",\n          \"expr\": \"(\\n      \
+    \  sum by (outbound_service) (\\n            label_join(\\n                rate(rpc_client_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\", http_response_status_code=~\\\"5..\\\"\
+    }[$__rate_interval]),\\n                \\\"outbound_service\\\",\\n         \
+    \       \\\"/\\\",\\n                \\\"server_address\\\",\\n              \
+    \  \\\"rpc_service\\\",\\n                \\\"rpc_method\\\"\\n            )\\\
+    n        )\\n     / \\n        sum by (outbound_service) (\\n            label_join(\\\
+    n                rate(rpc_client_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"outbound_service\\\",\\n                \\\"/\\\",\\n                \\\"\
+    server_address\\\",\\n                \\\"rpc_service\\\",\\n                \\\
+    \"rpc_method\\\"\\n            )\\n        )\\n    ) or (0 * \\n        sum by\
+    \ (outbound_service) (\\n            label_join(\\n                rate(rpc_client_duration_milliseconds_count{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[$__rate_interval]),\\n               \
+    \ \\\"outbound_service\\\",\\n                \\\"/\\\",\\n                \\\"\
+    server_address\\\",\\n                \\\"rpc_service\\\",\\n                \\\
+    \"rpc_method\\\"\\n            )\\n        )\\n    )\",\n          \"hide\": false,\n\
+    \          \"instant\": false,\n          \"interval\": \"60s\",\n          \"\
+    legendFormat\": \"__auto\",\n          \"range\": true,\n          \"refId\":\
+    \ \"ERR_PCT\"\n        },\n        {\n          \"datasource\": {\n          \
+    \  \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n    \
+    \      },\n          \"editorMode\": \"code\",\n          \"expr\": \"\\nhistogram_quantile(\\\
+    n    0.99,\\n    sum by (le, outbound_service) (\\n        label_join(\\n    \
+    \    rate(rpc_client_duration_milliseconds_bucket{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", service_namespace=~\\\"$service_namespace\\\
+    \", service_name=\\\"$service_name\\\"}[5m]),\\n        \\\"outbound_service\\\
+    \",\\n        \\\"/\\\",\\n        \\\"server_address\\\",\\n        \\\"rpc_service\\\
+    \",\\n        \\\"rpc_method\\\"\\n        )\\n    )\\n)\",\n          \"hide\"\
+    : false,\n          \"instant\": false,\n          \"interval\": \"60s\",\n  \
+    \        \"legendFormat\": \"__auto\",\n          \"range\": true,\n         \
+    \ \"refId\": \"DURATION\"\n        }\n      ],\n      \"title\": \"Outbound gRPC\
+    \ Services\",\n      \"transformations\": [\n        {\n          \"id\": \"timeSeriesTable\"\
+    ,\n          \"options\": {\n            \"Duration\": {\n              \"timeField\"\
+    : \"Time\"\n            },\n            \"ERR_PCT\": {\n              \"timeField\"\
+    : \"Time\"\n            },\n            \"RPS\": {\n              \"timeField\"\
+    : \"Time\"\n            }\n          }\n        },\n        {\n          \"id\"\
+    : \"joinByField\",\n          \"options\": {\n            \"byField\": \"outbound_service\"\
+    ,\n            \"mode\": \"outer\"\n          }\n        },\n        {\n     \
+    \     \"id\": \"organize\",\n          \"options\": {\n            \"excludeByName\"\
+    : {},\n            \"includeByName\": {},\n            \"indexByName\": {\n  \
+    \            \"Trend #DURATION\": 1,\n              \"Trend #ERR_PCT\": 2,\n \
+    \             \"Trend #RPS\": 3,\n              \"outbound_service\": 0\n    \
+    \        },\n            \"renameByName\": {\n              \"Trend #DURATION\"\
+    : \"Duration (P99)\",\n              \"Trend #Duration\": \"Duration (p99)\",\n\
+    \              \"Trend #ERR_PCT\": \"Error\",\n              \"Trend #RPS\": \"\
+    Rate\",\n              \"operation\": \"Operation\",\n              \"outbound_service\"\
+    : \"Service Method\"\n            }\n          }\n        }\n      ],\n      \"\
+    type\": \"table\"\n    },\n    {\n      \"collapsed\": false,\n      \"gridPos\"\
+    : {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\":\
+    \ 26\n      },\n      \"id\": 42,\n      \"panels\": [],\n      \"title\": \"\
+    Infrastructure\",\n      \"type\": \"row\"\n    },\n    {\n      \"datasource\"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n\
+    \      },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\"\
+    : {\n            \"mode\": \"thresholds\"\n          },\n          \"custom\"\
+    : {\n            \"align\": \"auto\",\n            \"cellOptions\": {\n      \
+    \        \"type\": \"auto\"\n            },\n            \"footer\": {\n     \
+    \         \"reducers\": []\n            },\n            \"inspect\": false\n \
+    \         },\n          \"mappings\": [],\n          \"thresholds\": {\n     \
+    \       \"mode\": \"absolute\",\n            \"steps\": [\n              {\n \
+    \               \"color\": \"green\",\n                \"value\": 0\n        \
+    \      },\n              {\n                \"color\": \"red\",\n            \
+    \    \"value\": 80\n              }\n            ]\n          }\n        },\n\
+    \        \"overrides\": [\n          {\n            \"matcher\": {\n         \
+    \     \"id\": \"byName\",\n              \"options\": \"Host CPU\"\n         \
+    \   },\n            \"properties\": [\n              {\n                \"id\"\
+    : \"unit\",\n                \"value\": \"percentunit\"\n              }\n   \
+    \         ]\n          },\n          {\n            \"matcher\": {\n         \
+    \     \"id\": \"byName\",\n              \"options\": \"Host Used Memory\"\n \
+    \           },\n            \"properties\": [\n              {\n             \
+    \   \"id\": \"unit\",\n                \"value\": \"percentunit\"\n          \
+    \    }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n\
+    \        \"h\": 3,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\": 27\n\
+    \      },\n      \"id\": 41,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"frameIndex\": 1,\n        \"showHeader\": true\n      },\n  \
+    \    \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n       \
+    \   \"editorMode\": \"code\",\n          \"expr\": \"sum by (host_name) (\\n \
+    \ rate(system_cpu_time_seconds_total{service_name=\\\"\\\", state!=\\\"idle\\\"\
+    }[$__rate_interval])\\n)\\n* on(host_name) \\ngroup by (host_name) (\\n  target_info{service_name=\\\
+    \"${service_name}\\\", service_instance_id!=\\\"\\\"}\\n)\",\n          \"hide\"\
+    : false,\n          \"legendFormat\": \"__auto\",\n          \"range\": true,\n\
+    \          \"refId\": \"cpu_time_pct\"\n        },\n        {\n          \"datasource\"\
+    : {\n            \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"expr\": \"  (\\\
+    n    (\\n      sum by (host_name) (\\n        system_memory_usage_bytes{service_name=\\\
+    \"\\\", state=\\\"used\\\"}\\n      )\\n      /\\n      sum by (host_name) (\\\
+    n        system_memory_usage_bytes{service_name=\\\"\\\"}\\n      )\\n    )\\\
+    n    * on(host_name) (\\n      group by (host_name) (\\n        target_info{service_name=\\\
+    \"${service_name}\\\"}\\n      )\\n    )\\n  )\\n\",\n          \"hide\": false,\n\
+    \          \"instant\": false,\n          \"legendFormat\": \"__auto\",\n    \
+    \      \"range\": true,\n          \"refId\": \"memory_usage_pct\"\n        }\n\
+    \      ],\n      \"title\": \"\",\n      \"transformations\": [\n        {\n \
+    \         \"id\": \"timeSeriesTable\",\n          \"options\": {\n           \
+    \ \"A\": {\n              \"timeField\": \"Time\"\n            },\n          \
+    \  \"cpu_time_pct\": {\n              \"timeField\": \"Time\"\n            },\n\
+    \            \"cpu_time_percentage\": {\n              \"timeField\": \"Time\"\
+    \n            },\n            \"memory_usage_pct\": {\n              \"timeField\"\
+    : \"Time\"\n            }\n          }\n        },\n        {\n          \"id\"\
+    : \"joinByField\",\n          \"options\": {\n            \"byField\": \"host_name\"\
+    ,\n            \"mode\": \"outer\"\n          }\n        },\n        {\n     \
+    \     \"id\": \"organize\",\n          \"options\": {\n            \"excludeByName\"\
+    : {},\n            \"includeByName\": {},\n            \"indexByName\": {},\n\
+    \            \"renameByName\": {\n              \"Trend #cpu_time_pct\": \"Host\
+    \ CPU\",\n              \"Trend #cpu_time_percentage\": \"Host CPU\",\n      \
+    \        \"Trend #memory_usage_pct\": \"Host Used Memory\",\n              \"\
+    host_name\": \"Host\",\n              \"service_instance_id_host_name\": \"Instance\
+    \ / Host\"\n            }\n          }\n        }\n      ],\n      \"type\": \"\
+    table\"\n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\"\
+    ,\n        \"uid\": \"webstore-metrics\"\n      },\n      \"fieldConfig\": {\n\
+    \        \"defaults\": {\n          \"color\": {\n            \"mode\": \"thresholds\"\
+    \n          },\n          \"custom\": {\n            \"align\": \"auto\",\n  \
+    \          \"cellOptions\": {\n              \"type\": \"auto\"\n            },\n\
+    \            \"footer\": {\n              \"reducers\": []\n            },\n \
+    \           \"inspect\": false\n          },\n          \"mappings\": [],\n  \
+    \        \"thresholds\": {\n            \"mode\": \"absolute\",\n            \"\
+    steps\": [\n              {\n                \"color\": \"green\",\n         \
+    \       \"value\": 0\n              },\n              {\n                \"color\"\
+    : \"red\",\n                \"value\": 80\n              }\n            ]\n  \
+    \        }\n        },\n        \"overrides\": [\n          {\n            \"\
+    matcher\": {\n              \"id\": \"byName\",\n              \"options\": \"\
+    Pod CPU usage\"\n            },\n            \"properties\": [\n             \
+    \ {\n                \"id\": \"unit\",\n                \"value\": \"percentunit\"\
+    \n              }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Pod Memory\
+    \ Usage\"\n            },\n            \"properties\": [\n              {\n  \
+    \              \"id\": \"unit\",\n                \"value\": \"decbytes\"\n  \
+    \            }\n            ]\n          }\n        ]\n      },\n      \"gridPos\"\
+    : {\n        \"h\": 3,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\":\
+    \ 30\n      },\n      \"id\": 43,\n      \"options\": {\n        \"cellHeight\"\
+    : \"sm\",\n        \"frameIndex\": 1,\n        \"showHeader\": true\n      },\n\
+    \      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"sum by (k8s_pod_name) (\\\
+    n    rate(k8s_pod_cpu_time_seconds_total{}[$__rate_interval])\\n)\\n* on(k8s_pod_name)\
+    \ \\ngroup by (k8s_pod_name) (\\n  target_info{service_name=\\\"${service_name}\\\
+    \", service_instance_id!=\\\"\\\"}\\n)\\n\",\n          \"hide\": false,\n   \
+    \       \"legendFormat\": \"__auto\",\n          \"range\": true,\n          \"\
+    refId\": \"cpu_time_pct\"\n        },\n        {\n          \"datasource\": {\n\
+    \            \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"expr\": \"\\\
+    nsum by (k8s_pod_name) (\\n  k8s_pod_memory_working_set_bytes{}\\n)\\n* on(k8s_pod_name)\\\
+    ngroup by (k8s_pod_name) (\\n  target_info{service_name=\\\"${service_name}\\\"\
+    , service_instance_id!=\\\"\\\"}\\n)\\n\",\n          \"hide\": false,\n     \
+    \     \"instant\": false,\n          \"legendFormat\": \"__auto\",\n         \
+    \ \"range\": true,\n          \"refId\": \"memory_usage_bytes\"\n        }\n \
+    \     ],\n      \"title\": \"\",\n      \"transformations\": [\n        {\n  \
+    \        \"id\": \"timeSeriesTable\",\n          \"options\": {\n            \"\
+    A\": {\n              \"timeField\": \"Time\"\n            },\n            \"\
+    cpu_time_percentage\": {\n              \"timeField\": \"Time\"\n            },\n\
+    \            \"memory_usage_pct\": {\n              \"timeField\": \"Time\"\n\
+    \            }\n          }\n        },\n        {\n          \"id\": \"joinByField\"\
+    ,\n          \"options\": {\n            \"byField\": \"k8s_pod_name\",\n    \
+    \        \"mode\": \"outer\"\n          }\n        },\n        {\n          \"\
+    id\": \"organize\",\n          \"options\": {\n            \"excludeByName\":\
+    \ {\n              \"service_instance_id\": true\n            },\n           \
+    \ \"includeByName\": {},\n            \"indexByName\": {},\n            \"renameByName\"\
+    : {\n              \"Trend #cpu_time_pct\": \"Pod CPU usage\",\n             \
+    \ \"Trend #cpu_time_percentage\": \"Host CPU\",\n              \"Trend #memory_usage_bytes\"\
+    : \"Pod Memory Usage\",\n              \"Trend #memory_usage_pct\": \"Host Memory\"\
+    ,\n              \"k8s_pod_name\": \"Kubernetes Pod Name\",\n              \"\
+    service_instance_id_host_name\": \"Instance / Host\"\n            }\n        \
+    \  }\n        }\n      ],\n      \"type\": \"table\"\n    },\n    {\n      \"\
+    collapsed\": false,\n      \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n\
+    \        \"x\": 0,\n        \"y\": 33\n      },\n      \"id\": 25,\n      \"panels\"\
+    : [],\n      \"title\": \"Logs\",\n      \"type\": \"row\"\n    },\n    {\n  \
+    \    \"datasource\": {\n        \"type\": \"grafana-opensearch-datasource\",\n\
+    \        \"uid\": \"${opensearch_datasource}\"\n      },\n      \"description\"\
+    : \"Logs of the service, filtered by `service.name`, `service.namespace`, and\
+    \ `deployment.environment.name`.\\n\\nTo explore the logs, open the menu clicking\
+    \ on the icon `\u22EE` of this panel and click on `Explore`.\",\n      \"fieldConfig\"\
+    : {\n        \"defaults\": {\n          \"color\": {\n            \"mode\": \"\
+    thresholds\"\n          },\n          \"custom\": {\n            \"align\": \"\
+    auto\",\n            \"cellOptions\": {\n              \"type\": \"auto\"\n  \
+    \          },\n            \"footer\": {\n              \"reducers\": []\n   \
+    \         },\n            \"inspect\": false\n          },\n          \"mappings\"\
+    : [],\n          \"noValue\": \"No application logs\",\n          \"thresholds\"\
+    : {\n            \"mode\": \"absolute\",\n            \"steps\": [\n         \
+    \     {\n                \"color\": \"green\",\n                \"value\": 0\n\
+    \              },\n              {\n                \"color\": \"red\",\n    \
+    \            \"value\": 80\n              }\n            ]\n          }\n    \
+    \    },\n        \"overrides\": [\n          {\n            \"matcher\": {\n \
+    \             \"id\": \"byName\",\n              \"options\": \"@timestamp\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"custom.width\",\n                \"value\": 226\n             \
+    \ }\n            ]\n          },\n          {\n            \"matcher\": {\n  \
+    \            \"id\": \"byName\",\n              \"options\": \"severity.text\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"custom.width\",\n                \"value\": 136\n            \
+    \  }\n            ]\n          },\n          {\n            \"matcher\": {\n \
+    \             \"id\": \"byName\",\n              \"options\": \"instrumentationScope.name\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"custom.width\",\n                \"value\": 246\n            \
+    \  }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n\
+    \        \"h\": 15,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\": 34\n\
+    \      },\n      \"id\": 26,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"showHeader\": true,\n        \"sortBy\": []\n      },\n     \
+    \ \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n          \"\
+    alias\": \"\",\n          \"bucketAggs\": [\n            {\n              \"field\"\
+    : \"observedTimestamp\",\n              \"id\": \"2\",\n              \"settings\"\
+    : {\n                \"interval\": \"auto\"\n              },\n              \"\
+    type\": \"date_histogram\"\n            }\n          ],\n          \"datasource\"\
+    : {\n            \"type\": \"grafana-opensearch-datasource\",\n            \"\
+    uid\": \"${opensearch_datasource}\"\n          },\n          \"format\": \"table\"\
+    ,\n          \"hide\": false,\n          \"luceneQueryType\": \"Logs\",\n    \
+    \      \"metrics\": [\n            {\n              \"id\": \"1\",\n         \
+    \     \"type\": \"logs\"\n            }\n          ],\n          \"query\": \"\
+    search source=otel-logs-* | where resource.service.name=\\\"$service_name\\\"\
+    \ and resource.service.namespace=\\\"$service_namespace\\\" |\_fields @timestamp,\
+    \ severity.text, body, instrumentationScope.name\\n\",\n          \"queryType\"\
+    : \"PPL\",\n          \"refId\": \"B\",\n          \"timeField\": \"observedTimestamp\"\
+    \n        }\n      ],\n      \"title\": \"\",\n      \"transformations\": [\n\
+    \        {\n          \"id\": \"formatTime\",\n          \"options\": {\n    \
+    \        \"outputFormat\": \"YYYY-MM-DD HH:MM:ss.sss\",\n            \"timeField\"\
+    : \"@timestamp\",\n            \"timezone\": \"browser\",\n            \"useTimezone\"\
+    : true\n          }\n        },\n        {\n          \"id\": \"organize\",\n\
+    \          \"options\": {\n            \"excludeByName\": {},\n            \"\
+    includeByName\": {},\n            \"indexByName\": {\n              \"@timestamp\"\
+    : 0,\n              \"body\": 3,\n              \"instrumentationScope.name\"\
+    : 2,\n              \"severity.text\": 1\n            },\n            \"renameByName\"\
+    : {\n              \"@timestamp\": \"Time\",\n              \"body\": \"Message\"\
+    ,\n              \"instrumentationScope.name\": \"Logger\",\n              \"\
+    severity.text\": \"Severity\"\n            }\n          }\n        }\n      ],\n\
+    \      \"type\": \"table\"\n    },\n    {\n      \"collapsed\": false,\n     \
+    \ \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n \
+    \       \"y\": 49\n      },\n      \"id\": 29,\n      \"panels\": [],\n      \"\
+    title\": \"Traces\",\n      \"type\": \"row\"\n    },\n    {\n      \"datasource\"\
+    : {\n        \"type\": \"jaeger\",\n        \"uid\": \"${jaeger_datasource}\"\n\
+    \      },\n      \"description\": \"Traces containing a span emitted by the service\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"custom\": {\n\
+    \            \"align\": \"auto\",\n            \"cellOptions\": {\n          \
+    \    \"type\": \"auto\"\n            },\n            \"footer\": {\n         \
+    \     \"reducers\": []\n            },\n            \"inspect\": false\n     \
+    \     },\n          \"mappings\": [],\n          \"noValue\": \"No traces\",\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\",\n    \
+    \            \"value\": 0\n              },\n              {\n               \
+    \ \"color\": \"red\",\n                \"value\": 80\n              }\n      \
+    \      ]\n          }\n        },\n        \"overrides\": [\n          {\n   \
+    \         \"matcher\": {\n              \"id\": \"byName\",\n              \"\
+    options\": \"Trace Service\"\n            },\n            \"properties\": [\n\
+    \              {\n                \"id\": \"custom.hideFrom.viz\",\n         \
+    \       \"value\": true\n              }\n            ]\n          },\n      \
+    \    {\n            \"matcher\": {\n              \"id\": \"byName\",\n      \
+    \        \"options\": \"Span ID\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"custom.hideFrom.viz\",\n     \
+    \           \"value\": false\n              }\n            ]\n          },\n \
+    \         {\n            \"matcher\": {\n              \"id\": \"byName\",\n \
+    \             \"options\": \"deployment.environment.name\"\n            },\n \
+    \           \"properties\": [\n              {\n                \"id\": \"custom.hideFrom.viz\"\
+    ,\n                \"value\": true\n              }\n            ]\n         \
+    \ },\n          {\n            \"matcher\": {\n              \"id\": \"byName\"\
+    ,\n              \"options\": \"service.name\"\n            },\n            \"\
+    properties\": [\n              {\n                \"id\": \"custom.hideFrom.viz\"\
+    ,\n                \"value\": true\n              }\n            ]\n         \
+    \ },\n          {\n            \"matcher\": {\n              \"id\": \"byName\"\
+    ,\n              \"options\": \"service.namespace\"\n            },\n        \
+    \    \"properties\": [\n              {\n                \"id\": \"custom.hideFrom.viz\"\
+    ,\n                \"value\": true\n              }\n            ]\n         \
+    \ }\n        ]\n      },\n      \"gridPos\": {\n        \"h\": 8,\n        \"\
+    w\": 15,\n        \"x\": 0,\n        \"y\": 50\n      },\n      \"id\": 30,\n\
+    \      \"options\": {\n        \"cellHeight\": \"sm\",\n        \"frameIndex\"\
+    : 0,\n        \"showHeader\": true\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"jaeger\",\n            \"uid\": \"${jaeger_datasource}\"\n         \
+    \ },\n          \"queryType\": \"search\",\n          \"refId\": \"A\",\n    \
+    \      \"service\": \"$service_name\",\n          \"tags\": \"service.namespace=\\\
+    \"$service_namespace\\\"\"\n        }\n      ],\n      \"title\": \"\",\n    \
+    \  \"type\": \"table\"\n    }\n  ],\n  \"preload\": false,\n  \"refresh\": \"\
+    30s\",\n  \"schemaVersion\": 42,\n  \"tags\": [],\n  \"templating\": {\n    \"\
+    list\": [\n      {\n        \"allowCustomValue\": false,\n        \"current\"\
+    : {\n          \"text\": \"Prometheus\",\n          \"value\": \"webstore-metrics\"\
+    \n        },\n        \"description\": \"OpenTelemetry metrics. \\nSend metrics\
+    \ using the Prometheus OTLP endpoint activating `keep_identifying_resource_attributes`\
+    \ and resource attribute promotion (aka `promote_resource_attributes`) including\
+    \ `service.name`, service.namespace`, `service.instance.id`, and `deployment.environment.name`\"\
+    ,\n        \"label\": \"Metrics\",\n        \"name\": \"prometheus_datasource\"\
+    ,\n        \"options\": [],\n        \"query\": \"prometheus\",\n        \"refresh\"\
+    : 1,\n        \"regex\": \"\",\n        \"type\": \"datasource\"\n      },\n \
+    \     {\n        \"allowCustomValue\": false,\n        \"current\": {\n      \
+    \    \"text\": \"Jaeger\",\n          \"value\": \"webstore-traces\"\n       \
+    \ },\n        \"description\": \"OpenTelemetry traces\",\n        \"label\": \"\
+    Traces\",\n        \"name\": \"jaeger_datasource\",\n        \"options\": [],\n\
+    \        \"query\": \"jaeger\",\n        \"refresh\": 1,\n        \"regex\": \"\
+    \",\n        \"type\": \"datasource\"\n      },\n      {\n        \"allowCustomValue\"\
+    : false,\n        \"current\": {\n          \"text\": \"OpenSearch\",\n      \
+    \    \"value\": \"webstore-logs\"\n        },\n        \"description\": \"OpenTelemetry\
+    \ logs.\",\n        \"label\": \"Logs\",\n        \"name\": \"opensearch_datasource\"\
+    ,\n        \"options\": [],\n        \"query\": \"grafana-opensearch-datasource\"\
+    ,\n        \"refresh\": 1,\n        \"regex\": \"\",\n        \"type\": \"datasource\"\
+    \n      },\n      {\n        \"current\": {\n          \"text\": \"demo\",\n \
+    \         \"value\": \"demo\"\n        },\n        \"definition\": \"label_values(target_info,deployment_environment_name)\"\
+    ,\n        \"description\": \"Deployment environment (`production`, `staging`...).\\\
+    nResource attribute `deployment.environment.name` via `target_info`.\\nValue `<<not\
+    \ defined>>` when the resource attribute `deployment.environment.name` is not\
+    \ set.\",\n        \"label\": \"Environment\",\n        \"name\": \"deployment_environment_name\"\
+    ,\n        \"options\": [],\n        \"query\": {\n          \"qryType\": 1,\n\
+    \          \"query\": \"label_values(target_info,deployment_environment_name)\"\
+    ,\n          \"refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\n    \
+    \    },\n        \"refresh\": 1,\n        \"regex\": \"\",\n        \"staticOptions\"\
+    : [\n          {\n            \"text\": \"<<not defined>>\",\n            \"value\"\
+    : \"\"\n          }\n        ],\n        \"type\": \"query\"\n      },\n     \
+    \ {\n        \"allValue\": \".*\",\n        \"allowCustomValue\": false,\n   \
+    \     \"current\": {\n          \"text\": \"otel-demo\",\n          \"value\"\
+    : \"otel-demo\"\n        },\n        \"datasource\": {\n          \"type\": \"\
+    prometheus\",\n          \"uid\": \"${prometheus_datasource}\"\n        },\n \
+    \       \"definition\": \"label_values(target_info{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", telemetry_sdk_name=~\\\"\\\\\\\\S.*\\\"},service_namespace)\"\
+    ,\n        \"description\": \"Service namespace.\\nResource attribute `service.namespace`\
+    \ via `target_info`.\\nValue `<<not defined>>` when the resource attribute `service.namespace`\
+    \ is not set.\",\n        \"includeAll\": false,\n        \"label\": \"Namespace\"\
+    ,\n        \"name\": \"service_namespace\",\n        \"options\": [],\n      \
+    \  \"query\": {\n          \"qryType\": 1,\n          \"query\": \"label_values(target_info{deployment_environment_name=~\\\
+    \"$deployment_environment_name\\\", telemetry_sdk_name=~\\\"\\\\\\\\S.*\\\"},service_namespace)\"\
+    ,\n          \"refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\n    \
+    \    },\n        \"refresh\": 1,\n        \"regex\": \"\",\n        \"sort\":\
+    \ 1,\n        \"staticOptions\": [\n          {\n            \"text\": \"<<not\
+    \ defined>>\",\n            \"value\": \"\"\n          }\n        ],\n       \
+    \ \"type\": \"query\"\n      },\n      {\n        \"current\": {\n          \"\
+    text\": \"checkout\",\n          \"value\": \"checkout\"\n        },\n       \
+    \ \"datasource\": {\n          \"type\": \"prometheus\",\n          \"uid\": \"\
+    webstore-metrics\"\n        },\n        \"definition\": \"label_values(target_info{service_namespace=~\\\
+    \"$service_namespace\\\", deployment_environment_name=~\\\"$deployment_environment_name\\\
+    \", telemetry_sdk_name=~\\\"\\\\\\\\S.*\\\"},service_name)\",\n        \"description\"\
+    : \"Service name.\\nResource attribute `service.name` via `target_info`.\",\n\
+    \        \"label\": \"Name\",\n        \"name\": \"service_name\",\n        \"\
+    options\": [],\n        \"query\": {\n          \"qryType\": 1,\n          \"\
+    query\": \"label_values(target_info{service_namespace=~\\\"$service_namespace\\\
+    \", deployment_environment_name=~\\\"$deployment_environment_name\\\", telemetry_sdk_name=~\\\
+    \"\\\\\\\\S.*\\\"},service_name)\",\n          \"refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\
+    \n        },\n        \"refresh\": 2,\n        \"regex\": \"\",\n        \"sort\"\
+    : 1,\n        \"type\": \"query\"\n      }\n    ]\n  },\n  \"time\": {\n    \"\
+    from\": \"now-30m\",\n    \"to\": \"now\"\n  },\n  \"timepicker\": {},\n  \"timezone\"\
+    : \"\",\n  \"title\": \"APM Dashboard (Jaeger, Prometheus, OpenSearch)\",\n  \"\
+    uid\": \"febljk0a32qyoa\",\n  \"version\": 1\n}"

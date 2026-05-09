@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- serviceaccounts
+- rbac
+- configmaps
+- statefulsets
+- services
+- deployments
+- daemonsets
+- misc
+- secrets

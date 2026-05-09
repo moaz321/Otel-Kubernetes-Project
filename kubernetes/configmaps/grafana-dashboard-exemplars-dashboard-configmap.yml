@@ -1,0 +1,170 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-exemplars-dashboard
+  namespace: default
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+    grafana_dashboard: '1'
+data:
+  exemplars-dashboard.json: "{\n  \"annotations\": {\n    \"list\": [\n      {\n \
+    \       \"builtIn\": 1,\n        \"datasource\": {\n          \"type\": \"grafana\"\
+    ,\n          \"uid\": \"-- Grafana --\"\n        },\n        \"enable\": true,\n\
+    \        \"hide\": true,\n        \"iconColor\": \"rgba(0, 211, 255, 1)\",\n \
+    \       \"name\": \"Annotations & Alerts\",\n        \"type\": \"dashboard\"\n\
+    \      }\n    ]\n  },\n  \"editable\": true,\n  \"fiscalYearStartMonth\": 0,\n\
+    \  \"graphTooltip\": 0,\n  \"id\": 3,\n  \"links\": [],\n  \"panels\": [\n   \
+    \ {\n      \"fieldConfig\": {\n        \"defaults\": {},\n        \"overrides\"\
+    : []\n      },\n      \"gridPos\": {\n        \"h\": 2,\n        \"w\": 24,\n\
+    \        \"x\": 0,\n        \"y\": 0\n      },\n      \"id\": 8,\n      \"options\"\
+    : {\n        \"code\": {\n          \"language\": \"plaintext\",\n          \"\
+    showLineNumbers\": false,\n          \"showMiniMap\": false\n        },\n    \
+    \    \"content\": \"This dashboard shows the use of metric exemplars.\\nExemplars\
+    \ can be used to look up a trace in Jaeger.\\nOnly the most recent exemplars may\
+    \ still be available in Jaeger.\\n<br>\\nChart panels may require 5 minutes after\
+    \ the Demo is started before rendering data.\",\n        \"mode\": \"html\"\n\
+    \      },\n      \"pluginVersion\": \"11.6.1\",\n      \"title\": \"\",\n    \
+    \  \"type\": \"text\"\n    },\n    {\n      \"collapsed\": false,\n      \"gridPos\"\
+    : {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\":\
+    \ 2\n      },\n      \"id\": 4,\n      \"panels\": [],\n      \"title\": \"GetCart\
+    \ Exemplars\",\n      \"type\": \"row\"\n    },\n    {\n      \"datasource\":\
+    \ {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n\
+    \      },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"custom\"\
+    : {\n            \"hideFrom\": {\n              \"legend\": false,\n         \
+    \     \"tooltip\": false,\n              \"viz\": false\n            },\n    \
+    \        \"scaleDistribution\": {\n              \"type\": \"linear\"\n      \
+    \      }\n          }\n        },\n        \"overrides\": []\n      },\n     \
+    \ \"gridPos\": {\n        \"h\": 9,\n        \"w\": 24,\n        \"x\": 0,\n \
+    \       \"y\": 3\n      },\n      \"id\": 2,\n      \"interval\": \"2m\",\n  \
+    \    \"options\": {\n        \"calculate\": false,\n        \"cellGap\": 1,\n\
+    \        \"color\": {\n          \"exponent\": 0.5,\n          \"fill\": \"dark-orange\"\
+    ,\n          \"mode\": \"scheme\",\n          \"reverse\": false,\n          \"\
+    scale\": \"exponential\",\n          \"scheme\": \"Spectral\",\n          \"steps\"\
+    : 64\n        },\n        \"exemplars\": {\n          \"color\": \"rgba(255,0,255,0.7)\"\
+    \n        },\n        \"filterValues\": {\n          \"le\": 1e-09\n        },\n\
+    \        \"legend\": {\n          \"show\": true\n        },\n        \"rowsFrame\"\
+    : {\n          \"layout\": \"auto\"\n        },\n        \"tooltip\": {\n    \
+    \      \"mode\": \"single\",\n          \"showColorScale\": false,\n         \
+    \ \"yHistogram\": false\n        },\n        \"yAxis\": {\n          \"axisPlacement\"\
+    : \"left\",\n          \"reverse\": false\n        }\n      },\n      \"pluginVersion\"\
+    : \"11.6.1\",\n      \"targets\": [\n        {\n          \"disableTextWrap\"\
+    : false,\n          \"editorMode\": \"builder\",\n          \"exemplar\": true,\n\
+    \          \"expr\": \"sum by(le) (rate(app_cart_get_cart_latency_seconds_bucket[$__rate_interval]))\"\
+    ,\n          \"format\": \"heatmap\",\n          \"fullMetaSearch\": false,\n\
+    \          \"includeNullMetadata\": false,\n          \"instant\": true,\n   \
+    \       \"legendFormat\": \"{{le}}\",\n          \"range\": true,\n          \"\
+    refId\": \"A\",\n          \"useBackend\": false\n        }\n      ],\n      \"\
+    title\": \"GetCart Latency Heatmap with Exemplars\",\n      \"type\": \"heatmap\"\
+    \n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
+    \        \"uid\": \"webstore-metrics\"\n      },\n      \"fieldConfig\": {\n \
+    \       \"defaults\": {\n          \"color\": {\n            \"mode\": \"palette-classic\"\
+    \n          },\n          \"custom\": {\n            \"axisBorderShow\": false,\n\
+    \            \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\"\
+    ,\n            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
+    \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
+    \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n         \
+    \   \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
+    legend\": false,\n              \"tooltip\": false,\n              \"viz\": false\n\
+    \            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"linear\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"type\": \"linear\"\n  \
+    \          },\n            \"showPoints\": \"auto\",\n            \"spanNulls\"\
+    : false,\n            \"stacking\": {\n              \"group\": \"A\",\n     \
+    \         \"mode\": \"none\"\n            },\n            \"thresholdsStyle\"\
+    : {\n              \"mode\": \"off\"\n            }\n          },\n          \"\
+    mappings\": [],\n          \"thresholds\": {\n            \"mode\": \"absolute\"\
+    ,\n            \"steps\": [\n              {\n                \"color\": \"green\"\
+    \n              },\n              {\n                \"color\": \"red\",\n   \
+    \             \"value\": 80\n              }\n            ]\n          }\n   \
+    \     },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"\
+    h\": 10,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\": 12\n      },\n\
+    \      \"id\": 5,\n      \"interval\": \"2m\",\n      \"options\": {\n       \
+    \ \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"list\"\
+    ,\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n    \
+    \    },\n        \"tooltip\": {\n          \"hideZeros\": false,\n          \"\
+    mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n     \
+    \ \"pluginVersion\": \"11.6.1\",\n      \"targets\": [\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    webstore-metrics\"\n          },\n          \"disableTextWrap\": false,\n    \
+    \      \"editorMode\": \"builder\",\n          \"exemplar\": true,\n         \
+    \ \"expr\": \"histogram_quantile(0.95, sum by(le) (rate(app_cart_get_cart_latency_seconds_bucket[$__rate_interval])))\"\
+    ,\n          \"fullMetaSearch\": false,\n          \"includeNullMetadata\": false,\n\
+    \          \"legendFormat\": \"p95 GetCart\",\n          \"range\": true,\n  \
+    \        \"refId\": \"A\",\n          \"useBackend\": false\n        }\n     \
+    \ ],\n      \"title\": \"95th Pct Cart GetCart Latency with Exemplars\",\n   \
+    \   \"type\": \"timeseries\"\n    },\n    {\n      \"collapsed\": false,\n   \
+    \   \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n\
+    \        \"y\": 22\n      },\n      \"id\": 3,\n      \"panels\": [],\n      \"\
+    title\": \"AddItem Exemplars\",\n      \"type\": \"row\"\n    },\n    {\n    \
+    \  \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\
+    \n      },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"custom\"\
+    : {\n            \"hideFrom\": {\n              \"legend\": false,\n         \
+    \     \"tooltip\": false,\n              \"viz\": false\n            },\n    \
+    \        \"scaleDistribution\": {\n              \"type\": \"linear\"\n      \
+    \      }\n          }\n        },\n        \"overrides\": []\n      },\n     \
+    \ \"gridPos\": {\n        \"h\": 9,\n        \"w\": 24,\n        \"x\": 0,\n \
+    \       \"y\": 23\n      },\n      \"id\": 6,\n      \"interval\": \"2m\",\n \
+    \     \"options\": {\n        \"calculate\": false,\n        \"cellGap\": 1,\n\
+    \        \"color\": {\n          \"exponent\": 0.5,\n          \"fill\": \"dark-orange\"\
+    ,\n          \"mode\": \"scheme\",\n          \"reverse\": false,\n          \"\
+    scale\": \"exponential\",\n          \"scheme\": \"Spectral\",\n          \"steps\"\
+    : 64\n        },\n        \"exemplars\": {\n          \"color\": \"rgba(255,0,255,0.7)\"\
+    \n        },\n        \"filterValues\": {\n          \"le\": 1e-09\n        },\n\
+    \        \"legend\": {\n          \"show\": true\n        },\n        \"rowsFrame\"\
+    : {\n          \"layout\": \"auto\"\n        },\n        \"tooltip\": {\n    \
+    \      \"mode\": \"single\",\n          \"showColorScale\": false,\n         \
+    \ \"yHistogram\": false\n        },\n        \"yAxis\": {\n          \"axisPlacement\"\
+    : \"left\",\n          \"reverse\": false\n        }\n      },\n      \"pluginVersion\"\
+    : \"11.6.1\",\n      \"targets\": [\n        {\n          \"disableTextWrap\"\
+    : false,\n          \"editorMode\": \"builder\",\n          \"exemplar\": true,\n\
+    \          \"expr\": \"sum by(le) (rate(app_cart_add_item_latency_seconds_bucket[$__rate_interval]))\"\
+    ,\n          \"format\": \"heatmap\",\n          \"fullMetaSearch\": false,\n\
+    \          \"includeNullMetadata\": false,\n          \"instant\": true,\n   \
+    \       \"legendFormat\": \"{{le}}\",\n          \"range\": true,\n          \"\
+    refId\": \"A\",\n          \"useBackend\": false\n        }\n      ],\n      \"\
+    title\": \"AddItem Latency Heatmap with Exemplars\",\n      \"type\": \"heatmap\"\
+    \n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
+    \        \"uid\": \"webstore-metrics\"\n      },\n      \"fieldConfig\": {\n \
+    \       \"defaults\": {\n          \"color\": {\n            \"mode\": \"palette-classic\"\
+    \n          },\n          \"custom\": {\n            \"axisBorderShow\": false,\n\
+    \            \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\"\
+    ,\n            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
+    \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
+    \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 0,\n         \
+    \   \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
+    legend\": false,\n              \"tooltip\": false,\n              \"viz\": false\n\
+    \            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"linear\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"type\": \"linear\"\n  \
+    \          },\n            \"showPoints\": \"auto\",\n            \"spanNulls\"\
+    : false,\n            \"stacking\": {\n              \"group\": \"A\",\n     \
+    \         \"mode\": \"none\"\n            },\n            \"thresholdsStyle\"\
+    : {\n              \"mode\": \"off\"\n            }\n          },\n          \"\
+    mappings\": [],\n          \"thresholds\": {\n            \"mode\": \"absolute\"\
+    ,\n            \"steps\": [\n              {\n                \"color\": \"green\"\
+    \n              },\n              {\n                \"color\": \"red\",\n   \
+    \             \"value\": 80\n              }\n            ]\n          }\n   \
+    \     },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"\
+    h\": 10,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\": 32\n      },\n\
+    \      \"id\": 1,\n      \"interval\": \"2m\",\n      \"options\": {\n       \
+    \ \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"list\"\
+    ,\n          \"placement\": \"bottom\",\n          \"showLegend\": true\n    \
+    \    },\n        \"tooltip\": {\n          \"hideZeros\": false,\n          \"\
+    mode\": \"single\",\n          \"sort\": \"none\"\n        }\n      },\n     \
+    \ \"pluginVersion\": \"11.6.1\",\n      \"targets\": [\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    webstore-metrics\"\n          },\n          \"disableTextWrap\": false,\n    \
+    \      \"editorMode\": \"builder\",\n          \"exemplar\": true,\n         \
+    \ \"expr\": \"histogram_quantile(0.95, sum by(le) (rate(app_cart_add_item_latency_seconds_bucket[$__rate_interval])))\"\
+    ,\n          \"fullMetaSearch\": false,\n          \"includeNullMetadata\": false,\n\
+    \          \"legendFormat\": \"p95 AddItem\",\n          \"range\": true,\n  \
+    \        \"refId\": \"A\",\n          \"useBackend\": false\n        }\n     \
+    \ ],\n      \"title\": \"95th Pct Cart AddItem Latency with Exemplars\",\n   \
+    \   \"type\": \"timeseries\"\n    }\n  ],\n  \"preload\": false,\n  \"schemaVersion\"\
+    : 41,\n  \"tags\": [],\n  \"templating\": {\n    \"list\": []\n  },\n  \"time\"\
+    : {\n    \"from\": \"now-15m\",\n    \"to\": \"now\"\n  },\n  \"timepicker\":\
+    \ {},\n  \"timezone\": \"browser\",\n  \"title\": \"Cart Service Exemplars\",\n\
+    \  \"uid\": \"ce6sd46kfkglca\",\n  \"version\": 1\n}"

@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flagd-config
+  namespace: default
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+data:
+  demo.flagd.json: "{\n  \"$schema\": \"https://flagd.dev/schema/v0/flags.json\",\n\
+    \  \"flags\": {\n    \"llmInaccurateResponse\": {\n      \"defaultVariant\": \"\
+    off\",\n      \"description\": \"LLM returns an inaccurate product summary for\
+    \ product ID L9ECAV7KIM\",\n      \"state\": \"ENABLED\",\n      \"variants\"\
+    : {\n        \"off\": false,\n        \"on\": true\n      }\n    },\n    \"llmRateLimitError\"\
+    : {\n      \"defaultVariant\": \"off\",\n      \"description\": \"LLM intermittently\
+    \ returns a rate limit error\",\n      \"state\": \"ENABLED\",\n      \"variants\"\
+    : {\n        \"off\": false,\n        \"on\": true\n      }\n    },\n    \"productCatalogFailure\"\
+    : {\n      \"description\": \"Fail product catalog service on a specific product\"\
+    ,\n      \"state\": \"ENABLED\",\n      \"variants\": {\n        \"on\": true,\n\
+    \        \"off\": false\n      },\n      \"defaultVariant\": \"off\"\n    },\n\
+    \    \"recommendationCacheFailure\": {\n      \"description\": \"Fail recommendation\
+    \ service cache\",\n      \"state\": \"ENABLED\",\n      \"variants\": {\n   \
+    \     \"on\": true,\n        \"off\": false\n      },\n      \"defaultVariant\"\
+    : \"off\"\n    },\n    \"adManualGc\": {\n      \"description\": \"Triggers full\
+    \ manual garbage collections in the ad service\",\n      \"state\": \"ENABLED\"\
+    ,\n      \"variants\": {\n        \"on\": true,\n        \"off\": false\n    \
+    \  },\n      \"defaultVariant\": \"off\"\n    },\n    \"adHighCpu\": {\n     \
+    \ \"description\": \"Triggers high cpu load in the ad service\",\n      \"state\"\
+    : \"ENABLED\",\n      \"variants\": {\n        \"on\": true,\n        \"off\"\
+    : false\n      },\n      \"defaultVariant\": \"off\"\n    },\n    \"adFailure\"\
+    : {\n      \"description\": \"Fail ad service\",\n      \"state\": \"ENABLED\"\
+    ,\n      \"variants\": {\n        \"on\": true,\n        \"off\": false\n    \
+    \  },\n      \"defaultVariant\": \"off\"\n    },\n    \"kafkaQueueProblems\":\
+    \ {\n      \"description\": \"Overloads Kafka queue while simultaneously introducing\
+    \ a consumer side delay leading to a lag spike\",\n      \"state\": \"ENABLED\"\
+    ,\n      \"variants\": {\n        \"on\": 100,\n        \"off\": 0\n      },\n\
+    \      \"defaultVariant\": \"off\"\n    },\n    \"cartFailure\": {\n      \"description\"\
+    : \"Fail cart service\",\n      \"state\": \"ENABLED\",\n      \"variants\": {\n\
+    \        \"on\": true,\n        \"off\": false\n      },\n      \"defaultVariant\"\
+    : \"off\"\n    },\n    \"paymentFailure\": {\n      \"description\": \"Fail payment\
+    \ service charge requests n%\",\n      \"state\": \"ENABLED\",\n      \"variants\"\
+    : {\n        \"100%\": 1,\n        \"90%\": 0.95,\n        \"75%\": 0.75,\n  \
+    \      \"50%\": 0.5,\n        \"25%\": 0.25,\n        \"10%\": 0.1,\n        \"\
+    off\": 0\n      },\n      \"defaultVariant\": \"off\"\n    },\n    \"paymentUnreachable\"\
+    : {\n      \"description\": \"Payment service is unavailable\",\n      \"state\"\
+    : \"ENABLED\",\n      \"variants\": {\n        \"on\": true,\n        \"off\"\
+    : false\n      },\n      \"defaultVariant\": \"off\"\n    },\n    \"loadGeneratorFloodHomepage\"\
+    : {\n      \"description\": \"Flood the frontend with a large amount of requests.\"\
+    ,\n      \"state\": \"ENABLED\",\n      \"variants\": {\n        \"on\": 100,\n\
+    \        \"off\": 0\n      },\n      \"defaultVariant\": \"off\"\n    },\n   \
+    \ \"imageSlowLoad\": {\n      \"description\": \"slow loading images in the frontend\"\
+    ,\n      \"state\": \"ENABLED\",\n      \"variants\": {\n        \"10sec\": 10000,\n\
+    \        \"5sec\": 5000,\n        \"off\": 0\n      },\n      \"defaultVariant\"\
+    : \"off\"\n    },\n    \"failedReadinessProbe\": {\n      \"description\": \"\
+    readiness probe failure for cart service\",\n      \"state\": \"ENABLED\",\n \
+    \     \"variants\": {\n        \"on\": true,\n        \"off\": false\n      },\n\
+    \      \"defaultVariant\": \"off\"\n    },\n    \"emailMemoryLeak\": {\n     \
+    \ \"description\": \"Memory leak in the email service.\",\n      \"state\": \"\
+    ENABLED\",\n      \"variants\": {\n        \"off\": 0,\n        \"1x\": 1,\n \
+    \       \"10x\": 10,\n        \"100x\": 100,\n        \"1000x\": 1000,\n     \
+    \   \"10000x\": 10000\n      },\n      \"defaultVariant\": \"off\"\n    }\n  }\n\
+    }\n"

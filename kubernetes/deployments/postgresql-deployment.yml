@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    opentelemetry.io/name: postgresql
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/component: postgresql
+    app.kubernetes.io/name: postgresql
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      opentelemetry.io/name: postgresql
+  template:
+    metadata:
+      labels:
+        opentelemetry.io/name: postgresql
+        app.kubernetes.io/version: 2.2.0
+        app.kubernetes.io/component: postgresql
+        app.kubernetes.io/name: postgresql
+      annotations:
+        io.opentelemetry.discovery.metrics/config: "username: root\npassword: otel\n\
+          metrics:\n  postgresql.blks_hit:\n    enabled: true\n  postgresql.blks_read:\n\
+          \    enabled: true\n  postgresql.tup_fetched:\n    enabled: true\n  postgresql.tup_returned:\n\
+          \    enabled: true\n  postgresql.tup_inserted:\n    enabled: true\n  postgresql.tup_updated:\n\
+          \    enabled: true\n  postgresql.tup_deleted:\n    enabled: true\n  postgresql.deadlocks:\n\
+          \    enabled: true\ntls:\n  insecure: true\n"
+        io.opentelemetry.discovery.metrics/enabled: 'true'
+        io.opentelemetry.discovery.metrics/scraper: postgresql
+        resource.opentelemetry.io/service.namespace: otel-demo
+    spec:
+      serviceAccountName: my-otel-demo
+      containers:
+      - name: postgresql
+        image: postgres:17.6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: service
+        env:
+        - name: POSTGRES_USER
+          value: root
+        - name: POSTGRES_PASSWORD
+          value: otel
+        - name: POSTGRES_DB
+          value: otel
+        resources:
+          limits:
+            memory: 100Mi
+        volumeMounts:
+        - name: postgresql-init
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: postgresql-init
+        configMap:
+          name: postgresql-init

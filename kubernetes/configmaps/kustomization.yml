@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- flagd-config-configmap.yml
+- grafana-alerting-configmap.yml
+- grafana-config-dashboards-configmap.yml
+- grafana-configmap.yml
+- grafana-dashboard-apm-dashboard-configmap.yml
+- grafana-dashboard-demo-dashboard-configmap.yml
+- grafana-dashboard-exemplars-dashboard-configmap.yml
+- grafana-dashboard-linux-dashboard-configmap.yml
+- grafana-dashboard-nginx-metrics-configmap.yml
+- grafana-dashboard-opentelemetry-collector-configmap.yml
+- grafana-dashboard-postgresql-dashboard-configmap.yml
+- grafana-dashboard-spanmetrics-dashboard-configmap.yml
+- grafana-datasources-configmap.yml
+- opensearch-config-configmap.yml
+- otel-collector-agent-configmap.yml
+- postgresql-init-configmap.yml
+- prometheus-configmap.yml
+- user-config-configmap.yml

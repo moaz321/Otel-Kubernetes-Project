@@ -1,0 +1,1083 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-linux-dashboard
+  namespace: default
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+    grafana_dashboard: '1'
+data:
+  linux-dashboard.json: "{\n  \"annotations\": {\n    \"list\": [\n      {\n     \
+    \   \"builtIn\": 1,\n        \"datasource\": {\n          \"type\": \"datasource\"\
+    ,\n          \"uid\": \"grafana\"\n        },\n        \"enable\": true,\n   \
+    \     \"hide\": true,\n        \"iconColor\": \"rgba(0, 211, 255, 1)\",\n    \
+    \    \"name\": \"Annotations & Alerts\",\n        \"target\": {\n          \"\
+    limit\": 100,\n          \"matchAny\": false,\n          \"tags\": [],\n     \
+    \     \"type\": \"dashboard\"\n        },\n        \"type\": \"dashboard\"\n \
+    \     }\n    ]\n  },\n  \"description\": \"OpenTelemetry Collector hostmetrics\"\
+    ,\n  \"editable\": true,\n  \"fiscalYearStartMonth\": 0,\n  \"graphTooltip\":\
+    \ 1,\n  \"id\": 5,\n  \"links\": [],\n  \"panels\": [\n    {\n      \"collapsed\"\
+    : false,\n      \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n      \
+    \  \"x\": 0,\n        \"y\": 0\n      },\n      \"id\": 267,\n      \"panels\"\
+    : [],\n      \"title\": \"overview\u3010 $host_name\u3011\",\n      \"type\":\
+    \ \"row\"\n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\"\
+    ,\n        \"uid\": \"${DS_PROMETHEUS}\"\n      },\n      \"description\": \"\
+    Busy state of all CPU cores together\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/cpuscraper/documentation.md\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 1,\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"max\": 100,\n\
+    \          \"min\": 0,\n          \"thresholds\": {\n            \"mode\": \"\
+    absolute\",\n            \"steps\": [\n              {\n                \"color\"\
+    : \"rgba(50, 172, 45, 0.97)\",\n                \"value\": 0\n              },\n\
+    \              {\n                \"color\": \"rgba(237, 129, 40, 0.89)\",\n \
+    \               \"value\": 85\n              },\n              {\n           \
+    \     \"color\": \"rgba(245, 54, 54, 0.9)\",\n                \"value\": 95\n\
+    \              }\n            ]\n          },\n          \"unit\": \"percentunit\"\
+    \n        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n    \
+    \    \"h\": 4,\n        \"w\": 3,\n        \"x\": 0,\n        \"y\": 1\n     \
+    \ },\n      \"id\": 20,\n      \"options\": {\n        \"minVizHeight\": 75,\n\
+    \        \"minVizWidth\": 75,\n        \"orientation\": \"horizontal\",\n    \
+    \    \"reduceOptions\": {\n          \"calcs\": [\n            \"lastNotNull\"\
+    \n          ],\n          \"fields\": \"\",\n          \"values\": false\n   \
+    \     },\n        \"showThresholdLabels\": false,\n        \"showThresholdMarkers\"\
+    : true,\n        \"sizing\": \"auto\"\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n         \
+    \ },\n          \"editorMode\": \"code\",\n          \"expr\": \"sum(system_cpu_utilization_ratio{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\", state!=\\\"idle\\\"})\",\n          \"hide\": false,\n\
+    \          \"instant\": false,\n          \"legendFormat\": \"__auto\",\n    \
+    \      \"range\": true,\n          \"refId\": \"B\"\n        }\n      ],\n   \
+    \   \"title\": \"CPU Busy\",\n      \"type\": \"gauge\"\n    },\n    {\n     \
+    \ \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"${DS_PROMETHEUS}\"\
+    \n      },\n      \"description\": \"Non available RAM memory\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/memoryscraper/documentation.md\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 1,\n\
+    \          \"mappings\": [],\n          \"max\": 100,\n          \"min\": 0,\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"rgba(50, 172, 45,\
+    \ 0.97)\",\n                \"value\": 0\n              },\n              {\n\
+    \                \"color\": \"rgba(237, 129, 40, 0.89)\",\n                \"\
+    value\": 80\n              },\n              {\n                \"color\": \"\
+    rgba(245, 54, 54, 0.9)\",\n                \"value\": 90\n              }\n  \
+    \          ]\n          },\n          \"unit\": \"percentunit\"\n        },\n\
+    \        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 4,\n\
+    \        \"w\": 3,\n        \"x\": 3,\n        \"y\": 1\n      },\n      \"id\"\
+    : 16,\n      \"options\": {\n        \"minVizHeight\": 75,\n        \"minVizWidth\"\
+    : 75,\n        \"orientation\": \"horizontal\",\n        \"reduceOptions\": {\n\
+    \          \"calcs\": [\n            \"lastNotNull\"\n          ],\n         \
+    \ \"fields\": \"\",\n          \"values\": false\n        },\n        \"showThresholdLabels\"\
+    : false,\n        \"showThresholdMarkers\": true,\n        \"sizing\": \"auto\"\
+    \n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n     \
+    \   {\n          \"datasource\": {\n            \"type\": \"prometheus\",\n  \
+    \          \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"disableTextWrap\"\
+    : false,\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"system_memory_utilization_ratio{k8s_cluster_name=~\\\"\
+    $k8s_cluster_name\\\", k8s_node_name=~\\\"$node_name\\\", host_name=~\\\"$host_name\\\
+    \", job=\\\"\\\", state=\\\"used\\\"}\",\n          \"format\": \"time_series\"\
+    ,\n          \"fullMetaSearch\": false,\n          \"hide\": false,\n        \
+    \  \"includeNullMetadata\": true,\n          \"instant\": false,\n          \"\
+    intervalFactor\": 1,\n          \"range\": true,\n          \"refId\": \"A\",\n\
+    \          \"step\": 240,\n          \"useBackend\": false\n        }\n      ],\n\
+    \      \"title\": \"RAM Used\",\n      \"type\": \"gauge\"\n    },\n    {\n  \
+    \    \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"\
+    ${DS_PROMETHEUS}\"\n      },\n      \"description\": \"Used FS\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/hostmetricsreceiver#collecting-host-metrics-from-inside-a-container-linux-only\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 1,\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"max\": 100,\n\
+    \          \"min\": 0,\n          \"thresholds\": {\n            \"mode\": \"\
+    absolute\",\n            \"steps\": [\n              {\n                \"color\"\
+    : \"rgba(50, 172, 45, 0.97)\",\n                \"value\": 0\n              },\n\
+    \              {\n                \"color\": \"rgba(237, 129, 40, 0.89)\",\n \
+    \               \"value\": 80\n              },\n              {\n           \
+    \     \"color\": \"rgba(245, 54, 54, 0.9)\",\n                \"value\": 90\n\
+    \              }\n            ]\n          },\n          \"unit\": \"percentunit\"\
+    \n        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n    \
+    \    \"h\": 4,\n        \"w\": 3,\n        \"x\": 6,\n        \"y\": 1\n     \
+    \ },\n      \"id\": 154,\n      \"options\": {\n        \"minVizHeight\": 75,\n\
+    \        \"minVizWidth\": 75,\n        \"orientation\": \"horizontal\",\n    \
+    \    \"reduceOptions\": {\n          \"calcs\": [\n            \"lastNotNull\"\
+    \n          ],\n          \"fields\": \"\",\n          \"values\": false\n   \
+    \     },\n        \"showThresholdLabels\": false,\n        \"showThresholdMarkers\"\
+    : true,\n        \"sizing\": \"auto\"\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n         \
+    \ },\n          \"editorMode\": \"code\",\n          \"expr\": \"1 \\n-\\nsum(system_filesystem_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", state=\\\"free\\\"}) \\n/ \\nsum(system_filesystem_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"})\",\n          \"hide\": false,\n          \"instant\": false,\n\
+    \          \"legendFormat\": \"__auto\",\n          \"range\": true,\n       \
+    \   \"refId\": \"C\"\n        }\n      ],\n      \"title\": \"FS Used\",\n   \
+    \   \"type\": \"gauge\"\n    },\n    {\n      \"datasource\": {\n        \"type\"\
+    : \"prometheus\",\n        \"uid\": \"${DS_PROMETHEUS}\"\n      },\n      \"description\"\
+    : \"Busy state of all CPU cores together (5 min average)\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/loadscraper/documentation.md\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 1,\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"max\": 100,\n\
+    \          \"min\": 0,\n          \"thresholds\": {\n            \"mode\": \"\
+    absolute\",\n            \"steps\": [\n              {\n                \"color\"\
+    : \"rgba(50, 172, 45, 0.97)\",\n                \"value\": 0\n              },\n\
+    \              {\n                \"color\": \"rgba(237, 129, 40, 0.89)\",\n \
+    \               \"value\": 85\n              },\n              {\n           \
+    \     \"color\": \"rgba(245, 54, 54, 0.9)\",\n                \"value\": 95\n\
+    \              }\n            ]\n          },\n          \"unit\": \"percent\"\
+    \n        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n    \
+    \    \"h\": 4,\n        \"w\": 3,\n        \"x\": 9,\n        \"y\": 1\n     \
+    \ },\n      \"id\": 155,\n      \"options\": {\n        \"minVizHeight\": 75,\n\
+    \        \"minVizWidth\": 75,\n        \"orientation\": \"horizontal\",\n    \
+    \    \"reduceOptions\": {\n          \"calcs\": [\n            \"lastNotNull\"\
+    \n          ],\n          \"fields\": \"\",\n          \"values\": false\n   \
+    \     },\n        \"showThresholdLabels\": false,\n        \"showThresholdMarkers\"\
+    : true,\n        \"sizing\": \"auto\"\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n         \
+    \ },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n  \
+    \        \"expr\": \"system_cpu_load_average_5m{k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\"} \",\n\
+    \          \"format\": \"time_series\",\n          \"hide\": false,\n        \
+    \  \"instant\": true,\n          \"intervalFactor\": 1,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": false,\n          \"refId\": \"sysload_5m\"\
+    ,\n          \"step\": 240\n        }\n      ],\n      \"title\": \"Sys Load (5m\
+    \ avg)\",\n      \"type\": \"gauge\"\n    },\n    {\n      \"datasource\": {\n\
+    \        \"type\": \"prometheus\",\n        \"uid\": \"${DS_PROMETHEUS}\"\n  \
+    \    },\n      \"description\": \"Busy state of all CPU cores together (15 min\
+    \ average)\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/loadscraper/documentation.md\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 1,\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"max\": 100,\n\
+    \          \"min\": 0,\n          \"thresholds\": {\n            \"mode\": \"\
+    absolute\",\n            \"steps\": [\n              {\n                \"color\"\
+    : \"rgba(50, 172, 45, 0.97)\",\n                \"value\": 0\n              },\n\
+    \              {\n                \"color\": \"rgba(237, 129, 40, 0.89)\",\n \
+    \               \"value\": 85\n              },\n              {\n           \
+    \     \"color\": \"rgba(245, 54, 54, 0.9)\",\n                \"value\": 95\n\
+    \              }\n            ]\n          },\n          \"unit\": \"percent\"\
+    \n        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n    \
+    \    \"h\": 4,\n        \"w\": 3,\n        \"x\": 12,\n        \"y\": 1\n    \
+    \  },\n      \"id\": 19,\n      \"options\": {\n        \"minVizHeight\": 75,\n\
+    \        \"minVizWidth\": 75,\n        \"orientation\": \"horizontal\",\n    \
+    \    \"reduceOptions\": {\n          \"calcs\": [\n            \"lastNotNull\"\
+    \n          ],\n          \"fields\": \"\",\n          \"values\": false\n   \
+    \     },\n        \"showThresholdLabels\": false,\n        \"showThresholdMarkers\"\
+    : true,\n        \"sizing\": \"auto\"\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n         \
+    \ },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n  \
+    \        \"expr\": \"system_cpu_load_average_15m{k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\"} \",\n\
+    \          \"hide\": false,\n          \"instant\": true,\n          \"intervalFactor\"\
+    : 1,\n          \"range\": false,\n          \"refId\": \"sysload_15m\",\n   \
+    \       \"step\": 240\n        }\n      ],\n      \"title\": \"Sys Load (15m avg)\"\
+    ,\n      \"type\": \"gauge\"\n    },\n    {\n      \"datasource\": {\n       \
+    \ \"type\": \"prometheus\",\n        \"uid\": \"${DS_PROMETHEUS}\"\n      },\n\
+    \      \"description\": \"Used Swap\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/pagingscraper/documentation.md\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 1,\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"max\": 100,\n\
+    \          \"min\": 0,\n          \"thresholds\": {\n            \"mode\": \"\
+    absolute\",\n            \"steps\": [\n              {\n                \"color\"\
+    : \"rgba(50, 172, 45, 0.97)\",\n                \"value\": 0\n              },\n\
+    \              {\n                \"color\": \"rgba(237, 129, 40, 0.89)\",\n \
+    \               \"value\": 10\n              },\n              {\n           \
+    \     \"color\": \"rgba(245, 54, 54, 0.9)\",\n                \"value\": 25\n\
+    \              }\n            ]\n          },\n          \"unit\": \"percent\"\
+    \n        },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n    \
+    \    \"h\": 4,\n        \"w\": 3,\n        \"x\": 15,\n        \"y\": 1\n    \
+    \  },\n      \"id\": 21,\n      \"options\": {\n        \"minVizHeight\": 75,\n\
+    \        \"minVizWidth\": 75,\n        \"orientation\": \"horizontal\",\n    \
+    \    \"reduceOptions\": {\n          \"calcs\": [\n            \"lastNotNull\"\
+    \n          ],\n          \"fields\": \"\",\n          \"values\": false\n   \
+    \     },\n        \"showThresholdLabels\": false,\n        \"showThresholdMarkers\"\
+    : true,\n        \"sizing\": \"auto\"\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n         \
+    \ },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n  \
+    \        \"expr\": \"sum(system_paging_usage_bytes { k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\", state=\\\
+    \"used\\\" })\\n/\\nsum(system_paging_usage_bytes { k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\"})\",\n\
+    \          \"instant\": true,\n          \"intervalFactor\": 1,\n          \"\
+    range\": false,\n          \"refId\": \"A\",\n          \"step\": 240\n      \
+    \  }\n      ],\n      \"title\": \"SWAP Used\",\n      \"type\": \"gauge\"\n \
+    \   },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n  \
+    \      \"uid\": \"webstore-metrics\"\n      },\n      \"description\": \"Total\
+    \ number of CPU cores\",\n      \"fieldConfig\": {\n        \"defaults\": {\n\
+    \          \"color\": {\n            \"mode\": \"thresholds\"\n          },\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"thresholds\"\
+    : {\n            \"mode\": \"absolute\",\n            \"steps\": [\n         \
+    \     {\n                \"color\": \"green\",\n                \"value\": 0\n\
+    \              },\n              {\n                \"color\": \"red\",\n    \
+    \            \"value\": 80\n              }\n            ]\n          },\n   \
+    \       \"unit\": \"short\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 2,\n        \"w\": 2,\n        \"x\": 18,\n\
+    \        \"y\": 1\n      },\n      \"id\": 14,\n      \"maxDataPoints\": 100,\n\
+    \      \"options\": {\n        \"colorMode\": \"none\",\n        \"graphMode\"\
+    : \"none\",\n        \"justifyMode\": \"auto\",\n        \"orientation\": \"horizontal\"\
+    ,\n        \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\"\
+    : {\n          \"calcs\": [\n            \"lastNotNull\"\n          ],\n     \
+    \     \"fields\": \"\",\n          \"values\": false\n        },\n        \"showPercentChange\"\
+    : false,\n        \"textMode\": \"auto\",\n        \"wideLayout\": true\n    \
+    \  },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\"\
+    ,\n          \"expr\": \"system_cpu_logical_count{ k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\", state=\\\
+    \"used\\\" }\",\n          \"legendFormat\": \"__auto\",\n          \"range\"\
+    : true,\n          \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"\
+    CPU Cores\",\n      \"type\": \"stat\"\n    },\n    {\n      \"datasource\": {\n\
+    \        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n  \
+    \    },\n      \"description\": \"Total RAM\",\n      \"fieldConfig\": {\n   \
+    \     \"defaults\": {\n          \"color\": {\n            \"mode\": \"thresholds\"\
+    \n          },\n          \"decimals\": 0,\n          \"mappings\": [\n      \
+    \      {\n              \"options\": {\n                \"match\": \"null\",\n\
+    \                \"result\": {\n                  \"text\": \"N/A\"\n        \
+    \        }\n              },\n              \"type\": \"special\"\n          \
+    \  }\n          ],\n          \"thresholds\": {\n            \"mode\": \"absolute\"\
+    ,\n            \"steps\": [\n              {\n                \"color\": \"green\"\
+    ,\n                \"value\": 0\n              },\n              {\n         \
+    \       \"color\": \"red\",\n                \"value\": 80\n              }\n\
+    \            ]\n          },\n          \"unit\": \"bytes\"\n        },\n    \
+    \    \"overrides\": []\n      },\n      \"gridPos\": {\n        \"h\": 2,\n  \
+    \      \"w\": 2,\n        \"x\": 20,\n        \"y\": 1\n      },\n      \"id\"\
+    : 75,\n      \"maxDataPoints\": 100,\n      \"options\": {\n        \"colorMode\"\
+    : \"none\",\n        \"graphMode\": \"none\",\n        \"justifyMode\": \"auto\"\
+    ,\n        \"orientation\": \"horizontal\",\n        \"percentChangeColorMode\"\
+    : \"standard\",\n        \"reduceOptions\": {\n          \"calcs\": [\n      \
+    \      \"lastNotNull\"\n          ],\n          \"fields\": \"\",\n          \"\
+    values\": false\n        },\n        \"showPercentChange\": false,\n        \"\
+    textMode\": \"auto\",\n        \"wideLayout\": true\n      },\n      \"pluginVersion\"\
+    : \"12.2.0\",\n      \"targets\": [\n        {\n          \"datasource\": {\n\
+    \            \"type\": \"prometheus\",\n            \"uid\": \"fej9ntb4ninswf\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"system_memory_limit_bytes{k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\"}\",\n \
+    \         \"instant\": true,\n          \"intervalFactor\": 1,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": false,\n          \"refId\": \"A\",\n    \
+    \      \"step\": 240\n        }\n      ],\n      \"title\": \"RAM Total\",\n \
+    \     \"type\": \"stat\"\n    },\n    {\n      \"datasource\": {\n        \"type\"\
+    : \"prometheus\",\n        \"uid\": \"${DS_PROMETHEUS}\"\n      },\n      \"description\"\
+    : \"Total SWAP\",\n      \"fieldConfig\": {\n        \"defaults\": {\n       \
+    \   \"color\": {\n            \"mode\": \"thresholds\"\n          },\n       \
+    \   \"decimals\": 0,\n          \"mappings\": [\n            {\n             \
+    \ \"options\": {\n                \"match\": \"null\",\n                \"result\"\
+    : {\n                  \"text\": \"N/A\"\n                }\n              },\n\
+    \              \"type\": \"special\"\n            }\n          ],\n          \"\
+    thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\": [\n\
+    \              {\n                \"color\": \"green\",\n                \"value\"\
+    : 0\n              },\n              {\n                \"color\": \"red\",\n\
+    \                \"value\": 80\n              }\n            ]\n          },\n\
+    \          \"unit\": \"bytes\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 2,\n        \"w\": 2,\n        \"x\": 22,\n\
+    \        \"y\": 1\n      },\n      \"id\": 18,\n      \"maxDataPoints\": 100,\n\
+    \      \"options\": {\n        \"colorMode\": \"none\",\n        \"graphMode\"\
+    : \"none\",\n        \"justifyMode\": \"auto\",\n        \"orientation\": \"horizontal\"\
+    ,\n        \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\"\
+    : {\n          \"calcs\": [\n            \"lastNotNull\"\n          ],\n     \
+    \     \"fields\": \"\",\n          \"values\": false\n        },\n        \"showPercentChange\"\
+    : false,\n        \"textMode\": \"auto\",\n        \"wideLayout\": true\n    \
+    \  },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"exemplar\": false,\n          \"expr\": \"sum(system_paging_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"})\",\n          \"instant\": true,\n          \"intervalFactor\"\
+    : 1,\n          \"legendFormat\": \"__auto\",\n          \"range\": false,\n \
+    \         \"refId\": \"A\",\n          \"step\": 240\n        },\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"expr\": \"\",\n          \"hide\": false,\n          \"instant\"\
+    : false,\n          \"legendFormat\": \"__auto\",\n          \"range\": true,\n\
+    \          \"refId\": \"B\"\n        }\n      ],\n      \"title\": \"SWAP Total\"\
+    ,\n      \"type\": \"stat\"\n    },\n    {\n      \"datasource\": {\n        \"\
+    type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n      },\n   \
+    \   \"description\": \"Total FS\\n\\nhttps://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/receiver/hostmetricsreceiver/internal/scraper/filesystemscraper/documentation.md\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"thresholds\"\n          },\n          \"decimals\": 0,\n\
+    \          \"mappings\": [\n            {\n              \"options\": {\n    \
+    \            \"match\": \"null\",\n                \"result\": {\n           \
+    \       \"text\": \"N/A\"\n                }\n              },\n             \
+    \ \"type\": \"special\"\n            }\n          ],\n          \"thresholds\"\
+    : {\n            \"mode\": \"absolute\",\n            \"steps\": [\n         \
+    \     {\n                \"color\": \"rgba(50, 172, 45, 0.97)\",\n           \
+    \     \"value\": 0\n              },\n              {\n                \"color\"\
+    : \"rgba(237, 129, 40, 0.89)\",\n                \"value\": 70\n             \
+    \ },\n              {\n                \"color\": \"rgba(245, 54, 54, 0.9)\",\n\
+    \                \"value\": 90\n              }\n            ]\n          },\n\
+    \          \"unit\": \"bytes\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 2,\n        \"w\": 2,\n        \"x\": 18,\n\
+    \        \"y\": 3\n      },\n      \"id\": 23,\n      \"maxDataPoints\": 100,\n\
+    \      \"options\": {\n        \"colorMode\": \"none\",\n        \"graphMode\"\
+    : \"none\",\n        \"justifyMode\": \"auto\",\n        \"orientation\": \"horizontal\"\
+    ,\n        \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\"\
+    : {\n          \"calcs\": [\n            \"lastNotNull\"\n          ],\n     \
+    \     \"fields\": \"\",\n          \"values\": false\n        },\n        \"showPercentChange\"\
+    : false,\n        \"textMode\": \"auto\",\n        \"wideLayout\": true\n    \
+    \  },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\"\
+    ,\n          \"exemplar\": false,\n          \"expr\": \"sum(system_filesystem_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"})\",\n          \"format\": \"time_series\",\n          \"hide\"\
+    : false,\n          \"instant\": true,\n          \"intervalFactor\": 1,\n   \
+    \       \"range\": false,\n          \"refId\": \"A\",\n          \"step\": 240\n\
+    \        }\n      ],\n      \"title\": \"FS Total\",\n      \"type\": \"stat\"\
+    \n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
+    \        \"uid\": \"${DS_PROMETHEUS}\"\n      },\n      \"description\": \"System\
+    \ uptime\",\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\"\
+    : {\n            \"mode\": \"thresholds\"\n          },\n          \"decimals\"\
+    : 1,\n          \"mappings\": [\n            {\n              \"options\": {\n\
+    \                \"match\": \"null\",\n                \"result\": {\n       \
+    \           \"text\": \"N/A\"\n                }\n              },\n         \
+    \     \"type\": \"special\"\n            }\n          ],\n          \"thresholds\"\
+    : {\n            \"mode\": \"absolute\",\n            \"steps\": [\n         \
+    \     {\n                \"color\": \"green\",\n                \"value\": 0\n\
+    \              },\n              {\n                \"color\": \"red\",\n    \
+    \            \"value\": 80\n              }\n            ]\n          },\n   \
+    \       \"unit\": \"s\"\n        },\n        \"overrides\": []\n      },\n   \
+    \   \"gridPos\": {\n        \"h\": 2,\n        \"w\": 4,\n        \"x\": 20,\n\
+    \        \"y\": 3\n      },\n      \"id\": 15,\n      \"maxDataPoints\": 100,\n\
+    \      \"options\": {\n        \"colorMode\": \"none\",\n        \"graphMode\"\
+    : \"none\",\n        \"justifyMode\": \"auto\",\n        \"orientation\": \"horizontal\"\
+    ,\n        \"percentChangeColorMode\": \"standard\",\n        \"reduceOptions\"\
+    : {\n          \"calcs\": [\n            \"lastNotNull\"\n          ],\n     \
+    \     \"fields\": \"\",\n          \"values\": false\n        },\n        \"showPercentChange\"\
+    : false,\n        \"textMode\": \"auto\",\n        \"wideLayout\": true\n    \
+    \  },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"exemplar\": false,\n          \"expr\": \"system_uptime_seconds{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}\",\n          \"instant\": true,\n          \"intervalFactor\"\
+    : 1,\n          \"legendFormat\": \"__auto\",\n          \"range\": false,\n \
+    \         \"refId\": \"A\",\n          \"step\": 240\n        },\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"expr\": \"\",\n          \"hide\": false,\n          \"instant\"\
+    : false,\n          \"legendFormat\": \"__auto\",\n          \"range\": true,\n\
+    \          \"refId\": \"B\"\n        }\n      ],\n      \"title\": \"Uptime\"\
+    ,\n      \"type\": \"stat\"\n    },\n    {\n      \"collapsed\": false,\n    \
+    \  \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n\
+    \        \"y\": 5\n      },\n      \"id\": 266,\n      \"panels\": [],\n     \
+    \ \"title\": \"Basic\",\n      \"type\": \"row\"\n    },\n    {\n      \"datasource\"\
+    : {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n\
+    \      },\n      \"description\": \"\",\n      \"fieldConfig\": {\n        \"\
+    defaults\": {\n          \"color\": {\n            \"mode\": \"palette-classic\"\
+    \n          },\n          \"custom\": {\n            \"axisBorderShow\": false,\n\
+    \            \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\"\
+    ,\n            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
+    \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
+    \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 40,\n        \
+    \    \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
+    legend\": false,\n              \"tooltip\": false,\n              \"viz\": false\n\
+    \            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"smooth\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"type\": \"linear\"\n  \
+    \          },\n            \"showPoints\": \"never\",\n            \"showValues\"\
+    : false,\n            \"spanNulls\": false,\n            \"stacking\": {\n   \
+    \           \"group\": \"A\",\n              \"mode\": \"percent\"\n         \
+    \   },\n            \"thresholdsStyle\": {\n              \"mode\": \"off\"\n\
+    \            }\n          },\n          \"links\": [],\n          \"mappings\"\
+    : [],\n          \"min\": 0,\n          \"thresholds\": {\n            \"mode\"\
+    : \"absolute\",\n            \"steps\": [\n              {\n                \"\
+    color\": \"green\",\n                \"value\": 0\n              },\n        \
+    \      {\n                \"color\": \"red\",\n                \"value\": 80\n\
+    \              }\n            ]\n          },\n          \"unit\": \"percentunit\"\
+    \n        },\n        \"overrides\": [\n          {\n            \"matcher\":\
+    \ {\n              \"id\": \"byName\",\n              \"options\": \"Busy System\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#890F02\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Busy User\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"blue\",\n                  \"mode\": \"fixed\"\n                }\n      \
+    \        }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Busy Wait\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"yellow\",\n                  \"mode\": \"fixed\"\n                }\n    \
+    \          }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Idle\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#7EB26D\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Busy IRQs\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"super-light-yellow\",\n                  \"mode\": \"fixed\"\n           \
+    \     }\n              }\n            ]\n          },\n          {\n         \
+    \   \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"Busy Other\"\n            },\n            \"properties\": [\n            \
+    \  {\n                \"id\": \"color\",\n                \"value\": {\n     \
+    \             \"fixedColor\": \"light-orange\",\n                  \"mode\": \"\
+    fixed\"\n                }\n              }\n            ]\n          },\n   \
+    \       {\n            \"matcher\": {\n              \"id\": \"byName\",\n   \
+    \           \"options\": \"Idle\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"color\",\n                \"value\"\
+    : {\n                  \"fixedColor\": \"green\",\n                  \"mode\"\
+    : \"fixed\"\n                }\n              }\n            ]\n          }\n\
+    \        ]\n      },\n      \"gridPos\": {\n        \"h\": 7,\n        \"w\":\
+    \ 6,\n        \"x\": 0,\n        \"y\": 6\n      },\n      \"id\": 77,\n     \
+    \ \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n          \"\
+    displayMode\": \"list\",\n          \"placement\": \"bottom\",\n          \"showLegend\"\
+    : true,\n          \"width\": 250\n        },\n        \"tooltip\": {\n      \
+    \    \"hideZeros\": false,\n          \"mode\": \"multi\",\n          \"sort\"\
+    : \"desc\"\n        }\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"\
+    targets\": [\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"fej9ntb4ninswf\"\n          },\n       \
+    \   \"editorMode\": \"code\",\n          \"expr\": \"sum (irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", state=\\\"system\\\"}[$__rate_interval])) \\n/\\nsum ((irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}[$__rate_interval])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"Busy System\",\n          \"range\": true,\n          \"refId\"\
+    : \"busy system\",\n          \"step\": 240\n        },\n        {\n         \
+    \ \"datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\"\
+    : \"fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\",\n    \
+    \      \"expr\": \"sum (irate(system_cpu_time_seconds_total{kk8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", state=\\\"user\\\"}[$__rate_interval])) \\n/ \\nsum ((irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}[$__rate_interval])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"Busy User\",\n          \"range\": true,\n          \"refId\"\
+    : \"busy user\",\n          \"step\": 240\n        },\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\",\n        \
+    \  \"expr\": \"sum(irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\"\
+    $k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\
+    \", state=\\\"wait\\\"}[$__rate_interval])) \\n/ \\nsum ((irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}[$__rate_interval])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"Busy Wait\",\n          \"range\": true,\n          \"refId\"\
+    : \"busy wait\",\n          \"step\": 240\n        },\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\",\n        \
+    \  \"expr\": \"sum (irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\"\
+    $k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\
+    \", state=~\\\".*irq\\\"}[$__rate_interval])) \\n/\\nsum((irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}[$__rate_interval])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"Busy IRQs\",\n          \"range\": true,\n          \"refId\"\
+    : \"busy irq\",\n          \"step\": 240\n        },\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\",\n        \
+    \  \"expr\": \"sum(irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\"\
+    $k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\
+    \", state!~\\\".*irq\\\", state!=\\\"idle\\\", state!=\\\"user\\\", state!=\\\"\
+    wait\\\", state!=\\\"system\\\"}[$__rate_interval]))\\n/\\nsum ((irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}[$__rate_interval])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"Busy Other\",\n          \"range\": true,\n          \"refId\"\
+    : \"busy other\",\n          \"step\": 240\n        },\n        {\n          \"\
+    datasource\": {\n            \"type\": \"prometheus\",\n            \"uid\": \"\
+    fej9ntb4ninswf\"\n          },\n          \"editorMode\": \"code\",\n        \
+    \  \"expr\": \"sum by(host_name) (irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", state=\\\"idle\\\"}[$__rate_interval])) \\n/ \\non(host_name)\
+    \ group_left sum by (host_name)((irate(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}[$__rate_interval])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"Idle\",\n          \"range\": true,\n          \"refId\": \"\
+    idle\",\n          \"step\": 240\n        }\n      ],\n      \"title\": \"CPU\"\
+    ,\n      \"type\": \"timeseries\"\n    },\n    {\n      \"datasource\": {\n  \
+    \      \"type\": \"prometheus\",\n        \"uid\": \"${DS_PROMETHEUS}\"\n    \
+    \  },\n      \"description\": \"\",\n      \"fieldConfig\": {\n        \"defaults\"\
+    : {\n          \"color\": {\n            \"mode\": \"palette-classic\"\n     \
+    \     },\n          \"custom\": {\n            \"axisBorderShow\": false,\n  \
+    \          \"axisCenteredZero\": false,\n            \"axisColorMode\": \"text\"\
+    ,\n            \"axisLabel\": \"\",\n            \"axisPlacement\": \"auto\",\n\
+    \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
+    \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 40,\n        \
+    \    \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
+    legend\": false,\n              \"tooltip\": false,\n              \"viz\": false\n\
+    \            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"linear\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"type\": \"linear\"\n  \
+    \          },\n            \"showPoints\": \"never\",\n            \"showValues\"\
+    : false,\n            \"spanNulls\": false,\n            \"stacking\": {\n   \
+    \           \"group\": \"A\",\n              \"mode\": \"normal\"\n          \
+    \  },\n            \"thresholdsStyle\": {\n              \"mode\": \"off\"\n \
+    \           }\n          },\n          \"links\": [],\n          \"mappings\"\
+    : [],\n          \"min\": 0,\n          \"thresholds\": {\n            \"mode\"\
+    : \"absolute\",\n            \"steps\": [\n              {\n                \"\
+    color\": \"green\",\n                \"value\": 0\n              },\n        \
+    \      {\n                \"color\": \"red\",\n                \"value\": 80\n\
+    \              }\n            ]\n          },\n          \"unit\": \"bytes\"\n\
+    \        },\n        \"overrides\": [\n          {\n            \"matcher\": {\n\
+    \              \"id\": \"byName\",\n              \"options\": \"Apps\"\n    \
+    \        },\n            \"properties\": [\n              {\n                \"\
+    id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#629E51\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Buffers\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#614D93\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Cache\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#6D1F62\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Cached\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#511749\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Committed\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#508642\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Free\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#0A437C\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Hardware\
+    \ Corrupted - Amount of RAM that the kernel identified as corrupted / not working\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#CFFAFF\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Inactive\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#584477\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"PageTables\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#0A50A1\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Page_Tables\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#0A50A1\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"RAM_Free\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#E0F9D7\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"SWAP Used\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#BF1B00\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Slab\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#806EB7\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Slab_Cache\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#E0752D\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Swap\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#BF1B00\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Swap Used\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#BF1B00\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Swap_Cache\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#C15C17\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Swap_Free\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#2F575E\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"Unused\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#EAB839\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           }\n            ]\n          },\n          {\n            \"matcher\"\
+    : {\n              \"id\": \"byName\",\n              \"options\": \"RAM Total\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"color\",\n                \"value\": {\n                  \"fixedColor\"\
+    : \"#E0F9D7\",\n                  \"mode\": \"fixed\"\n                }\n   \
+    \           },\n              {\n                \"id\": \"custom.fillOpacity\"\
+    ,\n                \"value\": 0\n              },\n              {\n         \
+    \       \"id\": \"custom.stacking\",\n                \"value\": {\n         \
+    \         \"group\": false,\n                  \"mode\": \"normal\"\n        \
+    \        }\n              }\n            ]\n          },\n          {\n      \
+    \      \"matcher\": {\n              \"id\": \"byName\",\n              \"options\"\
+    : \"RAM Cache + Buffer\"\n            },\n            \"properties\": [\n    \
+    \          {\n                \"id\": \"color\",\n                \"value\": {\n\
+    \                  \"fixedColor\": \"#052B51\",\n                  \"mode\": \"\
+    fixed\"\n                }\n              }\n            ]\n          },\n   \
+    \       {\n            \"matcher\": {\n              \"id\": \"byName\",\n   \
+    \           \"options\": \"RAM Free\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"color\",\n                \"value\"\
+    : {\n                  \"fixedColor\": \"#7EB26D\",\n                  \"mode\"\
+    : \"fixed\"\n                }\n              }\n            ]\n          },\n\
+    \          {\n            \"matcher\": {\n              \"id\": \"byName\",\n\
+    \              \"options\": \"Available\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"color\",\n                \"value\"\
+    : {\n                  \"fixedColor\": \"#DEDAF7\",\n                  \"mode\"\
+    : \"fixed\"\n                }\n              },\n              {\n          \
+    \      \"id\": \"custom.fillOpacity\",\n                \"value\": 0\n       \
+    \       },\n              {\n                \"id\": \"custom.stacking\",\n  \
+    \              \"value\": {\n                  \"group\": false,\n           \
+    \       \"mode\": \"normal\"\n                }\n              }\n           \
+    \ ]\n          }\n        ]\n      },\n      \"gridPos\": {\n        \"h\": 7,\n\
+    \        \"w\": 5,\n        \"x\": 6,\n        \"y\": 6\n      },\n      \"id\"\
+    : 78,\n      \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": true,\n          \"width\": 350\n        },\n     \
+    \   \"tooltip\": {\n          \"hideZeros\": false,\n          \"mode\": \"multi\"\
+    ,\n          \"sort\": \"none\"\n        }\n      },\n      \"pluginVersion\"\
+    : \"12.2.0\",\n      \"targets\": [\n        {\n          \"datasource\": {\n\
+    \            \"type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"expr\": \"sum(system_memory_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"})\",\n          \"format\": \"time_series\",\n          \"hide\"\
+    : false,\n          \"intervalFactor\": 1,\n          \"legendFormat\": \"Available\"\
+    ,\n          \"range\": true,\n          \"refId\": \"A\",\n          \"step\"\
+    : 240\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n          },\n \
+    \         \"editorMode\": \"code\",\n          \"expr\": \"sum(system_memory_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", state=\\\"free\\\"})\",\n          \"format\": \"time_series\"\
+    ,\n          \"hide\": false,\n          \"intervalFactor\": 1,\n          \"\
+    legendFormat\": \"RAM Free\",\n          \"range\": true,\n          \"refId\"\
+    : \"B\",\n          \"step\": 240\n        },\n        {\n          \"datasource\"\
+    : {\n            \"type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"expr\": \"sum(system_memory_usage_bytes{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", state=~\\\"cached|buffered\\\"})\",\n          \"format\": \"\
+    time_series\",\n          \"intervalFactor\": 1,\n          \"legendFormat\":\
+    \ \"RAM Cache + Buffer\",\n          \"range\": true,\n          \"refId\": \"\
+    C\",\n          \"step\": 240\n        },\n        {\n          \"datasource\"\
+    : {\n            \"type\": \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"sum(system_memory_usage_bytes{k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\", state=\\\
+    \"used\\\"})\",\n          \"format\": \"time_series\",\n          \"instant\"\
+    : false,\n          \"intervalFactor\": 1,\n          \"legendFormat\": \"Used\"\
+    ,\n          \"range\": true,\n          \"refId\": \"E\",\n          \"step\"\
+    : 240\n        }\n      ],\n      \"title\": \"Memory\",\n      \"type\": \"timeseries\"\
+    \n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
+    \        \"uid\": \"${DS_PROMETHEUS}\"\n      },\n      \"description\": \"\"\
+    ,\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n\
+    \            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"Receive (-) / Transmit (+)\",\n            \"axisPlacement\": \"auto\",\n\
+    \            \"barAlignment\": 0,\n            \"barWidthFactor\": 0.6,\n    \
+    \        \"drawStyle\": \"line\",\n            \"fillOpacity\": 40,\n        \
+    \    \"gradientMode\": \"none\",\n            \"hideFrom\": {\n              \"\
+    legend\": false,\n              \"tooltip\": false,\n              \"viz\": false\n\
+    \            },\n            \"insertNulls\": false,\n            \"lineInterpolation\"\
+    : \"linear\",\n            \"lineWidth\": 1,\n            \"pointSize\": 5,\n\
+    \            \"scaleDistribution\": {\n              \"type\": \"linear\"\n  \
+    \          },\n            \"showPoints\": \"never\",\n            \"showValues\"\
+    : false,\n            \"spanNulls\": 3600000,\n            \"stacking\": {\n \
+    \             \"group\": \"A\",\n              \"mode\": \"none\"\n          \
+    \  },\n            \"thresholdsStyle\": {\n              \"mode\": \"off\"\n \
+    \           }\n          },\n          \"links\": [],\n          \"mappings\"\
+    : [],\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n    \
+    \        \"steps\": [\n              {\n                \"color\": \"green\",\n\
+    \                \"value\": 0\n              },\n              {\n           \
+    \     \"color\": \"red\",\n                \"value\": 80\n              }\n  \
+    \          ]\n          },\n          \"unit\": \"binBps\"\n        },\n     \
+    \   \"overrides\": [\n          {\n            \"matcher\": {\n              \"\
+    id\": \"byRegexp\",\n              \"options\": \"/.*Rec.*/\"\n            },\n\
+    \            \"properties\": [\n              {\n                \"id\": \"custom.transform\"\
+    ,\n                \"value\": \"negative-Y\"\n              }\n            ]\n\
+    \          }\n        ]\n      },\n      \"gridPos\": {\n        \"h\": 7,\n \
+    \       \"w\": 6,\n        \"x\": 11,\n        \"y\": 6\n      },\n      \"id\"\
+    : 74,\n      \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": true\n        },\n        \"tooltip\": {\n        \
+    \  \"hideZeros\": false,\n          \"mode\": \"multi\",\n          \"sort\":\
+    \ \"none\"\n        }\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"\
+    targets\": [\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n          },\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"sum (rate(system_network_io_bytes_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", direction=\\\"receive\\\", job=\\\"\\\"}[$__rate_interval]))\"\
+    ,\n          \"format\": \"time_series\",\n          \"hide\": false,\n      \
+    \    \"intervalFactor\": 1,\n          \"legendFormat\": \"Receive\",\n      \
+    \    \"range\": true,\n          \"refId\": \"receive\",\n          \"step\":\
+    \ 240\n        },\n        {\n          \"datasource\": {\n            \"type\"\
+    : \"prometheus\",\n            \"uid\": \"${DS_PROMETHEUS}\"\n          },\n \
+    \         \"editorMode\": \"code\",\n          \"expr\": \"sum (rate(system_network_io_bytes_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", direction=\\\"transmit\\\", job=\\\"\\\"}[$__rate_interval]))\"\
+    ,\n          \"format\": \"time_series\",\n          \"intervalFactor\": 1,\n\
+    \          \"legendFormat\": \"Transmit\",\n          \"range\": true,\n     \
+    \     \"refId\": \"transmit\",\n          \"step\": 240\n        }\n      ],\n\
+    \      \"title\": \"Network Traffic\",\n      \"type\": \"timeseries\"\n    },\n\
+    \    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"\
+    uid\": \"${DS_PROMETHEUS}\"\n      },\n      \"description\": \"\",\n      \"\
+    fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n          \
+    \  \"mode\": \"palette-classic\"\n          },\n          \"custom\": {\n    \
+    \        \"axisBorderShow\": false,\n            \"axisCenteredZero\": false,\n\
+    \            \"axisColorMode\": \"text\",\n            \"axisLabel\": \"Read (-)\
+    \ / Write (+)\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 40,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"smooth\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"never\",\n            \"showValues\": false,\n \
+    \           \"spanNulls\": false,\n            \"stacking\": {\n             \
+    \ \"group\": \"A\",\n              \"mode\": \"none\"\n            },\n      \
+    \      \"thresholdsStyle\": {\n              \"mode\": \"off\"\n            }\n\
+    \          },\n          \"links\": [],\n          \"mappings\": [],\n       \
+    \   \"thresholds\": {\n            \"mode\": \"absolute\",\n            \"steps\"\
+    : [\n              {\n                \"color\": \"green\",\n                \"\
+    value\": 0\n              },\n              {\n                \"color\": \"red\"\
+    ,\n                \"value\": 80\n              }\n            ]\n          },\n\
+    \          \"unit\": \"Bps\"\n        },\n        \"overrides\": [\n         \
+    \ {\n            \"matcher\": {\n              \"id\": \"byRegexp\",\n       \
+    \       \"options\": \"/.*Read*./\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"custom.transform\",\n        \
+    \        \"value\": \"negative-Y\"\n              }\n            ]\n         \
+    \ }\n        ]\n      },\n      \"gridPos\": {\n        \"h\": 7,\n        \"\
+    w\": 7,\n        \"x\": 17,\n        \"y\": 6\n      },\n      \"id\": 42,\n \
+    \     \"options\": {\n        \"legend\": {\n          \"calcs\": [],\n      \
+    \    \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n      \
+    \    \"showLegend\": true\n        },\n        \"tooltip\": {\n          \"hideZeros\"\
+    : false,\n          \"mode\": \"multi\",\n          \"sort\": \"none\"\n     \
+    \   }\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n\
+    \        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"expr\": \"sum(irate(system_disk_io_bytes_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", direction=\\\"read\\\"}[$__rate_interval]))\",\n          \"format\"\
+    : \"time_series\",\n          \"hide\": false,\n          \"intervalFactor\":\
+    \ 1,\n          \"legendFormat\": \"Read\",\n          \"range\": true,\n    \
+    \      \"refId\": \"read\",\n          \"step\": 240\n        },\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"expr\": \"sum(irate(system_disk_io_bytes_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", direction=\\\"write\\\"}[$__rate_interval]))\",\n          \"\
+    format\": \"time_series\",\n          \"hide\": false,\n          \"intervalFactor\"\
+    : 1,\n          \"legendFormat\": \"Write\",\n          \"range\": true,\n   \
+    \       \"refId\": \"write\",\n          \"step\": 240\n        },\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"${DS_PROMETHEUS}\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"expr\": \"\",\n          \"hide\": false,\n          \"instant\"\
+    : false,\n          \"legendFormat\": \"__auto\",\n          \"range\": true,\n\
+    \          \"refId\": \"C\"\n        }\n      ],\n      \"title\": \"I/O Usage\
+    \ Read / Write\",\n      \"type\": \"timeseries\"\n    },\n    {\n      \"collapsed\"\
+    : false,\n      \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n      \
+    \  \"x\": 0,\n        \"y\": 13\n      },\n      \"id\": 272,\n      \"panels\"\
+    : [],\n      \"title\": \"Details\",\n      \"type\": \"row\"\n    },\n    {\n\
+    \      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\":\
+    \ \"webstore-metrics\"\n      },\n      \"fieldConfig\": {\n        \"defaults\"\
+    : {\n          \"color\": {\n            \"mode\": \"thresholds\"\n          },\n\
+    \          \"custom\": {\n            \"align\": \"auto\",\n            \"cellOptions\"\
+    : {\n              \"type\": \"auto\"\n            },\n            \"footer\"\
+    : {\n              \"reducers\": []\n            },\n            \"inspect\":\
+    \ false\n          },\n          \"mappings\": [],\n          \"thresholds\":\
+    \ {\n            \"mode\": \"absolute\",\n            \"steps\": [\n         \
+    \     {\n                \"color\": \"green\",\n                \"value\": 0\n\
+    \              },\n              {\n                \"color\": \"red\",\n    \
+    \            \"value\": 80\n              }\n            ]\n          }\n    \
+    \    },\n        \"overrides\": [\n          {\n            \"matcher\": {\n \
+    \             \"id\": \"byName\",\n              \"options\": \"Trend #transmit_bytes\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"unit\",\n                \"value\": \"binBps\"\n             \
+    \ }\n            ]\n          },\n          {\n            \"matcher\": {\n  \
+    \            \"id\": \"byName\",\n              \"options\": \"Trend #receive_bytes\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"unit\",\n                \"value\": \"binBps\"\n             \
+    \ }\n            ]\n          },\n          {\n            \"matcher\": {\n  \
+    \            \"id\": \"byName\",\n              \"options\": \"Trend #receive_dropped_packets\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"unit\",\n                \"value\": \"pps\"\n              }\n\
+    \            ]\n          },\n          {\n            \"matcher\": {\n      \
+    \        \"id\": \"byName\",\n              \"options\": \"Trend #transmit_dropped_packets\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"unit\",\n                \"value\": \"pps\"\n              }\n\
+    \            ]\n          },\n          {\n            \"matcher\": {\n      \
+    \        \"id\": \"byName\",\n              \"options\": \"Trend #receive_errors\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"unit\",\n                \"value\": \"pps\"\n              }\n\
+    \            ]\n          },\n          {\n            \"matcher\": {\n      \
+    \        \"id\": \"byName\",\n              \"options\": \"Trend #transmit_errors\"\
+    \n            },\n            \"properties\": [\n              {\n           \
+    \     \"id\": \"unit\",\n                \"value\": \"pps\"\n              }\n\
+    \            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n     \
+    \   \"h\": 8,\n        \"w\": 15,\n        \"x\": 0,\n        \"y\": 14\n    \
+    \  },\n      \"id\": 270,\n      \"options\": {\n        \"cellHeight\": \"sm\"\
+    ,\n        \"showHeader\": true\n      },\n      \"pluginVersion\": \"12.2.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"disableTextWrap\": false,\n          \"editorMode\": \"code\"\
+    ,\n          \"expr\": \"sum by(device) (rate(system_network_io_bytes_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\", direction=\\\"transmit\\\"}[$__rate_interval]))\"\
+    ,\n          \"fullMetaSearch\": false,\n          \"hide\": false,\n        \
+    \  \"includeNullMetadata\": true,\n          \"instant\": false,\n          \"\
+    legendFormat\": \"__auto\",\n          \"range\": true,\n          \"refId\":\
+    \ \"transmit_bytes\",\n          \"useBackend\": false\n        },\n        {\n\
+    \          \"datasource\": {\n            \"type\": \"prometheus\",\n        \
+    \    \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\": \"\
+    code\",\n          \"expr\": \"sum by(device) (rate(system_network_io_bytes_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\", direction=\\\"receive\\\"}[$__rate_interval]))\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": true,\n          \"refId\": \"receive_bytes\"\
+    \n        },\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"webstore-metrics\"\n          },\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"sum by(device) (rate(system_network_dropped_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\",direction=\\\"receive\\\"}[$__rate_interval]))\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": true,\n          \"refId\": \"receive_dropped_packets\"\
+    \n        },\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"webstore-metrics\"\n          },\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"sum by(device) (rate(system_network_dropped_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\",direction=\\\"transmit\\\"}[$__rate_interval]))\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": true,\n          \"refId\": \"transmit_dropped_packets\"\
+    \n        },\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"webstore-metrics\"\n          },\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"sum by(device) (rate(system_network_errors_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\",direction=\\\"receive\\\"}[$__rate_interval]))\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": true,\n          \"refId\": \"receive_errors\"\
+    \n        },\n        {\n          \"datasource\": {\n            \"type\": \"\
+    prometheus\",\n            \"uid\": \"webstore-metrics\"\n          },\n     \
+    \     \"editorMode\": \"code\",\n          \"expr\": \"sum by(device) (rate(system_network_errors_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\", job=\\\"\\\",direction=\\\"transmit\\\"}[$__rate_interval]))\"\
+    ,\n          \"hide\": false,\n          \"instant\": false,\n          \"legendFormat\"\
+    : \"__auto\",\n          \"range\": true,\n          \"refId\": \"transmit_errors\"\
+    \n        }\n      ],\n      \"title\": \"Network traffic\",\n      \"transformations\"\
+    : [\n        {\n          \"id\": \"timeSeriesTable\",\n          \"options\"\
+    : {\n            \"A\": {\n              \"timeField\": \"Time\"\n           \
+    \ },\n            \"receive\": {\n              \"timeField\": \"Time\"\n    \
+    \        },\n            \"receive_bytes\": {\n              \"timeField\": \"\
+    Time\"\n            },\n            \"receive_dropped_packets\": {\n         \
+    \     \"timeField\": \"Time\"\n            },\n            \"receive_errors\"\
+    : {\n              \"timeField\": \"Time\"\n            },\n            \"transmit\"\
+    : {\n              \"timeField\": \"Time\"\n            },\n            \"transmit_bytes\"\
+    : {\n              \"timeField\": \"Time\"\n            },\n            \"transmit_dropped_packets\"\
+    : {\n              \"timeField\": \"Time\"\n            },\n            \"transmit_errors\"\
+    : {\n              \"timeField\": \"Time\"\n            }\n          }\n     \
+    \   },\n        {\n          \"id\": \"joinByField\",\n          \"options\":\
+    \ {\n            \"byField\": \"device\",\n            \"mode\": \"outer\"\n \
+    \         }\n        },\n        {\n          \"id\": \"organize\",\n        \
+    \  \"options\": {\n            \"excludeByName\": {},\n            \"includeByName\"\
+    : {},\n            \"indexByName\": {\n              \"Trend #receive_bytes\"\
+    : 4,\n              \"Trend #receive_dropped_packets\": 5,\n              \"Trend\
+    \ #receive_errors\": 3,\n              \"Trend #transmit_bytes\": 1,\n       \
+    \       \"Trend #transmit_dropped_packets\": 2,\n              \"Trend #transmit_errors\"\
+    : 6,\n              \"device\": 0\n            },\n            \"renameByName\"\
+    : {\n              \"Trend #receive\": \"Receive\",\n              \"Trend #receive_bytes\"\
+    : \"Receive\",\n              \"Trend #receive_dropped_packets\": \"Receive dropped\"\
+    ,\n              \"Trend #receive_errors\": \"Transmit err\",\n              \"\
+    Trend #transmit\": \"Transmit\",\n              \"Trend #transmit_bytes\": \"\
+    Transmit\",\n              \"Trend #transmit_dropped_packets\": \"Transmit dropped\"\
+    ,\n              \"Trend #transmit_errors\": \"Receive err\",\n              \"\
+    device\": \"Interface\"\n            }\n          }\n        }\n      ],\n   \
+    \   \"type\": \"table\"\n    },\n    {\n      \"datasource\": {\n        \"type\"\
+    : \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n      },\n      \"fieldConfig\"\
+    : {\n        \"defaults\": {\n          \"color\": {\n            \"mode\": \"\
+    thresholds\"\n          },\n          \"custom\": {\n            \"align\": \"\
+    auto\",\n            \"cellOptions\": {\n              \"type\": \"auto\"\n  \
+    \          },\n            \"footer\": {\n              \"reducers\": []\n   \
+    \         },\n            \"inspect\": false\n          },\n          \"mappings\"\
+    : [],\n          \"thresholds\": {\n            \"mode\": \"absolute\",\n    \
+    \        \"steps\": [\n              {\n                \"color\": \"green\",\n\
+    \                \"value\": 0\n              },\n              {\n           \
+    \     \"color\": \"red\",\n                \"value\": 80\n              }\n  \
+    \          ]\n          },\n          \"unit\": \"bytes\"\n        },\n      \
+    \  \"overrides\": [\n          {\n            \"matcher\": {\n              \"\
+    id\": \"byName\",\n              \"options\": \"Used %\"\n            },\n   \
+    \         \"properties\": [\n              {\n                \"id\": \"custom.cellOptions\"\
+    ,\n                \"value\": {\n                  \"mode\": \"basic\",\n    \
+    \              \"type\": \"gauge\",\n                  \"valueDisplayMode\": \"\
+    color\"\n                }\n              },\n              {\n              \
+    \  \"id\": \"unit\",\n                \"value\": \"percentunit\"\n           \
+    \   },\n              {\n                \"id\": \"min\",\n                \"\
+    value\": 0\n              },\n              {\n                \"id\": \"max\"\
+    ,\n                \"value\": 1\n              }\n            ]\n          },\n\
+    \          {\n            \"matcher\": {\n              \"id\": \"byName\",\n\
+    \              \"options\": \"Free\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"custom.width\",\n            \
+    \    \"value\": 80\n              }\n            ]\n          },\n          {\n\
+    \            \"matcher\": {\n              \"id\": \"byName\",\n             \
+    \ \"options\": \"Total\"\n            },\n            \"properties\": [\n    \
+    \          {\n                \"id\": \"custom.width\",\n                \"value\"\
+    : 80\n              }\n            ]\n          },\n          {\n            \"\
+    matcher\": {\n              \"id\": \"byName\",\n              \"options\": \"\
+    Used\"\n            },\n            \"properties\": [\n              {\n     \
+    \           \"id\": \"custom.width\",\n                \"value\": 78\n       \
+    \       }\n            ]\n          },\n          {\n            \"matcher\":\
+    \ {\n              \"id\": \"byName\",\n              \"options\": \"Mount\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"custom.width\",\n                \"value\": 200\n             \
+    \ }\n            ]\n          }\n        ]\n      },\n      \"gridPos\": {\n \
+    \       \"h\": 8,\n        \"w\": 9,\n        \"x\": 15,\n        \"y\": 14\n\
+    \      },\n      \"id\": 269,\n      \"options\": {\n        \"cellHeight\": \"\
+    sm\",\n        \"frameIndex\": 0,\n        \"showHeader\": true,\n        \"sortBy\"\
+    : []\n      },\n      \"pluginVersion\": \"12.2.0\",\n      \"targets\": [\n \
+    \       {\n          \"disableTextWrap\": false,\n          \"editorMode\": \"\
+    code\",\n          \"exemplar\": false,\n          \"expr\": \"sum by(mountpoint)\
+    \ (system_filesystem_usage_bytes{k8s_cluster_name=~\\\"$k8s_cluster_name\\\",\
+    \ k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\", state=\\\
+    \"free\\\"})\",\n          \"format\": \"table\",\n          \"fullMetaSearch\"\
+    : false,\n          \"includeNullMetadata\": true,\n          \"instant\": true,\n\
+    \          \"legendFormat\": \"__auto\",\n          \"range\": false,\n      \
+    \    \"refId\": \"free\",\n          \"useBackend\": false\n        },\n     \
+    \   {\n          \"datasource\": {\n            \"type\": \"prometheus\",\n  \
+    \          \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"exemplar\": false,\n          \"expr\": \"sum by(mountpoint)\
+    \ (system_filesystem_usage_bytes{k8s_cluster_name=~\\\"$k8s_cluster_name\\\",\
+    \ k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\"})\",\n  \
+    \        \"format\": \"table\",\n          \"hide\": false,\n          \"instant\"\
+    : true,\n          \"legendFormat\": \"__auto\",\n          \"range\": false,\n\
+    \          \"refId\": \"total\"\n        }\n      ],\n      \"title\": \"Disk\
+    \ usage\",\n      \"transformations\": [\n        {\n          \"id\": \"groupBy\"\
+    ,\n          \"options\": {\n            \"fields\": {\n              \"/oldroot\"\
+    : {\n                \"aggregations\": [\n                  \"lastNotNull\"\n\
+    \                ],\n                \"operation\": \"aggregate\"\n          \
+    \    },\n              \"/var/lib\": {\n                \"aggregations\": [\n\
+    \                  \"lastNotNull\"\n                ],\n                \"operation\"\
+    : \"aggregate\"\n              },\n              \"Value\": {\n              \
+    \  \"aggregations\": [\n                  \"lastNotNull\"\n                ],\n\
+    \                \"operation\": \"aggregate\"\n              },\n            \
+    \  \"Value #free\": {\n                \"aggregations\": [\n                 \
+    \ \"lastNotNull\"\n                ],\n                \"operation\": \"aggregate\"\
+    \n              },\n              \"Value #total\": {\n                \"aggregations\"\
+    : [\n                  \"lastNotNull\"\n                ],\n                \"\
+    operation\": \"aggregate\"\n              },\n              \"mountpoint\": {\n\
+    \                \"aggregations\": [],\n                \"operation\": \"groupby\"\
+    \n              }\n            }\n          }\n        },\n        {\n       \
+    \   \"id\": \"merge\",\n          \"options\": {}\n        },\n        {\n   \
+    \       \"id\": \"calculateField\",\n          \"options\": {\n            \"\
+    alias\": \"used\",\n            \"binary\": {\n              \"left\": {\n   \
+    \             \"matcher\": {\n                  \"id\": \"byName\",\n        \
+    \          \"options\": \"Value #total (lastNotNull)\"\n                }\n  \
+    \            },\n              \"operator\": \"-\",\n              \"right\":\
+    \ {\n                \"matcher\": {\n                  \"id\": \"byName\",\n \
+    \                 \"options\": \"Value #free (lastNotNull)\"\n               \
+    \ }\n              }\n            },\n            \"mode\": \"binary\",\n    \
+    \        \"reduce\": {\n              \"reducer\": \"sum\"\n            }\n  \
+    \        }\n        },\n        {\n          \"id\": \"calculateField\",\n   \
+    \       \"options\": {\n            \"alias\": \"Used %\",\n            \"binary\"\
+    : {\n              \"left\": {\n                \"matcher\": {\n             \
+    \     \"id\": \"byName\",\n                  \"options\": \"used\"\n         \
+    \       }\n              },\n              \"operator\": \"/\",\n            \
+    \  \"right\": {\n                \"matcher\": {\n                  \"id\": \"\
+    byName\",\n                  \"options\": \"Value #total (lastNotNull)\"\n   \
+    \             }\n              }\n            },\n            \"mode\": \"binary\"\
+    ,\n            \"reduce\": {\n              \"reducer\": \"sum\"\n           \
+    \ }\n          }\n        },\n        {\n          \"id\": \"organize\",\n   \
+    \       \"options\": {\n            \"excludeByName\": {},\n            \"includeByName\"\
+    : {},\n            \"indexByName\": {},\n            \"renameByName\": {\n   \
+    \           \"Used %\": \"Used %\",\n              \"Value #free (lastNotNull)\"\
+    : \"Free\",\n              \"Value #total (lastNotNull)\": \"Total\",\n      \
+    \        \"mountpoint\": \"Mount\",\n              \"used\": \"Used\"\n      \
+    \      }\n          }\n        },\n        {\n          \"id\": \"sortBy\",\n\
+    \          \"options\": {\n            \"fields\": {},\n            \"sort\":\
+    \ [\n              {\n                \"field\": \"Mount\"\n              }\n\
+    \            ]\n          }\n        }\n      ],\n      \"type\": \"table\"\n\
+    \    }\n  ],\n  \"preload\": false,\n  \"refresh\": \"\",\n  \"schemaVersion\"\
+    : 42,\n  \"tags\": [\n    \"linux\",\n    \"opentelemetry\"\n  ],\n  \"templating\"\
+    : {\n    \"list\": [\n      {\n        \"current\": {\n          \"text\": \"\
+    Prometheus\",\n          \"value\": \"webstore-metrics\"\n        },\n       \
+    \ \"includeAll\": false,\n        \"label\": \"Data Source\",\n        \"name\"\
+    : \"DS_PROMETHEUS\",\n        \"options\": [],\n        \"query\": \"prometheus\"\
+    ,\n        \"refresh\": 1,\n        \"regex\": \"(?!grafanacloud-usage|grafanacloud-ml-metrics).+\"\
+    ,\n        \"type\": \"datasource\"\n      },\n      {\n        \"allValue\":\
+    \ \".*\",\n        \"allowCustomValue\": true,\n        \"current\": {\n     \
+    \     \"text\": \"All\",\n          \"value\": \"$__all\"\n        },\n      \
+    \  \"datasource\": {\n          \"type\": \"prometheus\",\n          \"uid\":\
+    \ \"${DS_PROMETHEUS}\"\n        },\n        \"definition\": \"label_values(system_cpu_time_seconds_total,k8s_cluster_name)\"\
+    ,\n        \"description\": \"When the Linux server is a Kubernetes node, name\
+    \ of the Kubernetes cluster.  \\nFor other use cases, select \\\"All\\\". \",\n\
+    \        \"includeAll\": true,\n        \"label\": \"K8s Cluster\",\n        \"\
+    multi\": true,\n        \"name\": \"k8s_cluster_name\",\n        \"options\":\
+    \ [],\n        \"query\": {\n          \"qryType\": 1,\n          \"query\": \"\
+    label_values(system_cpu_time_seconds_total,k8s_cluster_name)\",\n          \"\
+    refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\n        },\n       \
+    \ \"refresh\": 2,\n        \"regex\": \"\",\n        \"sort\": 1,\n        \"\
+    type\": \"query\"\n      },\n      {\n        \"allValue\": \".*\",\n        \"\
+    allowCustomValue\": false,\n        \"current\": {\n          \"text\": \"All\"\
+    ,\n          \"value\": \"$__all\"\n        },\n        \"datasource\": {\n  \
+    \        \"type\": \"prometheus\",\n          \"uid\": \"${DS_PROMETHEUS}\"\n\
+    \        },\n        \"definition\": \"label_values(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\"},k8s_node_name)\",\n        \"description\": \"When the\
+    \ Linux server is a Kubernetes node, name of the Kubernetes node.  \\nFor other\
+    \ use cases, select \\\"All\\\". \",\n        \"includeAll\": true,\n        \"\
+    label\": \"K8s node\",\n        \"name\": \"node_name\",\n        \"options\"\
+    : [],\n        \"query\": {\n          \"qryType\": 1,\n          \"query\": \"\
+    label_values(system_cpu_time_seconds_total{k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \"},k8s_node_name)\",\n          \"refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\
+    \n        },\n        \"refresh\": 2,\n        \"regex\": \"\",\n        \"sort\"\
+    : 1,\n        \"type\": \"query\"\n      },\n      {\n        \"allValue\": \"\
+    .*\",\n        \"current\": {\n          \"text\": \"docker-desktop\",\n     \
+    \     \"value\": \"docker-desktop\"\n        },\n        \"datasource\": {\n \
+    \         \"type\": \"prometheus\",\n          \"uid\": \"${DS_PROMETHEUS}\"\n\
+    \        },\n        \"definition\": \"label_values(system_cpu_time_seconds_total,host_name)\"\
+    ,\n        \"includeAll\": true,\n        \"label\": \"Host\",\n        \"name\"\
+    : \"host_name\",\n        \"options\": [],\n        \"query\": {\n          \"\
+    qryType\": 1,\n          \"query\": \"label_values(system_cpu_time_seconds_total,host_name)\"\
+    ,\n          \"refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\n    \
+    \    },\n        \"refresh\": 2,\n        \"regex\": \"\",\n        \"sort\":\
+    \ 5,\n        \"type\": \"query\"\n      },\n      {\n        \"allowCustomValue\"\
+    : false,\n        \"current\": {\n          \"text\": \"\",\n          \"value\"\
+    : \"\"\n        },\n        \"datasource\": {\n          \"type\": \"prometheus\"\
+    ,\n          \"uid\": \"${DS_PROMETHEUS}\"\n        },\n        \"definition\"\
+    : \"query_result(count(system_cpu_time_seconds_total{k8s_cluster_name=~\\\"$k8s_cluster_name\\\
+    \", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"$host_name\\\"}))\",\n\
+    \        \"hide\": 2,\n        \"label\": \"host count\",\n        \"name\": \"\
+    host_count\",\n        \"options\": [],\n        \"query\": {\n          \"qryType\"\
+    : 3,\n          \"query\": \"query_result(count(system_cpu_time_seconds_total{k8s_cluster_name=~\\\
+    \"$k8s_cluster_name\\\", k8s_node_name=~\\\"${node_name}\\\", host_name=~\\\"\
+    $host_name\\\"}))\",\n          \"refId\": \"PrometheusVariableQueryEditor-VariableQuery\"\
+    \n        },\n        \"refresh\": 2,\n        \"regex\": \"/{} (.*) .*/\",\n\
+    \        \"type\": \"query\"\n      }\n    ]\n  },\n  \"time\": {\n    \"from\"\
+    : \"now-30m\",\n    \"to\": \"now\"\n  },\n  \"timepicker\": {},\n  \"timezone\"\
+    : \"browser\",\n  \"title\": \"Linux\",\n  \"uid\": \"otel-demo-hostmetrics\"\
+    ,\n  \"version\": 2\n}"

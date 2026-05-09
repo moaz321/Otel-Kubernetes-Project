@@ -1,0 +1,391 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-spanmetrics-dashboard
+  namespace: default
+  labels:
+    helm.sh/chart: opentelemetry-demo-0.40.7
+    app.kubernetes.io/version: 2.2.0
+    app.kubernetes.io/part-of: opentelemetry-demo
+    app.kubernetes.io/managed-by: Helm
+    grafana_dashboard: '1'
+data:
+  spanmetrics-dashboard.json: "{\n  \"annotations\": {\n    \"list\": [\n      {\n\
+    \        \"builtIn\": 1,\n        \"datasource\": {\n          \"type\": \"grafana\"\
+    ,\n          \"uid\": \"-- Grafana --\"\n        },\n        \"enable\": true,\n\
+    \        \"hide\": true,\n        \"iconColor\": \"rgba(0, 211, 255, 1)\",\n \
+    \       \"name\": \"Annotations & Alerts\",\n        \"target\": {\n         \
+    \ \"limit\": 100,\n          \"matchAny\": false,\n          \"tags\": [],\n \
+    \         \"type\": \"dashboard\"\n        },\n        \"type\": \"dashboard\"\
+    \n      }\n    ]\n  },\n  \"description\": \"Spanmetrics way of demo application\
+    \ view.\",\n  \"editable\": true,\n  \"fiscalYearStartMonth\": 0,\n  \"graphTooltip\"\
+    : 0,\n  \"id\": 3,\n  \"links\": [],\n  \"panels\": [\n    {\n      \"fieldConfig\"\
+    : {\n        \"defaults\": {},\n        \"overrides\": []\n      },\n      \"\
+    gridPos\": {\n        \"h\": 2,\n        \"w\": 24,\n        \"x\": 0,\n     \
+    \   \"y\": 0\n      },\n      \"id\": 26,\n      \"options\": {\n        \"code\"\
+    : {\n          \"language\": \"plaintext\",\n          \"showLineNumbers\": false,\n\
+    \          \"showMiniMap\": false\n        },\n        \"content\": \"This dashboard\
+    \ uses RED metrics generated for all services by the spanmetrics connector configured\
+    \ in the OpenTelemetry Collector.\\n<br>\\nChart panels may require 5 minutes\
+    \ after the Demo is started before rendering data.\",\n        \"mode\": \"html\"\
+    \n      },\n      \"pluginVersion\": \"11.4.0\",\n      \"title\": \"\",\n   \
+    \   \"type\": \"text\"\n    },\n    {\n      \"collapsed\": false,\n      \"gridPos\"\
+    : {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\":\
+    \ 2\n      },\n      \"id\": 24,\n      \"panels\": [],\n      \"title\": \"Service\
+    \ Level - Throughput and Latencies\",\n      \"type\": \"row\"\n    },\n    {\n\
+    \      \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\":\
+    \ \"webstore-metrics\"\n      },\n      \"fieldConfig\": {\n        \"defaults\"\
+    : {\n          \"color\": {\n            \"mode\": \"continuous-BlYlRd\"\n   \
+    \       },\n          \"mappings\": [],\n          \"thresholds\": {\n       \
+    \     \"mode\": \"absolute\",\n            \"steps\": [\n              {\n   \
+    \             \"color\": \"blue\",\n                \"value\": null\n        \
+    \      },\n              {\n                \"color\": \"green\",\n          \
+    \      \"value\": 2\n              },\n              {\n                \"color\"\
+    : \"#EAB839\",\n                \"value\": 64\n              },\n            \
+    \  {\n                \"color\": \"orange\",\n                \"value\": 128\n\
+    \              },\n              {\n                \"color\": \"red\",\n    \
+    \            \"value\": 256\n              }\n            ]\n          },\n  \
+    \        \"unit\": \"ms\"\n        },\n        \"overrides\": []\n      },\n \
+    \     \"gridPos\": {\n        \"h\": 20,\n        \"w\": 12,\n        \"x\": 0,\n\
+    \        \"y\": 3\n      },\n      \"id\": 2,\n      \"interval\": \"5m\",\n \
+    \     \"options\": {\n        \"minVizHeight\": 75,\n        \"minVizWidth\":\
+    \ 75,\n        \"orientation\": \"auto\",\n        \"reduceOptions\": {\n    \
+    \      \"calcs\": [\n            \"lastNotNull\"\n          ],\n          \"fields\"\
+    : \"\",\n          \"values\": false\n        },\n        \"showThresholdLabels\"\
+    : false,\n        \"showThresholdMarkers\": true,\n        \"sizing\": \"auto\"\
+    \n      },\n      \"pluginVersion\": \"11.4.0\",\n      \"targets\": [\n     \
+    \   {\n          \"datasource\": {\n            \"type\": \"prometheus\",\n  \
+    \          \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"exemplar\": false,\n          \"expr\": \"topk(7,histogram_quantile(0.50,\
+    \ sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\"\
+    $service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])) by (le,service_name)))\"\
+    ,\n          \"format\": \"time_series\",\n          \"hide\": true,\n       \
+    \   \"instant\": false,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"{{service_name}}-quantile_0.50\",\n          \"range\": true,\n          \"\
+    refId\": \"A\"\n        },\n        {\n          \"datasource\": {\n         \
+    \   \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n   \
+    \       },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"topk(7,histogram_quantile(0.95, sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__range])) by (le,service_name)))\"\
+    ,\n          \"hide\": false,\n          \"instant\": true,\n          \"interval\"\
+    : \"\",\n          \"legendFormat\": \"{{service_name}}\",\n          \"range\"\
+    : false,\n          \"refId\": \"B\"\n        },\n        {\n          \"datasource\"\
+    : {\n            \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"histogram_quantile(0.99, sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])) by (le,service_name))\"\
+    ,\n          \"hide\": true,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"quantile99\",\n          \"range\": true,\n          \"refId\": \"C\"\n  \
+    \      },\n        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"exemplar\": false,\n          \"expr\": \"histogram_quantile(0.999,\
+    \ sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\"\
+    $service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])) by (le,service_name))\"\
+    ,\n          \"hide\": true,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"quantile999\",\n          \"range\": true,\n          \"refId\": \"D\"\n \
+    \       }\n      ],\n      \"title\": \"Top 3x3 - Service Latency - quantile95\"\
+    ,\n      \"type\": \"gauge\"\n    },\n    {\n      \"datasource\": {\n       \
+    \ \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n      },\n\
+    \      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n \
+    \           \"mode\": \"continuous-BlYlRd\"\n          },\n          \"decimals\"\
+    : 2,\n          \"mappings\": [],\n          \"thresholds\": {\n            \"\
+    mode\": \"absolute\",\n            \"steps\": [\n              {\n           \
+    \     \"color\": \"green\",\n                \"value\": null\n              },\n\
+    \              {\n                \"color\": \"super-light-blue\",\n         \
+    \       \"value\": 1\n              },\n              {\n                \"color\"\
+    : \"#EAB839\",\n                \"value\": 2\n              },\n             \
+    \ {\n                \"color\": \"red\",\n                \"value\": 10\n    \
+    \          }\n            ]\n          },\n          \"unit\": \"reqps\"\n   \
+    \     },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"\
+    h\": 13,\n        \"w\": 12,\n        \"x\": 12,\n        \"y\": 3\n      },\n\
+    \      \"id\": 4,\n      \"interval\": \"5m\",\n      \"options\": {\n       \
+    \ \"displayMode\": \"lcd\",\n        \"legend\": {\n          \"calcs\": [],\n\
+    \          \"displayMode\": \"list\",\n          \"placement\": \"bottom\",\n\
+    \          \"showLegend\": false\n        },\n        \"maxVizHeight\": 300,\n\
+    \        \"minVizHeight\": 10,\n        \"minVizWidth\": 0,\n        \"namePlacement\"\
+    : \"auto\",\n        \"orientation\": \"horizontal\",\n        \"reduceOptions\"\
+    : {\n          \"calcs\": [\n            \"mean\"\n          ],\n          \"\
+    fields\": \"\",\n          \"values\": false\n        },\n        \"showUnfilled\"\
+    : true,\n        \"sizing\": \"auto\",\n        \"text\": {},\n        \"valueMode\"\
+    : \"color\"\n      },\n      \"pluginVersion\": \"11.4.0\",\n      \"targets\"\
+    : [\n        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"exemplar\": false,\n          \"expr\": \"topk(7,sum\
+    \ by (service_name) (rate(traces_span_metrics_calls_total{service_name=~\\\"$service\\\
+    \", span_name=~\\\"$span_name\\\"}[$__range])))\",\n          \"format\": \"time_series\"\
+    ,\n          \"instant\": true,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"{{service_name}}\",\n          \"range\": false,\n          \"refId\": \"\
+    A\"\n        }\n      ],\n      \"title\": \"Top 7 Services Mean Rate over Range\"\
+    ,\n      \"type\": \"bargauge\"\n    },\n    {\n      \"datasource\": {\n    \
+    \    \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n      },\n\
+    \      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n \
+    \           \"mode\": \"continuous-reds\"\n          },\n          \"decimals\"\
+    : 4,\n          \"mappings\": [],\n          \"thresholds\": {\n            \"\
+    mode\": \"absolute\",\n            \"steps\": [\n              {\n           \
+    \     \"color\": \"green\",\n                \"value\": null\n              },\n\
+    \              {\n                \"color\": \"#EAB839\",\n                \"\
+    value\": 1\n              },\n              {\n                \"color\": \"red\"\
+    ,\n                \"value\": 15\n              }\n            ]\n          },\n\
+    \          \"unit\": \"reqps\"\n        },\n        \"overrides\": []\n      },\n\
+    \      \"gridPos\": {\n        \"h\": 7,\n        \"w\": 12,\n        \"x\": 12,\n\
+    \        \"y\": 16\n      },\n      \"id\": 15,\n      \"interval\": \"5m\",\n\
+    \      \"options\": {\n        \"displayMode\": \"lcd\",\n        \"legend\":\
+    \ {\n          \"calcs\": [],\n          \"displayMode\": \"list\",\n        \
+    \  \"placement\": \"bottom\",\n          \"showLegend\": false\n        },\n \
+    \       \"maxVizHeight\": 300,\n        \"minVizHeight\": 10,\n        \"minVizWidth\"\
+    : 0,\n        \"namePlacement\": \"auto\",\n        \"orientation\": \"vertical\"\
+    ,\n        \"reduceOptions\": {\n          \"calcs\": [\n            \"mean\"\n\
+    \          ],\n          \"fields\": \"\",\n          \"values\": false\n    \
+    \    },\n        \"showUnfilled\": true,\n        \"sizing\": \"auto\",\n    \
+    \    \"text\": {},\n        \"valueMode\": \"color\"\n      },\n      \"pluginVersion\"\
+    : \"11.4.0\",\n      \"targets\": [\n        {\n          \"datasource\": {\n\
+    \            \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"topk(7,sum(rate(traces_span_metrics_calls_total{status_code=\\\
+    \"STATUS_CODE_ERROR\\\",service_name=~\\\"$service\\\", span_name=~\\\"$span_name\\\
+    \"}[$__range])) by (service_name))\",\n          \"instant\": true,\n        \
+    \  \"interval\": \"\",\n          \"legendFormat\": \"{{service_name}}\",\n  \
+    \        \"range\": false,\n          \"refId\": \"A\"\n        }\n      ],\n\
+    \      \"title\": \"Top 7 Services Mean ERROR Rate over Range\",\n      \"type\"\
+    : \"bargauge\"\n    },\n    {\n      \"collapsed\": false,\n      \"gridPos\"\
+    : {\n        \"h\": 1,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\":\
+    \ 23\n      },\n      \"id\": 14,\n      \"panels\": [],\n      \"title\": \"\
+    span_names Level - Throughput\",\n      \"type\": \"row\"\n    },\n    {\n   \
+    \   \"datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"\
+    webstore-metrics\"\n      },\n      \"description\": \"\",\n      \"fieldConfig\"\
+    : {\n        \"defaults\": {\n          \"color\": {\n            \"mode\": \"\
+    thresholds\"\n          },\n          \"custom\": {\n            \"align\": \"\
+    auto\",\n            \"cellOptions\": {\n              \"type\": \"auto\"\n  \
+    \          },\n            \"inspect\": false\n          },\n          \"decimals\"\
+    : 2,\n          \"mappings\": [],\n          \"thresholds\": {\n            \"\
+    mode\": \"absolute\",\n            \"steps\": [\n              {\n           \
+    \     \"color\": \"green\",\n                \"value\": null\n              },\n\
+    \              {\n                \"color\": \"red\",\n                \"value\"\
+    : 80\n              }\n            ]\n          },\n          \"unit\": \"reqps\"\
+    \n        },\n        \"overrides\": [\n          {\n            \"matcher\":\
+    \ {\n              \"id\": \"byName\",\n              \"options\": \"bRate\"\n\
+    \            },\n            \"properties\": [\n              {\n            \
+    \    \"id\": \"custom.cellOptions\",\n                \"value\": {\n         \
+    \         \"mode\": \"lcd\",\n                  \"type\": \"gauge\"\n        \
+    \        }\n              },\n              {\n                \"id\": \"color\"\
+    ,\n                \"value\": {\n                  \"mode\": \"continuous-BlYlRd\"\
+    \n                }\n              }\n            ]\n          },\n          {\n\
+    \            \"matcher\": {\n              \"id\": \"byName\",\n             \
+    \ \"options\": \"eRate\"\n            },\n            \"properties\": [\n    \
+    \          {\n                \"id\": \"custom.cellOptions\",\n              \
+    \  \"value\": {\n                  \"mode\": \"lcd\",\n                  \"type\"\
+    : \"gauge\"\n                }\n              },\n              {\n          \
+    \      \"id\": \"color\",\n                \"value\": {\n                  \"\
+    mode\": \"continuous-RdYlGr\"\n                }\n              }\n          \
+    \  ]\n          },\n          {\n            \"matcher\": {\n              \"\
+    id\": \"byName\",\n              \"options\": \"Error Rate\"\n            },\n\
+    \            \"properties\": [\n              {\n                \"id\": \"custom.width\"\
+    ,\n                \"value\": 663\n              }\n            ]\n          },\n\
+    \          {\n            \"matcher\": {\n              \"id\": \"byName\",\n\
+    \              \"options\": \"Rate\"\n            },\n            \"properties\"\
+    : [\n              {\n                \"id\": \"custom.width\",\n            \
+    \    \"value\": 667\n              }\n            ]\n          },\n          {\n\
+    \            \"matcher\": {\n              \"id\": \"byName\",\n             \
+    \ \"options\": \"Service\"\n            },\n            \"properties\": [\n  \
+    \            {\n                \"id\": \"custom.width\"\n              }\n  \
+    \          ]\n          }\n        ]\n      },\n      \"gridPos\": {\n       \
+    \ \"h\": 11,\n        \"w\": 24,\n        \"x\": 0,\n        \"y\": 24\n     \
+    \ },\n      \"id\": 22,\n      \"interval\": \"5m\",\n      \"options\": {\n \
+    \       \"cellHeight\": \"sm\",\n        \"footer\": {\n          \"countRows\"\
+    : false,\n          \"fields\": \"\",\n          \"reducer\": [\n            \"\
+    sum\"\n          ],\n          \"show\": false\n        },\n        \"showHeader\"\
+    : true,\n        \"sortBy\": []\n      },\n      \"pluginVersion\": \"11.4.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"exemplar\": false,\n          \"expr\": \"topk(7, sum(rate(traces_span_metrics_calls_total{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__range])) by (span_name,service_name))\
+    \ \",\n          \"format\": \"table\",\n          \"instant\": true,\n      \
+    \    \"interval\": \"\",\n          \"legendFormat\": \"\",\n          \"refId\"\
+    : \"Rate\"\n        },\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"exemplar\": false,\n          \"expr\": \"topk(7, sum(rate(traces_span_metrics_calls_total{status_code=\\\
+    \"STATUS_CODE_ERROR\\\",service_name=~\\\"$service\\\", span_name=~\\\"$span_name\\\
+    \"}[$__range])) by (span_name,service_name))\",\n          \"format\": \"table\"\
+    ,\n          \"hide\": false,\n          \"instant\": true,\n          \"interval\"\
+    : \"\",\n          \"legendFormat\": \"\",\n          \"refId\": \"Error Rate\"\
+    \n        }\n      ],\n      \"title\": \"Top 7 span_names and Errors  (APM Table)\"\
+    ,\n      \"transformations\": [\n        {\n          \"id\": \"seriesToColumns\"\
+    ,\n          \"options\": {\n            \"byField\": \"span_name\"\n        \
+    \  }\n        },\n        {\n          \"id\": \"organize\",\n          \"options\"\
+    : {\n            \"excludeByName\": {\n              \"Time 1\": true,\n     \
+    \         \"Time 2\": true\n            },\n            \"indexByName\": {},\n\
+    \            \"renameByName\": {\n              \"Value #Error Rate\": \"Error\
+    \ Rate\",\n              \"Value #Rate\": \"Rate\",\n              \"service_name\
+    \ 1\": \"Rate in Service\",\n              \"service_name 2\": \"Error Rate in\
+    \ Service\"\n            }\n          }\n        },\n        {\n          \"id\"\
+    : \"calculateField\",\n          \"options\": {\n            \"alias\": \"bRate\"\
+    ,\n            \"mode\": \"reduceRow\",\n            \"reduce\": {\n         \
+    \     \"include\": [\n                \"Rate\"\n              ],\n           \
+    \   \"reducer\": \"sum\"\n            }\n          }\n        },\n        {\n\
+    \          \"id\": \"calculateField\",\n          \"options\": {\n           \
+    \ \"alias\": \"eRate\",\n            \"mode\": \"reduceRow\",\n            \"\
+    reduce\": {\n              \"include\": [\n                \"Error Rate\"\n  \
+    \            ],\n              \"reducer\": \"sum\"\n            }\n         \
+    \ }\n        },\n        {\n          \"id\": \"organize\",\n          \"options\"\
+    : {\n            \"excludeByName\": {\n              \"Error Rate\": true,\n \
+    \             \"Rate\": true,\n              \"bRate\": false\n            },\n\
+    \            \"indexByName\": {\n              \"Error Rate\": 4,\n          \
+    \    \"Error Rate in Service\": 6,\n              \"Rate\": 1,\n             \
+    \ \"Rate in Service\": 5,\n              \"bRate\": 2,\n              \"eRate\"\
+    : 3,\n              \"span_name\": 0\n            },\n            \"renameByName\"\
+    : {\n              \"Rate in Service\": \"Service\",\n              \"bRate\"\
+    : \"Rate\",\n              \"eRate\": \"Error Rate\",\n              \"span_name\"\
+    : \"span_name Name\"\n            }\n          }\n        },\n        {\n    \
+    \      \"id\": \"sortBy\",\n          \"options\": {\n            \"fields\":\
+    \ {},\n            \"sort\": [\n              {\n                \"desc\": true,\n\
+    \                \"field\": \"Rate\"\n              }\n            ]\n       \
+    \   }\n        }\n      ],\n      \"type\": \"table\"\n    },\n    {\n      \"\
+    collapsed\": false,\n      \"gridPos\": {\n        \"h\": 1,\n        \"w\": 24,\n\
+    \        \"x\": 0,\n        \"y\": 35\n      },\n      \"id\": 20,\n      \"panels\"\
+    : [],\n      \"title\": \"span_name Level - Latencies\",\n      \"type\": \"row\"\
+    \n    },\n    {\n      \"datasource\": {\n        \"type\": \"prometheus\",\n\
+    \        \"uid\": \"webstore-metrics\"\n      },\n      \"fieldConfig\": {\n \
+    \       \"defaults\": {\n          \"color\": {\n            \"mode\": \"continuous-BlYlRd\"\
+    \n          },\n          \"mappings\": [],\n          \"thresholds\": {\n   \
+    \         \"mode\": \"absolute\",\n            \"steps\": [\n              {\n\
+    \                \"color\": \"blue\"\n              },\n              {\n    \
+    \            \"color\": \"green\",\n                \"value\": 2\n           \
+    \   },\n              {\n                \"color\": \"#EAB839\",\n           \
+    \     \"value\": 64\n              },\n              {\n                \"color\"\
+    : \"orange\",\n                \"value\": 128\n              },\n            \
+    \  {\n                \"color\": \"red\",\n                \"value\": 256\n  \
+    \            }\n            ]\n          },\n          \"unit\": \"ms\"\n    \
+    \    },\n        \"overrides\": []\n      },\n      \"gridPos\": {\n        \"\
+    h\": 13,\n        \"w\": 12,\n        \"x\": 0,\n        \"y\": 36\n      },\n\
+    \      \"id\": 25,\n      \"interval\": \"5m\",\n      \"options\": {\n      \
+    \  \"minVizHeight\": 75,\n        \"minVizWidth\": 75,\n        \"orientation\"\
+    : \"auto\",\n        \"reduceOptions\": {\n          \"calcs\": [\n          \
+    \  \"lastNotNull\"\n          ],\n          \"fields\": \"\",\n          \"values\"\
+    : false\n        },\n        \"showThresholdLabels\": false,\n        \"showThresholdMarkers\"\
+    : true,\n        \"sizing\": \"auto\"\n      },\n      \"pluginVersion\": \"11.3.0\"\
+    ,\n      \"targets\": [\n        {\n          \"datasource\": {\n            \"\
+    type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n         \
+    \ },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n  \
+    \        \"expr\": \"topk(7,histogram_quantile(0.50, sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])) by (le,service_name)))\"\
+    ,\n          \"format\": \"time_series\",\n          \"hide\": true,\n       \
+    \   \"instant\": false,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"{{service_name}}-quantile_0.50\",\n          \"range\": true,\n          \"\
+    refId\": \"A\"\n        },\n        {\n          \"datasource\": {\n         \
+    \   \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\n   \
+    \       },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"topk(7,histogram_quantile(0.95, sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__range])) by (le,span_name)))\"\
+    ,\n          \"hide\": false,\n          \"instant\": true,\n          \"interval\"\
+    : \"\",\n          \"legendFormat\": \"{{span_name}}\",\n          \"range\":\
+    \ false,\n          \"refId\": \"B\"\n        },\n        {\n          \"datasource\"\
+    : {\n            \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"histogram_quantile(0.99, sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])) by (le,service_name))\"\
+    ,\n          \"hide\": true,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"quantile99\",\n          \"range\": true,\n          \"refId\": \"C\"\n  \
+    \      },\n        {\n          \"datasource\": {\n            \"type\": \"prometheus\"\
+    ,\n            \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"exemplar\": false,\n          \"expr\": \"histogram_quantile(0.999,\
+    \ sum(rate(traces_span_metrics_duration_milliseconds_bucket{service_name=~\\\"\
+    $service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])) by (le,service_name))\"\
+    ,\n          \"hide\": true,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"quantile999\",\n          \"range\": true,\n          \"refId\": \"D\"\n \
+    \       }\n      ],\n      \"title\": \"Top 3x3 - span_name Latency - quantile95\"\
+    ,\n      \"type\": \"gauge\"\n    },\n    {\n      \"datasource\": {\n       \
+    \ \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\n      },\n\
+    \      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\": {\n \
+    \           \"mode\": \"continuous-BlYlRd\"\n          },\n          \"decimals\"\
+    : 2,\n          \"mappings\": [],\n          \"thresholds\": {\n            \"\
+    mode\": \"absolute\",\n            \"steps\": [\n              {\n           \
+    \     \"color\": \"green\"\n              },\n              {\n              \
+    \  \"color\": \"red\",\n                \"value\": 80\n              }\n     \
+    \       ]\n          },\n          \"unit\": \"ms\"\n        },\n        \"overrides\"\
+    : []\n      },\n      \"gridPos\": {\n        \"h\": 13,\n        \"w\": 12,\n\
+    \        \"x\": 12,\n        \"y\": 36\n      },\n      \"id\": 10,\n      \"\
+    interval\": \"5m\",\n      \"options\": {\n        \"displayMode\": \"lcd\",\n\
+    \        \"legend\": {\n          \"calcs\": [],\n          \"displayMode\": \"\
+    list\",\n          \"placement\": \"bottom\",\n          \"showLegend\": false\n\
+    \        },\n        \"maxVizHeight\": 300,\n        \"minVizHeight\": 10,\n \
+    \       \"minVizWidth\": 0,\n        \"namePlacement\": \"auto\",\n        \"\
+    orientation\": \"horizontal\",\n        \"reduceOptions\": {\n          \"calcs\"\
+    : [\n            \"mean\"\n          ],\n          \"fields\": \"\",\n       \
+    \   \"values\": false\n        },\n        \"showUnfilled\": true,\n        \"\
+    sizing\": \"auto\",\n        \"valueMode\": \"color\"\n      },\n      \"pluginVersion\"\
+    : \"11.3.0\",\n      \"targets\": [\n        {\n          \"datasource\": {\n\
+    \            \"type\": \"prometheus\",\n            \"uid\": \"webstore-metrics\"\
+    \n          },\n          \"editorMode\": \"code\",\n          \"exemplar\": false,\n\
+    \          \"expr\": \"topk(7, sum by (span_name,service_name)(increase(traces_span_metrics_duration_milliseconds_sum{service_name=~\\\
+    \"${service}\\\", span_name=~\\\"$span_name\\\"}[5m]) / increase(traces_span_metrics_duration_milliseconds_count{service_name=~\\\
+    \"${service}\\\",span_name=~\\\"$span_name\\\"}[5m\\n])))\",\n          \"instant\"\
+    : true,\n          \"interval\": \"\",\n          \"legendFormat\": \"{{span_name}}\
+    \ [{{service_name}}]\",\n          \"range\": false,\n          \"refId\": \"\
+    A\"\n        }\n      ],\n      \"title\": \"Top 7 Highest Endpoint Latencies\
+    \  Mean Over Range \",\n      \"type\": \"bargauge\"\n    },\n    {\n      \"\
+    datasource\": {\n        \"type\": \"prometheus\",\n        \"uid\": \"webstore-metrics\"\
+    \n      },\n      \"fieldConfig\": {\n        \"defaults\": {\n          \"color\"\
+    : {\n            \"mode\": \"palette-classic\"\n          },\n          \"custom\"\
+    : {\n            \"axisBorderShow\": false,\n            \"axisCenteredZero\"\
+    : false,\n            \"axisColorMode\": \"text\",\n            \"axisLabel\"\
+    : \"\",\n            \"axisPlacement\": \"auto\",\n            \"barAlignment\"\
+    : 0,\n            \"barWidthFactor\": 0.6,\n            \"drawStyle\": \"line\"\
+    ,\n            \"fillOpacity\": 15,\n            \"gradientMode\": \"none\",\n\
+    \            \"hideFrom\": {\n              \"legend\": false,\n             \
+    \ \"tooltip\": false,\n              \"viz\": false\n            },\n        \
+    \    \"insertNulls\": false,\n            \"lineInterpolation\": \"smooth\",\n\
+    \            \"lineWidth\": 1,\n            \"pointSize\": 5,\n            \"\
+    scaleDistribution\": {\n              \"type\": \"linear\"\n            },\n \
+    \           \"showPoints\": \"auto\",\n            \"spanNulls\": false,\n   \
+    \         \"stacking\": {\n              \"group\": \"A\",\n              \"mode\"\
+    : \"none\"\n            },\n            \"thresholdsStyle\": {\n             \
+    \ \"mode\": \"off\"\n            }\n          },\n          \"mappings\": [],\n\
+    \          \"thresholds\": {\n            \"mode\": \"absolute\",\n          \
+    \  \"steps\": [\n              {\n                \"color\": \"green\"\n     \
+    \         },\n              {\n                \"color\": \"red\",\n         \
+    \       \"value\": 80\n              }\n            ]\n          },\n        \
+    \  \"unit\": \"ms\"\n        },\n        \"overrides\": []\n      },\n      \"\
+    gridPos\": {\n        \"h\": 12,\n        \"w\": 24,\n        \"x\": 0,\n    \
+    \    \"y\": 49\n      },\n      \"id\": 16,\n      \"interval\": \"5m\",\n   \
+    \   \"options\": {\n        \"legend\": {\n          \"calcs\": [\n          \
+    \  \"mean\",\n            \"logmin\",\n            \"max\",\n            \"delta\"\
+    \n          ],\n          \"displayMode\": \"table\",\n          \"placement\"\
+    : \"bottom\",\n          \"showLegend\": true\n        },\n        \"tooltip\"\
+    : {\n          \"mode\": \"single\",\n          \"sort\": \"none\"\n        }\n\
+    \      },\n      \"pluginVersion\": \"11.3.0\",\n      \"targets\": [\n      \
+    \  {\n          \"datasource\": {\n            \"type\": \"prometheus\",\n   \
+    \         \"uid\": \"webstore-metrics\"\n          },\n          \"editorMode\"\
+    : \"code\",\n          \"exemplar\": true,\n          \"expr\": \"topk(7,sum by\
+    \ (span_name,service_name)(increase(traces_span_metrics_duration_milliseconds_sum{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval]) / increase(traces_span_metrics_duration_milliseconds_count{service_name=~\\\
+    \"$service\\\", span_name=~\\\"$span_name\\\"}[$__rate_interval])))\",\n     \
+    \     \"instant\": false,\n          \"interval\": \"\",\n          \"legendFormat\"\
+    : \"[{{service_name}}]  {{span_name}}\",\n          \"range\": true,\n       \
+    \   \"refId\": \"A\"\n        }\n      ],\n      \"title\": \"Top 7 Latencies\
+    \ Over Range \",\n      \"type\": \"timeseries\"\n    }\n  ],\n  \"preload\":\
+    \ false,\n  \"refresh\": \"5m\",\n  \"schemaVersion\": 40,\n  \"tags\": [],\n\
+    \  \"templating\": {\n    \"list\": [\n      {\n        \"allValue\": \".*\",\n\
+    \        \"current\": {\n          \"text\": \"All\",\n          \"value\": \"\
+    $__all\"\n        },\n        \"datasource\": {\n          \"type\": \"prometheus\"\
+    ,\n          \"uid\": \"webstore-metrics\"\n        },\n        \"definition\"\
+    : \"query_result(count by (service_name)(count_over_time(traces_span_metrics_calls_total[$__range])))\"\
+    ,\n        \"includeAll\": true,\n        \"multi\": true,\n        \"name\":\
+    \ \"service\",\n        \"options\": [],\n        \"query\": {\n          \"query\"\
+    : \"query_result(count by (service_name)(count_over_time(traces_span_metrics_calls_total[$__range])))\"\
+    ,\n          \"refId\": \"StandardVariableQuery\"\n        },\n        \"refresh\"\
+    : 2,\n        \"regex\": \"/.*service_name=\\\"(.*)\\\".*/\",\n        \"sort\"\
+    : 1,\n        \"type\": \"query\"\n      },\n      {\n        \"allValue\": \"\
+    .*\",\n        \"current\": {\n          \"text\": \"All\",\n          \"value\"\
+    : \"$__all\"\n        },\n        \"datasource\": {\n          \"type\": \"prometheus\"\
+    ,\n          \"uid\": \"webstore-metrics\"\n        },\n        \"definition\"\
+    : \"query_result(sum ({__name__=~\\\".*traces_span_metrics_calls_total\\\",service_name=~\\\
+    \"$service\\\"})  by (span_name))\",\n        \"includeAll\": true,\n        \"\
+    multi\": true,\n        \"name\": \"span_name\",\n        \"options\": [],\n \
+    \       \"query\": {\n          \"query\": \"query_result(sum ({__name__=~\\\"\
+    .*traces_span_metrics_calls_total\\\",service_name=~\\\"$service\\\"})  by (span_name))\"\
+    ,\n          \"refId\": \"StandardVariableQuery\"\n        },\n        \"refresh\"\
+    : 2,\n        \"regex\": \"/.*span_name=\\\"(.*)\\\".*/\",\n        \"type\":\
+    \ \"query\"\n      }\n    ]\n  },\n  \"time\": {\n    \"from\": \"now-15m\",\n\
+    \    \"to\": \"now\"\n  },\n  \"timepicker\": {},\n  \"timezone\": \"\",\n  \"\
+    title\": \"Spanmetrics Demo Dashboard\",\n  \"uid\": \"W2gX2zHVk48\",\n  \"version\"\
+    : 2,\n  \"weekStart\": \"\"\n}"
