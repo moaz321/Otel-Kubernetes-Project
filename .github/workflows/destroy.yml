@@ -1,7 +1,7 @@
 name: Destroy EKS Infrastructure
 
 on:
-  workflow_dispatch:   # manual button
+  workflow_dispatch:   # manual button.
 
 jobs:
   destroy:
