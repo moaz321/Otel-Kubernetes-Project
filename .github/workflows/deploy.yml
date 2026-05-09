@@ -64,7 +64,7 @@ jobs:
 
             if [ ! -z "$HOST" ]; then
               echo "================================="
-              echo "🚀 Frontend URL:"
+              echo "Frontend URL:"
               echo "http://$HOST:8080"
               echo "================================="
               exit 0
