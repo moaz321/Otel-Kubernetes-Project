@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # AWS credentials
+      # Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -21,7 +21,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      # Terraform setup
+      # Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
@@ -29,31 +29,31 @@ jobs:
       - name: Terraform Init
         run: |
           cd otel-terraform
-          terraform init
+          terraform init -reconfigure
 
-      # Terraform apply 
+      # Terraform apply
       - name: Terraform Apply
         run: |
           cd otel-terraform
           terraform apply -auto-approve
 
-      # Install kubectl
+      # Setup kubectl
       - name: Setup kubectl
         uses: azure/setup-kubectl@v4
 
-      # Update kubeconfig
+      # Configure kubeconfig
       - name: Configure kubeconfig
         run: |
           aws eks update-kubeconfig \
             --region us-east-2 \
             --name $(terraform -chdir=otel-terraform output -raw cluster_name)
 
-      # Deploy kubernetes manifests
-      - name: Deploy K8s
+      # Deploy Kubernetes manifests
+      - name: Deploy Kubernetes
         run: |
-          kubectl apply -k otel-demo-split
+          kubectl apply -k kubernetes
 
-      # Get LoadBalancer URL
+      # Get frontend LoadBalancer URL
       - name: Get Frontend URL
         run: |
           echo "Waiting for frontend-proxy LoadBalancer..."
@@ -64,7 +64,7 @@ jobs:
 
             if [ ! -z "$HOST" ]; then
               echo "================================="
-              echo "Frontend URL:"
+              echo "🚀 Frontend URL:"
               echo "http://$HOST:8080"
               echo "================================="
               exit 0
