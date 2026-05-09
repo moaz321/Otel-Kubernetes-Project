@@ -1,0 +1,78 @@
+name: Deploy OpenTelemetry on EKS
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      # Terraform setup
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Terraform init
+      - name: Terraform Init
+        run: |
+          cd otel-terraform
+          terraform init
+
+      # Terraform apply 
+      - name: Terraform Apply
+        run: |
+          cd otel-terraform
+          terraform apply -auto-approve
+
+      # Install kubectl
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+
+      # Update kubeconfig
+      - name: Configure kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region us-east-2 \
+            --name $(terraform -chdir=otel-terraform output -raw cluster_name)
+
+      # Deploy kubernetes manifests
+      - name: Deploy K8s
+        run: |
+          kubectl apply -k otel-demo-split
+
+      # Get LoadBalancer URL
+      - name: Get Frontend URL
+        run: |
+          echo "Waiting for frontend-proxy LoadBalancer..."
+
+          for i in {1..30}; do
+            HOST=$(kubectl get svc frontend-proxy \
+              -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+            if [ ! -z "$HOST" ]; then
+              echo "================================="
+              echo "Frontend URL:"
+              echo "http://$HOST:8080"
+              echo "================================="
+              exit 0
+            fi
+
+            echo "Waiting... attempt $i"
+            sleep 10
+          done
+
+          echo "LoadBalancer not ready"
+          exit 1
